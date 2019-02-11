@@ -1,0 +1,45 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.CompletedViewModel_ExitSurvey
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Exit Survey Completed";
+}
+
+
+    @using (Html.BeginForm("Completed", "ExitV2", FormMethod.Post, new { name = "frmCompleted", id = "frmCompleted" }))
+    {
+        <div class="remodal-bg">
+            @Html.Partial("_DialogComplete")
+        </div>
+
+    }
+
+<script type="text/javascript">
+
+
+    var options = {
+        closeOnOutsideClick: false,
+        hashTracking: false,
+        closeOnEscape: false
+    };
+
+    var dialogComplete = $('[data-remodal-id=modal]').remodal(options);
+
+    $(document).on('confirmation', '.remodal', function () {
+      
+    });
+
+    $(document).on('cancellation', '.remodal', function () {
+        LoaderLocal();
+        $('#frmCompleted').submit();
+    });
+
+    $(document).ready(function () {
+        dialogComplete.open();
+        $('#frmCompleted').submit();
+
+        setTimeout(function ()
+        { DialogHelpComplete.close(); }, 2000);
+
+    })
+</script>

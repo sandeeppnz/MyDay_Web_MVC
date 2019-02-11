@@ -1,0 +1,88 @@
+﻿@model IEnumerable<SANSurveyWebAPI.Models.PageStat>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Page Stats</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PageName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PageType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PageAction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskStartDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProfileId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WholePageIndicator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PageDateTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PageName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PageType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PageAction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskStartDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfileId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WholePageIndicator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PageDateTimeUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remark)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

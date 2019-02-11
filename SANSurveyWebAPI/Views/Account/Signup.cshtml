@@ -1,0 +1,349 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Sign-up";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Signup - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/jquery.blockUI.js"></script>
+
+        <link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+        <script src="~/Scripts/formValidation/formValidation.min.js"></script>
+        <script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>*@
+
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    @*<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+    <script src="~/Scripts/iCheck/icheck.min.js"></script>*@
+    <link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+    <script src="~/Scripts/formValidation/formValidation.min.js"></script>
+    <script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+
+    <style>
+        .has-error {
+            border: none;
+        }
+    </style>
+
+
+</head>
+<body class="loginBody">
+    @using (Html.BeginForm("Signup", "Account", new { uid = @Model.Uid }, FormMethod.Post, new { name = "frmSignUp", id = "frmSignUp", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.HiddenFor(m => m.Uid)
+        @Html.AntiForgeryToken()
+        <div class="container">
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="row loginbox">
+                    <div style="background-color:rgb(47, 159, 173)">
+                        <img class="logoImage" src="~/Images/SignupBanner.png" alt="Logo">
+                    </div>
+                    @*<div>
+                        <div class="col-lg-6 col-md-6 col-xs-7">*@
+
+                            @*<div>
+                                <h3>@SANSurveyWebAPI.Constants.AppBrandName</h3>
+                            </div>*@
+                            @*<div>
+                                <h4>Sign-up</h4>
+                            </div>*@
+
+                          
+
+                            @*<span class="singtext"><br /><br /></span>*@
+                        @*</div>*@
+                      
+                        @*<div class="col-lg-6 col-md-6 col-xs-5" style="text-align:right">
+                        </div>*@
+                    @*</div>*@
+
+                    <div>
+                        <h4>Signup Form</h4>
+                    </div>
+                    @*<div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            <br />
+                        </div>
+                    </div>*@
+
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        @*@Html.Label("Email")*@
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+                                @Html.TextBoxFor(m => m.Email, new
+                           {
+                               @class = "form-control",
+                               @placeholder = "Enter your email address",
+                               @id = "userid",
+                               @name = "email",
+                               @data_fv_notempty_message = "The email address is required",
+                               @data_fv_notempty = "true",
+                               @data_fv_emailaddress_message = "The input is not a valid email address",
+                               @data_fv_emailaddress = "true",
+                           })
+
+
+                                @*@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessage("EmailNotFound", new { @class = "text-danger" })*@
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @*@Html.Label("Password")*@
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+                                @Html.PasswordFor(m => m.Password,
+                               new
+                               {
+                                   @class = "form-control",
+                                   @placeholder = "Enter password",
+                                   @name = "password",
+                                   @data_fv_notempty_message = "The password is required",
+                                   @data_fv_notempty = "true",
+                               })
+                                @*@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-repeat"></i></span>
+
+                                @*@Html.Label("Confirm Password")*@
+                                @Html.PasswordFor(m => m.ConfirmPassword,
+                               new
+                               {
+                                   @class = "form-control",
+                                   @placeholder = "Re-enter password",
+                                   @name = "ConfirmPassword",
+                                   @data_fv_notempty_message = "The confirm password is required",
+                                   @data_fv_notempty = "true",
+                                   @data_fv_identical = "true",
+                                   @data_fv_identical_field = "Password",
+                                   @data_fv_identical_message = "The password and its confirm must be the same",
+                               })
+                                @*@Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+                            {
+                                <div id="ErrorBubble" class="alert alert-danger">
+                                    <a class="close" data-dismiss="alert">&times;</a>
+                                    <span class="help-block">
+                                        @*@Html.ValidationSummary(false,"", new { @class = "text-danger" })*@
+                                        @*@Html.ValidationSummary()*@
+                                        <div>@Html.Raw(HttpUtility.HtmlDecode(Html.ValidationSummary(false, "", new { @class = "text-danger" }).ToHtmlString()))</div>
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+
+                    @*<div class="col-lg-12 col-md-12 col-sm-12">
+                            <br />
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="termsCheckBox" name="termsCheckBox" value="">Agree with</label>
+                                <a id="termLink">terms and conditions</a>
+                            </div>
+                        </div>*@
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            @*<input id="btnNext" type="submit" class="btn btn-success btn-lg btn-block" value="Sign up" />*@
+                            <button class="btn btn-success btn-lg btn-block " type="submit" id="btnNext">Signup</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row forGotPassword">
+                    Having trouble? 
+                    <a target="_blank" href='/#contact'>Contact us</a>
+                    @*@Html.ActionLink("Please contact us", "Contact", "Home").*@
+                </div>
+                @Html.Partial("_Footer")
+
+
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        </div>
+    }
+</body>
+</html>
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    ol, ul {
+        padding-left: 0px;
+    }
+</style>
+<script type="text/javascript">
+
+    function LoaderLocal() {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        })
+    }
+
+
+
+    //function LoaderLocal() {
+    //    $.blockUI({
+    //        css: {
+    //            border: 'none',
+    //            //padding: '10px',
+    //            //backgroundColor: '#000',
+    //            backgroundColor: 'transparent',
+    //            //color: '#fff',
+    //            opacity: .9
+    //        },
+    //        message: '<img src="/Images/comment.svg" />'
+    //    })
+    //}
+
+    //$(document).ajaxStart(function () {
+    //    $.blockUI({
+    //        css: {
+    //            border: 'none',
+    //            //padding: '10px',
+    //            //backgroundColor: '#000',
+    //            backgroundColor: 'transparent',
+    //            //color: '#fff',
+    //            opacity: .9
+    //        },
+    //        message: '<img src="/Images/comment.svg" />'
+    //    });
+    //});
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+    $(document).ready(function () {
+
+
+        //$("#ErrorBubble").fadeTo(2000, 500).slideUp(1000, function () {
+        //    $("#ErrorBubble").slideUp(1000);
+        //});
+
+        //$(".validation-summary-errors").removeClass("validation-summary-errors");
+        //$(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+
+        //$.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            //LoaderLocal();
+        });
+
+
+        $('#frmSignUp').formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address is required'
+                        },
+                        emailAddress: {
+                            message: 'The input is not a valid email address'
+                        },
+                        blank: {}
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required'
+                        },
+                        //stringLength: {
+                        //    min: 3,
+                        //    max: 30,
+                        //    message: 'The password must be more than 6 and less than 30 characters long'
+                        //},
+                        //regexp: {
+                        //    regexp: /^[a-zA-Z0-9_]+$/,
+                        //    message: 'The username can only consist of alphabetical, number and underscore'
+                        //}
+                    }
+                },
+                ConfirmPassword: {
+                    validators: {
+                        identical: {
+                            field: 'Password',
+                            message: 'The password and its confirm are not the same'
+                        }
+                    }
+                }
+            }
+        })
+        // Enable the password/confirm password validators if the password is not empty
+        .on('keyup', '[name="Password"]', function () {
+            var isEmpty = $(this).val() == '';
+            $('#frmSignUp')
+                    .formValidation('enableFieldValidators', 'Password', !isEmpty)
+                    .formValidation('enableFieldValidators', 'ConfirmPassword', !isEmpty);
+
+            // Revalidate the field when user start typing in the password field
+            if ($(this).val().length == 1) {
+                $('#frmSignUp').formValidation('validateField', 'password')
+                                .formValidation('validateField', 'confirm_password');
+            }
+        });
+
+
+
+
+
+    });
+</script>

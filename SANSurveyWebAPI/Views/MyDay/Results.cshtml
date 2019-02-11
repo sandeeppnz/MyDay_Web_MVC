@@ -1,0 +1,585 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyResults1ViewModel
+
+@{
+
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+
+    ViewBag.Title = "Survey: Summary";
+
+
+    int surveyId = 0;
+    DateTime taskStartDate = DateTime.UtcNow;
+    string taskName = string.Empty;
+    string taskDescription = string.Empty;
+    string taskDuration = string.Empty;
+    string taskTimeSpan = string.Empty;
+
+}
+
+@using (Ajax.BeginForm("Results", "Survey3",
+                        new AjaxOptions
+                        {
+                            HttpMethod = "POST",
+                            //Url = @Url.Action("Index", "Home"),
+                            OnSuccess = "OnSuccess",
+                            OnFailure = "OnFailure"
+                        }, new { id = "frmResults", @class = "nav-right" }
+                        )
+                        )
+{
+    @Html.ValidationSummary(true, "Please check the form for errors.")
+    <div class="panel panel-default" id="Tasks">
+
+
+        @if (@Model.FullResponseList != null && @Model.FullResponseList.Count > 0)
+        {
+            <div class="panel-heading" style="padding-top:5px">
+                <h3 style="padding-bottom:10px;padding-top:0px">
+                    Summary
+                    <button class="btn btn-success pull-right" id="btnNext2" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Submit</button>
+                </h3>
+            </div>
+            <div class="panel-body">
+                @foreach (var kv in @Model.FullResponseList)
+                {
+
+                    int taskId = kv.First().TaskId;
+
+                    {
+                        int l = kv.Key.IndexOf("STARTDATESAN");
+                        if (l > 0)
+                        {
+                            taskName = kv.Key.Substring(0, l).Trim();
+
+                            taskStartDate = kv.First().TaskStartDateTime;
+                            taskDescription = kv.First().TaskDescription;
+                            taskDuration = kv.First().TaskDuration;
+                            taskTimeSpan = kv.First().TaskTimeSpan;
+                        }
+                    }
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card-container">
+                            <div class="card">
+                                <div class="front">
+                                    <div class="content">
+                                        <div class="main">
+                                            <h3 class="name">@taskName</h3>
+                                            <br />
+                                            <p class="text-center">
+                                                @taskDescription
+                                            </p>
+
+                                            <br />
+
+                                            <h4 class="text-center">
+                                                <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
+                                            </h4>
+                                            <h4 class="text-center">
+
+                                                @taskTimeSpan
+                                            </h4>
+
+
+
+                                        </div>
+                                        <div class="footer">
+                                            <span class="btn btn-success" style="padding-left:100px;padding-right:100px;">
+                                                View
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div> <!-- end front panel -->
+                                <div class="back">
+                                    <h5 class="name">@taskName</h5>
+
+                                    @{
+                                        int innerCounter = 0;
+                                        foreach (var row in kv)
+                                        {
+
+                                            if (innerCounter == 0)
+                                            {
+                                                innerCounter = 1;
+                                            }
+                                            else
+                                            {
+                                                <div class="stats-container">
+                                                    <div class="stats" style="padding-bottom:10px;">
+                                                        <h5>@row.Question</h5>
+
+                                                        <i class='@row.RatingString' aria-hidden="true"></i>
+                                                        <h5 style="font-size:11px">
+                                                            @row.Answer
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                            }
+
+                                        }
+                                    }
+
+
+
+
+
+                                    <div class="footer">
+
+                                        <center>
+                                            @Ajax.ActionLink("Edit", // <-- Text to display
+                 "EditResponse", new { taskId, taskStartDate },  // <-- Action Method Name
+                     new AjaxOptions
+                     {
+                         //AllowCache = false,
+                         UpdateTargetId = "MainSurveyContent", // <-- DOM element ID to update
+                         InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                         HttpMethod = "GET" // <-- HTTP method
+                     },
+                     new { @class = "btn btn-success", @style = "padding-left:100px;padding-right:100px" }
+
+                     )
+
+
+
+
+
+                                        </center>
+                                    </div>
+                                </div> <!-- end back panel -->
+                            </div> <!-- end card -->
+                        </div> <!-- end card-container -->
+                    </div>
+
+
+                                        }
+
+            </div>
+                                        }
+
+
+
+        @if (@Model.FullResponseWRList != null && @Model.FullResponseWRList.Count > 0)
+        {
+            //var f1 = Model.FullResponseWRList.First();
+            //var s = f1.First().WRStartTime;
+            //var e = f1.First().WREndTime;
+
+
+            // + " - " f1.First().WREndTime;
+
+
+            <div class="panel-heading" style="padding-top:5px">
+                <h3 style="padding-bottom:10px;padding-top:0px">
+                    Wardround Task Summary
+                </h3>
+            </div>
+
+
+
+
+            <div class="panel-body">
+
+                @{
+                    var f1 = Model.FullResponseWRList.First();
+                    var s = f1.First().WRStartTime;
+                    var e = f1.First().WREndTime;
+                    string wrStartTimePrev = "";
+                    bool breakline = false;
+                    int round = 0;
+                }
+
+                @foreach (var kv in @Model.FullResponseWRList)
+                {
+
+                    if (wrStartTimePrev != kv.First().WRStartTime)
+                    {
+                        wrStartTimePrev = kv.First().WRStartTime;
+                        round++;
+
+                        <br />
+
+                        @*<h1>Round @round</h1>*@
+                        <center>
+                            <h3>
+                                @kv.First().WRStartTime - @kv.First().WREndTime
+                            </h3>
+                            <hr />
+                        </center>
+                    }
+
+
+
+                    int taskId = kv.First().TaskId;
+
+                    {
+                        int l = kv.Key.IndexOf("STARTDATESANWRR");
+                        if (l > 0)
+                        {
+                            taskName = kv.Key.Substring(0, l).Trim();
+
+                            taskStartDate = kv.First().TaskStartDateTime;
+                            taskDescription = kv.First().TaskDescription;
+                            taskDuration = kv.First().TaskDuration;
+                            taskTimeSpan = kv.First().TaskTimeSpan;
+                        }
+                    }
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card-container">
+                            <div class="card">
+                                <div class="front">
+                                    <div class="content">
+                                        <div class="main">
+                                            <h3 class="name">@taskName</h3>
+                                            <br />
+                                            <p class="text-center">
+                                                @taskDescription
+                                            </p>
+
+                                            <br />
+
+                                            <h4 class="text-center">
+                                                <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
+                                            </h4>
+                                            <h4 class="text-center">
+
+                                                @taskDuration
+                                            </h4>
+
+
+
+                                        </div>
+                                        <div class="footer">
+                                            <span class="btn btn-success" style="padding-left:100px;padding-right:100px;">
+                                                View
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="back">
+                                    <h5 class="name">@taskName</h5>
+
+                                    @{
+                                        int innerCounter = 0;
+                                        foreach (var row in kv)
+                                        {
+
+                                            if (innerCounter == 0)
+                                            {
+                                                innerCounter = 1;
+                                            }
+                                            else
+                                            {
+                                                <div class="stats-container">
+                                                    <div class="stats" style="padding-bottom:10px;">
+                                                        <h5>@row.Question</h5>
+
+                                                        <i class='@row.RatingString' aria-hidden="true"></i>
+                                                        <h5 style="font-size:11px">
+                                                            @row.Answer
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                            }
+
+                                        }
+                                    }
+
+
+
+
+
+                                    <div class="footer">
+
+                                        <center>
+                                            @Ajax.ActionLink("Edit", // <-- Text to display
+                                                 "WREditResponse", new { taskId },  // <-- Action Method Name
+                                                     new AjaxOptions
+                                                     {
+                                                         //AllowCache = false,
+                                                         UpdateTargetId = "MainSurveyContent", // <-- DOM element ID to update
+                                                         InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                                                         HttpMethod = "GET" // <-- HTTP method
+                                                     },
+                                                     new { @class = "btn btn-success", @style = "padding-left:100px;padding-right:100px" }
+
+                                            )
+
+
+
+
+
+                                        </center>
+                                    </div>
+                                </div> <!-- end back panel -->
+                            </div> <!-- end card -->
+                        </div> <!-- end card-container -->
+                    </div>
+
+
+
+
+
+                                        }
+
+            </div>
+
+                                        }
+
+
+
+        @if (@Model.FullResponseAdditionalList != null && @Model.FullResponseAdditionalList.Count > 0)
+        {
+            <div class="panel-heading" style="padding-top:5px">
+                <h3 style="padding-bottom:10px;padding-top:0px">
+                    Additional Task Summary
+                </h3>
+            </div>
+
+
+
+            <div class="panel-body">
+                @foreach (var kv in @Model.FullResponseAdditionalList)
+                {
+
+                    int taskId = kv.First().TaskId;
+
+                    {
+                        int l = kv.Key.IndexOf("STARTDATESANADD");
+                        if (l > 0)
+                        {
+                            taskName = kv.Key.Substring(0, l).Trim();
+
+                            taskStartDate = kv.First().TaskStartDateTime;
+                            taskDescription = kv.First().TaskDescription;
+                            taskDuration = kv.First().TaskDuration;
+                            taskTimeSpan = kv.First().TaskTimeSpan;
+                        }
+                    }
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card-container">
+                            <div class="card">
+                                <div class="front">
+                                    <div class="content">
+                                        <div class="main">
+                                            <h3 class="name">@taskName</h3>
+                                            <br />
+                                            <p class="text-center">
+                                                @taskDescription
+                                            </p>
+
+                                            <br />
+
+                                            <h4 class="text-center">
+                                                <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
+                                            </h4>
+                                            <h4 class="text-center">
+
+                                                @taskDuration
+                                            </h4>
+
+
+
+                                        </div>
+                                        <div class="footer">
+                                            <span class="btn btn-success" style="padding-left:100px;padding-right:100px;">
+                                                View
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="back">
+                                    <h5 class="name">@taskName</h5>
+
+                                    @{
+                                        int innerCounter = 0;
+                                        foreach (var row in kv)
+                                        {
+
+                                            if (innerCounter == 0)
+                                            {
+                                                innerCounter = 1;
+                                            }
+                                            else
+                                            {
+                                                <div class="stats-container">
+                                                    <div class="stats" style="padding-bottom:10px;">
+                                                        <h5>@row.Question</h5>
+
+                                                        <i class='@row.RatingString' aria-hidden="true"></i>
+                                                        <h5 style="font-size:11px">
+                                                            @row.Answer
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                            }
+
+                                        }
+                                    }
+
+
+
+
+
+                                    <div class="footer">
+
+                                        <center>
+                                            @Ajax.ActionLink("Edit", // <-- Text to display
+                 "AddEditResponse", new { taskId },  // <-- Action Method Name
+                     new AjaxOptions
+                     {
+                         //AllowCache = false,
+                         UpdateTargetId = "MainSurveyContent", // <-- DOM element ID to update
+                         InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                         HttpMethod = "GET" // <-- HTTP method
+                     },
+                     new { @class = "btn btn-success", @style = "padding-left:100px;padding-right:100px" }
+
+                     )
+
+
+
+
+
+                                        </center>
+                                    </div>
+                                </div> <!-- end back panel -->
+                            </div> <!-- end card -->
+                        </div> <!-- end card-container -->
+                    </div>
+
+
+                                        }
+
+            </div>
+
+                                        }
+
+
+
+        @if (@Model.Comment != null && !String.IsNullOrEmpty(@Model.Comment))
+        {
+            <div class="panel-heading" style="padding-top:5px">
+                <h3 style="padding-bottom:10px;padding-top:0px">
+                    Comments
+                </h3>
+            </div>
+            <div class="panel-body">
+                <label>
+                    @Model.Comment)
+            </label>
+
+        </div>
+
+        }
+
+
+
+
+
+
+
+
+        <button class="btn btn-success btn-block btn-lg" id="btnNext" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+
+    </div>
+
+    @Html.Partial("_DialogComplete")
+                                        @Html.Partial("_FooterSurvey")
+
+                                        }
+
+
+
+
+<script>
+
+    var options = {
+        closeOnOutsideClick: false,
+        hashTracking: false,
+        closeOnEscape: false
+    };
+
+    var dialogComplete = $('[data-remodal-id=DialogComplete]').remodal(options);
+
+    $(document).on('confirmation', '#DialogComplete', function () {
+    });
+
+
+
+
+    $(document).on('cancellation', '#DialogComplete', function (event) {
+        //dialogComplete.destroy();
+        //event.preventDefault();
+        $.ajax({
+            datatype: "html",
+            type: "GET",
+            url: "@(Url.Action("Index", "Home"))",
+            cache: false,
+            success: function (data) {
+                window.location.href = "@Url.Action("Index", "Home")";
+            }
+        });
+    });
+
+
+    //function LoaderLocal() {
+    //    $.blockUI({
+    //        css: {
+    //            border: 'none',
+    //            backgroundColor: 'transparent',
+    //            opacity: .9,
+    //            baseZ: 10001,
+    //        },
+    //        message: '<img src="/Images/comment.svg" />'
+    //    });
+    //}
+
+
+    function OnSuccess(response) {
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+
+    $(document).ready(function () {
+
+        window.history.pushState("Survey", "Survey", "/Survey3/Results");
+
+
+        //$.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            //e.preventDefault();
+
+            //setTimeout(function () {
+            dialogComplete.open();
+            //$('#frmResults').submit();
+            //}, 5000);
+        });
+
+        $('#btnNext2').on("click", function (e) {
+            //e.preventDefault();
+            //setTimeout(function () {
+            dialogComplete.open();
+            //$('#frmResults').submit();
+            //}, 5000);
+
+
+        });
+
+
+
+
+
+    });
+
+
+
+</script>

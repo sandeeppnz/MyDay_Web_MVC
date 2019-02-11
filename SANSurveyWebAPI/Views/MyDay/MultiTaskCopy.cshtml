@@ -1,0 +1,89 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyMultiTaskVM
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+    ViewBag.Title = "Survey: Select Tasks";
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+    DateTime TaskEndDateTime = (DateTime) Session["CurrTaskEndTime"];
+    string TaskEndTime = TaskEndDateTime.ToString("hh:mm tt");
+    string TaskDate = Session["StartDate"].ToString();
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("MultiTask", "Survey3", FormMethod.Post,
+                            new { name = "frmMultiTask", id = "frmMultiTask", @class = "nav-right" }))
+{
+    @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+    @Html.ValidationSummary(true, "Please check the form for errors.")
+
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>               
+                @Model.PageQuestion @TaskStartTime <span>and</span> @TaskEndTime <span>on</span> @TaskDate?
+            </h3>
+        </div>       
+        <div class="panel-body"> 
+            <div style="text-align:left"><i>@Model.QuestionHint</i></div> <br /><br />
+                <div id="dual-list-box" class="form-group row">
+                    @*<select multiple="multiple" data-title="Tasks" data-source="../../data/output.json"
+                            data-value="ID" data-text="Name"></select>*@
+                    @if (Session["TaskType"].ToString() == "doctors")
+                    { <select multiple="multiple" data-title="Tasks" data-source="../../data/doctors.json"
+                                data-value="ID" data-text="Name"></select> }
+                    else if (Session["TaskType"].ToString() == "WAM")
+                    { <select multiple="multiple" data-title="Tasks" data-source="../../data/WAM.json"
+                                data-value="ID" data-text="Name"></select> }
+                    else
+                    {  <select multiple="multiple" data-title="Tasks" data-source="../../data/doctors.json"
+                               data-value="ID" data-text="Name"></select>}
+                   @Html.HiddenFor(model => model.HiddenSelectedTasksIds, new { @id = "hiddSelectedTasks" })                    
+                </div>             
+        </div>  
+        <center>
+            <div>
+            <small id="SelectedTasks_Incomplete" class="invalid" style="text-align:left">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                &nbsp;Please select at least one task to continue</small></div>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>   
+
+    @Html.Partial("_DialogTask")
+    @Html.Partial("_DialogTaskDuplicate")
+    @Html.Partial("_DialogTaskOtherName")
+    @Html.Partial("_FooterSurvey")
+}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="~/Scripts/ListView/dual-list-box.js"></script>
+<script type="text/javascript">
+    $('select').DualListBox();
+    $('#SelectedTasks_Incomplete').hide();
+    //Retrieve values from all the selected task list
+    $(document).ready(function () {
+        $("#btnNext").click(function () {
+            if ($("#selectedTask option").length >= 1) {
+                var selectValues = "";
+                $('#SelectedTasks_Incomplete').hide();
+                $("#selectedTask option").each(function () {
+                    selectValues = selectValues + $(this).val() + ",";
+                });
+                $("#hiddSelectedTasks").val(selectValues.substring(0, selectValues.length - 1));                
+                $("#frmMultiTask").submit();
+            }
+            else { $('#SelectedTasks_Incomplete').show(); }
+            
+            return false;
+        });
+    });
+    $(".progress-bar-success").css("background-color", "teal");
+</script>
+

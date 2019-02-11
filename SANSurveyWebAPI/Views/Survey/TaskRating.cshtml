@@ -1,0 +1,752 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyTaskRatingViewModel
+
+@{
+    ViewBag.Title = "Survey: Rate Task";
+}
+
+
+@using (Ajax.BeginForm("TaskRating", "Survey",
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  Url = @Url.Action("TaskRating", "Survey"),
+                  OnSuccess = "OnSuccess",
+                  OnFailure = "OnFailure"
+              }, new { id = "frmTaskRating1", @class = "nav-right" }
+            )
+         )
+
+//using (Html.BeginForm("TaskRating", "Survey", FormMethod.Post, new { name = "frmTaskRating1", id = "frmTaskRating1" }))
+{
+    <div class="container OtherPageContainer">
+
+        @Html.ValidationSummary(true, "Please check the form for errors.")
+
+
+
+      
+        @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+        @Html.HiddenFor(model => model.TaskId)
+        @*@Html.HiddenFor(model => model.CurrProgressValue)*@
+        @Html.HiddenFor(model => model.IsExist, new { @id = "IsExist" })
+
+
+
+        <div class="panel panel-default" id="Tasks">
+
+
+
+            <div class="panel-heading">
+
+
+
+                <h3>
+                    @Model.PageQuestionSurveyVariant
+                    <span class="SurveyTitle"> @Model.TaskName</span> @Session["SurveyPeriod"]
+                </h3>
+
+
+            </div>
+            @*<div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success CustomProgressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: @Session["CurrProgressValue"]%">
+                    @Session["CurrProgressValue"]%
+                    <span class="sr-only">@Session["CurrProgressValue"]% Complete (success)</span>
+                </div>
+            </div>*@
+
+            @*<h1>@Model.CurrProgressValue% Complete (success)</h1>*@
+
+
+            <div class="panel-body">
+                <div>
+                    <i>
+                        Please rate each feeling on the scale given. A rating of 0 means that you did not experience that feeling at all. A rating of 6 means that this feeling was a very important part of the experience. Please select the number between 0 and 6 that best describes how you felt.
+                    </i>
+                </div>
+
+
+                <div class="form-group row CustomeWellWhite">
+                    @Html.Label("                           ", new { @class = "col-xs-3 col-form-label" })
+                    <div id="Q0Panel">
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <input id="CustomeSliderRound" name="CustomeSliderRound" type="text"
+                                       data-slider-id="CustomeSliderRound"
+                                       data-slider-min="1"
+                                       data-slider-max="8"
+                                       data-slider-step="1"
+                                       data-slider-value="7"
+                                       data-slider-tooltip="hide"
+                                       data-slider-handle="custom"
+                                       data-slider-ticks="[1, 2, 3, 4,5,6,7, 8]"
+                                       data-slider-ticks-labels='["Not at all", "","","", "", "", "Extremely",""]' />
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div id="Q1Panel" class="form-group row CustomeWellGray">
+                    <div>
+                        @Html.Label(Model.Q1Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+
+                                <input id="Q1Ans" name="Q1Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-tooltip="show"
+                                       data-slider-step="1"
+                                       data-slider-max="7"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q1Ans 
+                                       />
+
+                            </div>
+
+                            <small id="Q1Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="Q2Panel" class="form-group row CustomeWellWhite">
+                    <div>
+                        @Html.Label(@Model.Q2Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+
+                                <input id="Q2Ans" name="Q2Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-step="1"
+                                       data-slider-max="7"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q2Ans />
+                            </div>
+
+                            <small id="Q2Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="Q3Panel" class="form-group row CustomeWellGray">
+                    <div>
+                        @Html.Label(@Model.Q3Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q3Ans" name="Q3Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q3Ans />
+                            </div>
+
+                            <small id="Q3Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="Q4Panel" class="form-group row CustomeWellWhite">
+                    <div>
+                        @Html.Label(@Model.Q4Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q4Ans" name="Q4Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q4Ans />
+                            </div>
+
+                            <small id="Q4Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div id="Q5Panel" class="form-group row CustomeWellGray">
+                    <div>
+                        @Html.Label(@Model.Q5Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q5Ans" name="Q5Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q5Ans />
+                            </div>
+
+                            <small id="Q5Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="Q6Panel" class="form-group row CustomeWellWhite">
+                    <div>
+                        @Html.Label(@Model.Q6Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q6Ans" name="Q6Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q6Ans />
+                            </div>
+
+                            <small id="Q6Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="Q7Panel" class="form-group row CustomeWellGray">
+                    <div>
+                        @Html.Label(@Model.Q7Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q7Ans" name="Q7Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q7Ans />
+                            </div>
+
+                            <small id="Q7Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div id="Q8Panel" class="form-group row CustomeWellWhite">
+                    <div>
+                        @Html.Label(@Model.Q8Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q8Ans" name="Q8Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q8Ans />
+                            </div>
+
+                            <small id="Q8Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="Q9Panel" class="form-group row CustomeWellGray">
+                    <div>
+                        @Html.Label(@Model.Q9Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q9Ans" name="Q9Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q9Ans />
+                            </div>
+
+                            <small id="Q9Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="Q10Panel" class="form-group row CustomeWellWhite">
+                    <div>
+                        @Html.Label(@Model.Q10Display, new { @class = "col-xs-3 col-form-label CustomRatingLabel" })
+                        <div class="col-xs-9">
+                            <div style='text-align:center;'>
+                                <br />
+                                <input id="Q10Ans" name="Q10Ans" type="text"
+                                       data-slider-min="0"
+                                       data-slider-max="7"
+                                       data-slider-step="1"
+                                       data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                       data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                       data-slider-value=@Model.Q10Ans />
+                            </div>
+
+                            <small id="Q10Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+
+
+        </div>
+    </div>
+    @Html.Partial("_Dialog")
+
+}
+
+<script>
+
+    function RemoveCustomValidation() {
+        $('#Q1Ans_Incomplete').hide();
+        $('#Q2Ans_Incomplete').hide();
+        $('#Q3Ans_Incomplete').hide();
+        $('#Q4Ans_Incomplete').hide();
+        $('#Q5Ans_Incomplete').hide();
+        $('#Q6Ans_Incomplete').hide();
+        $('#Q7Ans_Incomplete').hide();
+        $('#Q8Ans_Incomplete').hide();
+        $('#Q9Ans_Incomplete').hide();
+        $('#Q10Ans_Incomplete').hide();
+    }
+
+    function AddCustomValidation() {
+        //debugger;
+
+        //debugger;
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+        var Q4Ans = $("#Q4Ans").slider('getValue');
+        var Q5Ans = $("#Q5Ans").slider('getValue');
+        var Q6Ans = $("#Q6Ans").slider('getValue');
+        var Q7Ans = $("#Q7Ans").slider('getValue');
+        var Q8Ans = $("#Q8Ans").slider('getValue');
+        var Q9Ans = $("#Q9Ans").slider('getValue');
+        var Q10Ans = $("#Q10Ans").slider('getValue');
+
+        if (Q1Ans == "7") {
+            $('#Q1Ans_Incomplete').show();
+        }
+        else {
+            $('#Q1Ans_Incomplete').hide();
+        }
+        if (Q2Ans == "7") {
+            $('#Q2Ans_Incomplete').show();
+        }
+        else {
+            $('#Q2Ans_Incomplete').hide();
+        }
+        if (Q3Ans == "7") {
+            $('#Q3Ans_Incomplete').show();
+        }
+        else {
+            $('#Q3Ans_Incomplete').hide();
+        }
+
+        if (Q4Ans == "7") {
+            $('#Q4Ans_Incomplete').show();
+        }
+        else {
+            $('#Q4Ans_Incomplete').hide();
+        }
+
+        if (Q5Ans == "7") {
+            $('#Q5Ans_Incomplete').show();
+        }
+        else {
+            $('#Q5Ans_Incomplete').hide();
+        }
+
+        if (Q6Ans == "7") {
+            $('#Q6Ans_Incomplete').show();
+        }
+        else {
+            $('#Q6Ans_Incomplete').hide();
+        }
+
+        if (Q7Ans == "7") {
+            $('#Q7Ans_Incomplete').show();
+        }
+        else {
+            $('#Q7Ans_Incomplete').hide();
+        }
+
+        if (Q8Ans == "7") {
+            $('#Q8Ans_Incomplete').show();
+        }
+        else {
+            $('#Q8Ans_Incomplete').hide();
+        }
+
+        if (Q9Ans == "7") {
+            $('#Q9Ans_Incomplete').show();
+        }
+        else {
+            $('#Q9Ans_Incomplete').hide();
+        }
+
+        if (Q10Ans == "7") {
+            $('#Q10Ans_Incomplete').show();
+        }
+        else {
+            $('#Q10Ans_Incomplete').hide();
+        }
+    }
+
+    function AllUnAnswered() {
+
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+        var Q4Ans = $("#Q4Ans").slider('getValue');
+        var Q5Ans = $("#Q5Ans").slider('getValue');
+        var Q6Ans = $("#Q6Ans").slider('getValue');
+        var Q7Ans = $("#Q7Ans").slider('getValue');
+        var Q8Ans = $("#Q8Ans").slider('getValue');
+        var Q9Ans = $("#Q9Ans").slider('getValue');
+        var Q10Ans = $("#Q10Ans").slider('getValue');
+
+        if (Q1Ans == "7" && Q2Ans == "7" && Q3Ans == "7"
+            && Q4Ans == "7" && Q5Ans == "7" && Q6Ans == "7"
+            && Q7Ans == "7" && Q8Ans == "7" && Q9Ans == "7" && Q10Ans == "7"
+            ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function EitherUnAnswered() {
+
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+        var Q4Ans = $("#Q4Ans").slider('getValue');
+        var Q5Ans = $("#Q5Ans").slider('getValue');
+        var Q6Ans = $("#Q6Ans").slider('getValue');
+        var Q7Ans = $("#Q7Ans").slider('getValue');
+        var Q8Ans = $("#Q8Ans").slider('getValue');
+        var Q9Ans = $("#Q9Ans").slider('getValue');
+        var Q10Ans = $("#Q10Ans").slider('getValue');
+
+        if (Q1Ans == "7" || Q2Ans == "7" || Q3Ans == "7"
+           && Q4Ans == "7" || Q5Ans == "7" || Q6Ans == "7"
+           && Q7Ans == "7" || Q8Ans == "7" || Q9Ans == "7" || Q10Ans == "7"
+           ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+
+
+
+
+    
+
+    $(document).on('confirmation', '.remodal', function () {
+        RemoveCustomValidation();
+        $('#frmTaskRating1').submit();
+        //alert('Confirmation button is clicked');
+        //console.log('Confirmation button is clicked');
+    });
+
+    $(document).on('cancellation', '.remodal', function () {
+        AddCustomValidation();
+    });
+   
+    function OnSuccess(response) {
+        //alert(response);
+        $('#MainContent').html(response);
+        //slideMenu.view.toggleClose();
+
+        //window.location.href = "@Url.Action("Login", "Account")";
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+
+    //debugger;
+    var isExist = $("#IsExist").val();
+
+    $(document).ready(function () {
+        var inst = $("#Dialog").remodal();
+
+        if ($("#IsExist").val() == 'False') {
+            $("#btnNext").attr("disabled", true);
+        }
+        else {
+            $("#btnNext").removeAttr("disabled");
+        }
+
+
+        $('#Q1Ans_Incomplete').hide();
+        $('#Q2Ans_Incomplete').hide();
+        $('#Q3Ans_Incomplete').hide();
+        $('#Q4Ans_Incomplete').hide();
+        $('#Q5Ans_Incomplete').hide();
+        $('#Q6Ans_Incomplete').hide();
+        $('#Q7Ans_Incomplete').hide();
+        $('#Q8Ans_Incomplete').hide();
+        $('#Q9Ans_Incomplete').hide();
+        $('#Q10Ans_Incomplete').hide();
+
+        function GetText5ScaleRatingJS(value) {
+            switch (value) {
+                case 0:
+                    return "Not at all"
+                case 1:
+                    return "Slightly"
+                case 2:
+                    return "Somewhat"
+                case 3:
+                    return "Moderately"
+                case 4:
+                    return "Strongly"
+                case 5:
+                    return "Very Strongly"
+                case 6:
+                    return "Extremely"
+                case 7:
+                    return "N/A"
+                default:
+                    return "N/A"
+            }
+        }
+
+        var topSlider = $('#CustomeSliderRound').slider({
+            //tooltip: 'hide',
+            //value: 7
+            ////formatter: function (value) {
+            ////    return GetText5ScaleRatingJS(value);
+            ////}
+        });
+
+        //topSlider.disable();
+
+        //topSlider.addClass("CustomSliderTop");
+
+
+
+
+        $('#Q6Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q7Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+        $('#Q7Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q8Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+        $('#Q8Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q9Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+        $('#Q9Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q10Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+        $('#Q10Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            $("#btnNext").removeAttr("disabled");
+        });
+
+
+
+
+
+        $('#Q5Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q6Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+
+
+        $('#Q4Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q5Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+        $('#Q3Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q4Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+
+
+        $('#Q2Ans').slider({
+            tooltip: 'always',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q3Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });;
+
+
+        $('#Q1Ans').slider({
+            tooltip: 'always',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            //alert("hello");
+            $("#Q2Panel").slideDown("slow", function () {
+                // Animation complete.
+            });
+        });
+
+
+       
+
+        if (isExist == 'False')
+        {
+            $("#Q2Panel").hide();
+            $("#Q3Panel").hide();
+            $("#Q4Panel").hide();
+            $("#Q5Panel").hide();
+            $("#Q6Panel").hide();
+            $("#Q7Panel").hide();
+            $("#Q8Panel").hide();
+            $("#Q9Panel").hide();
+            $("#Q10Panel").hide();
+        }
+
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            if (AllUnAnswered()) {
+                AddCustomValidation();
+            }
+            else if (EitherUnAnswered()) {
+                inst.open();
+            }
+            else {
+                inst.destroy();
+                $('#frmTaskRating1').submit();
+            }
+
+
+
+            //bootbox.dialog({
+            //    message: "Your answers are valuable to us. There are some empty fields. <br /><br /> Do you want to continue without filling them? ", title: "Incomplete Information",
+            //    buttons: {
+            //        main: { label: "Cancel", className: "btn btn-default", callback: function () { return true; } },
+            //        success: { label: "Next", className: "btn btn-success", callback: function () { $('#frmTaskRating1').submit(); } }
+            //    }
+            //});
+        });
+
+    });
+
+</script>

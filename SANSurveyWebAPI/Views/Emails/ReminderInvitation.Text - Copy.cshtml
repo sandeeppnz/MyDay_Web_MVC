@@ -1,0 +1,125 @@
+﻿@model SANSurveyWebAPI.Models.ReminderInvitationEmail
+Content-Type: text/html; charset=utf-8
+
+
+<html>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+    <table class="table-responsive" style="padding:10px;
+        background-color:#d5f2f2">
+        <tr>
+            <td style="background-color:rgb(47, 159, 173)">
+                @Html.EmbedImage("~/images/Email/header.png")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin:0px;
+                background-color:white;padding-left:15px;
+                padding-right:10px;padding-top:10px;padding-bottom:10px;">
+                    <p>
+                        User ID: @Model.RecipientName
+                    </p>
+                    <h3 style="color:rgb(0, 0, 0)">
+                        Hi there,
+                    </h3>
+
+                    <p style="color:#008080;font-size:18px;">
+                        Recently we sent you an invitation to participate in a survey being conducted by Auckland University of Technology in New Zealand, Health Education England and Cass Business School about the experienced wellbeing of Wessex junior doctors during their working day.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px;">
+                        You have been invited to participate in this anonymous study as a current trainee of Health Education England working across Wessex. Your response is important to us. You will help us learn about the wellbeing of junior doctors.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px">
+                        As part of the study, we would like to ask you some questions about yourself and your work situation. We will then ask follow up questions on the tasks that you perform during the day and how you feel about them.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px">
+                        We estimate that the initial survey will take 10-12 minutes. Follow up surveys will occur five times over the next week and will track your work tasks and wellbeing. An additional survey, the MyWorkplace survey, lasting 10-15 minutes will ask you how you feel about your place of work and supervision.
+                    </p>
+                    @if (Model.Incentive == 1)
+                    {
+                        <p style="color:#008080;font-size:18px">
+                            In appreciation of your participation, you will receive a <b>£10 Amazon voucher</b> after completion of the initial survey. A second £10 Amazon voucher will be sent on completion of the MyWorkplace survey. You will also get feedback on how your working day compares with other junior doctors. You will receive feedback on how your working day compares with other junior doctors.
+                        </p>
+                    }
+                    else
+                    {
+                        <p style="color:#008080;font-size:18px">
+                            You will receive feedback on how your working day compares with other junior doctors.
+                        </p>
+                    }
+                    <center>
+                        <a href=@Model.Link style="background:azure;
+                            padding-bottom:20px;padding-top:20px;
+                            padding-left:40px; padding-right:40px;
+                            text-align:center; text-decoration: none;
+                            display: inline-block;font-size: 16px;
+                            border: solid;border-color:#008080;border-radius:5px;
+                            color:#008080;"
+                           class="button"><b>Click to participate</b></a>
+                    </center>
+
+                    @*<p style="color:#008080;font-size:18px">
+                            Any identifiable information you provide will be kept confidential at all times.
+                        </p>*@
+
+                    <p style="color:#008080;font-size:18px">
+                        If you need assistance please contact our help desk <a href="myday@aut.ac.nz">myday@aut.ac.nz</a>.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px">
+                        To find out more about the study, visit myday.aut.ac.nz. If you do not wish to be contacted again about participating in this study, please email
+                        <a href="dpa@hee.nhs.uk">dpa@hee.nhs.uk</a>
+                        quoting your name and unique identifier number from the top of this email. You will be removed from further recruitment communications.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px">
+                        Your data is being processed in accordance with the Data Protection Act and Health Education England Privacy policy.
+                    </p>
+                    <p style="color:#008080;font-size:18px">
+                        Thank you for your contribution to this research!
+                    </p>
+                    <p>
+                        <b style="color:black">
+                            Professor Rhema Vaithianathan
+                        </b>
+                        <br />
+                        Co-Director, Centre for Social Data Analytics
+                        <br />
+                        Auckland University of Technology, New Zealand
+                        <br />
+                        <br />
+
+                        <b style="color:black">
+                            Dr Peter Hockey
+                        </b>
+                        <br />
+                        Postgraduate Dean
+                        <br />
+                        Health Education England, Wessex
+                        <br />
+                        <br />
+
+                        <b style="color:black">
+                            Dr Amanda Goodall
+                        </b>
+                        <br />
+                        Senior Lecturer, Faculty of Management
+                        <br />
+                        Cass Business School, London
+                    </p>
+
+                    <p>
+                        IRB: 30632
+                    </p>
+                </div>
+                <div style="background-color:white;text-align:right">
+                    @Html.EmbedImage("~/images/Email/footer.png")
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

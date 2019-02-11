@@ -1,0 +1,83 @@
+﻿@*@model SANSurveyWebAPI.ViewModels.Web.SurveyMyTaskViewVM*@
+<div class="remodal"
+     data-remodal-id="_DialogAddDuration"
+     id="_DialogAddDuration">
+    <button data-remodal-action="close" class="remodal-close"></button>    
+     
+            <i class='fa fa-info fa-3x'></i>
+            <h4>
+                Add duration for each task performed
+            </h4>
+            <br />
+      
+    <div style="display:@Model.Status" id="divWebGrid" class="divWebGrid">
+        @{
+            WebGrid objWebGrid = new WebGrid(Model.TaskListsObj,
+            rowsPerPage: 10, canPage: true);//allowing rowsperpage,paging allow or not
+        }
+        @objWebGrid.GetHtml(
+                              tableStyle: "table",
+                              headerStyle: "Grid-Header",
+                              alternatingRowStyle: "Grid-alt",
+                              selectedRowStyle: "Grid-selected",
+                              rowStyle: "Grid-rowstyle",
+                              footerStyle: "Grid-Footer",
+                              mode: WebGridPagerModes.All,                              
+                           columns:
+                              objWebGrid.Columns
+                              (
+                                  objWebGrid.Column(columnName: "Id", header: "ID", format: @<text> <label id="TID" class="findIt">@item.ID</label> </text>),
+                                  objWebGrid.Column(columnName: "TaskName", header: "Selected Task", style: "colTextAlign"),
+                                  objWebGrid.Column("TaskDuration", "Time spent", format: @<text><input type="text" class="findIt" id="TaskDuration" value="@item.TaskDuration" class="inSize inpFA" /> </text>)
+                              )
+                           )
+    </div>    
+        <br /><br /><br />
+        <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnSubmit">Submit</button>
+    </div>
+<style>
+    .inSize {
+        width:27%;
+    }
+    .colTextAlign{text-align:left;}
+    .inpFA {
+        float:left;
+    }
+</style>
+        <script> 
+            var webGridStr = "";
+            $('#btnSubmit').on("click", function (e) {
+                e.preventDefault();
+                
+                $('#divWebGrid tr').each(function (row, tr) {
+                    var rowCount = $('#divWebGrid tr').length; //alert("rowCount: "+ rowCount); alert("row: " +row);
+                    if (row != 0) {
+                        //webGridStr += "Id[" + row + "]: " + $(tr).find('td:eq(0)').text() + "; " + "TaskDuration[" + row + "]: " + $(this).find('input').val() +",";                        
+                        //webGridStr += "Id: " + $(tr).find('td:eq(0)').text() + "; " + "TaskDuration: " + $(this).find('input').val();
+                        webGridStr += "T "+$(tr).find('td:eq(0)').text()+ "I"+ ";" + "D "+ $(this).find('input').val() + " M";
+                        if (row != (rowCount - 1))
+                        {
+                            webGridStr = webGridStr + ",";
+                        }
+                    } //alert(webGridStr);
+                });
+                $.trim(webGridStr); //alert(webGridStr);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("addDuration", "Survey3")",                        
+                    data: { TableData: webGridStr }, 
+                    success: function (result) {
+                    }
+                });
+            });
+            function storeTblValues() {
+                var webGridStr = "";
+                $('#divWebGrid tr').each(function (row, tr) {                   
+                    if (row != 0) {
+                        webGridStr += "Id[" + row + "]: " + $(tr).find('td:eq(0)').text() + "TaskDuration[" + row + "]: " + $(this).find('input').val() + ", ";                        
+                    }     
+                });                  
+                return webGridStr;
+              }                
+            
+        </script>

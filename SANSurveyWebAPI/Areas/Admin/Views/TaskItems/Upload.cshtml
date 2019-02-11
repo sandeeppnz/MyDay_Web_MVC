@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Upload Tasks";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Upload Tasks</h2>
+
+@using (Html.BeginForm("Upload", "TaskItems", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input type="submit" value="Upload File" />
+}
+

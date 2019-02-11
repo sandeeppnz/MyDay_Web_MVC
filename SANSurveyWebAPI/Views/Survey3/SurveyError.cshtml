@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutSurveyBlank.cshtml";
+
+    ViewBag.Title = "Survey Error";
+}
+
+<br />
+
+@using (Html.BeginForm("SurveyError", "Survey3", FormMethod.Post, new
+{ name = "frmSurveyError", id = "frmSurveyError", @class = "" }))
+{ 
+    <div style="padding:20px;">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <center>
+                    <div>
+                        <h1>
+                            <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+                        </h1>
+                        <h4>
+                            An error occurred while processing.
+
+                        </h4>
+
+                        <h3>
+                            Please close this page and reload the survey from your email.
+                            <br />
+                            If the problem persists, please contact us.
+                        </h3>
+</div>
+
+
+                </center>
+            </div>
+            @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="submit">Return to Home</button>*@
+        </div>
+        @Html.Partial("_FooterSurvey")
+
+
+    </div>
+}

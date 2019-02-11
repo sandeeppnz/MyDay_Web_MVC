@@ -1,0 +1,221 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyTasks1ViewModel
+
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+
+    }
+    ViewBag.Title = "Survey: Select Tasks (Ward Round)";
+
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@{
+    var rowsPerPage = 4;
+    int noPages = 0;
+    int currRow = 0;
+
+    if (Model.FullTaskList.Count % rowsPerPage != 0)
+    {
+        noPages = (Model.FullTaskList.Count / rowsPerPage) + 1;
+        currRow = 1;
+    }
+    else
+    {
+        noPages = (Model.FullTaskList.Count / rowsPerPage);
+        currRow = 1;
+    }
+
+}
+
+
+
+
+@using (Ajax.BeginForm("WRTasks", "Survey3", new AjaxOptions
+{
+    HttpMethod = "POST",
+    Url = @Url.Action("WRTasks", "Survey3"),
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}, new { id = "frmTasks1", @class = "nav-right" }))
+{
+
+    @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+
+    @Html.ValidationSummary(true, "Please check the form for errors.")
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>
+                What did you do during
+                <span class="SurveyTitle"> Ward Round</span>
+                starting at
+                @TaskStartTime
+            </h3>
+        </div>
+
+        @*<div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success CustomProgressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:@(( (decimal) ( (int) Session["SurveyDuration"] - (int) @Session["RemainingDuration"]) / (int) Session["SurveyDuration"] ) * 100 )%">
+                    @((int) Session["SurveyDuration"] - (int) @Session["RemainingDuration"]) min of tasks covered (@Session["RemainingDuration"] min remaining for end time of shift)
+                    <span class="sr-only">@Session["CurrProgressValue"] Complete (success)</span>
+                </div>
+            </div>*@
+        <div class="panel-body">
+            <div>
+                <i>
+                    Select <u>all the tasks</u> done during this period.
+                </i>
+            </div>
+
+
+            <div id="CarouselContainer">
+
+                <div class="responsive slider" id="slidercarousel">
+                    @for (int page = 0; page < noPages; page++)
+                    {
+                        <div id="CarouselInnerContainer">
+                            @while ((page * rowsPerPage) + currRow <= Model.FullTaskList.Count)
+                            {
+                                <div class="funkyradio funkyradio-default box">
+                                    <input type="checkbox" name=selectedTasks id=@("checkbox" + ((page*rowsPerPage) +currRow)) value=@Model.FullTaskList[((page * rowsPerPage) + currRow)-1].ID checked=@Model.FullTaskList[((page * rowsPerPage) + currRow)-1].IsChecked disabled=@Model.FullTaskList[((page * rowsPerPage) + currRow)-1].IsSelectedBefore />
+                                    <label id=@(((page*rowsPerPage) +currRow)) name="selectedTasksLabel" class="" for=@("checkbox" + ((page*rowsPerPage) + currRow ))>
+                                        @Model.FullTaskList[((page * rowsPerPage) + currRow) - 1].Display
+                                        <span id=@("tooltip_" + ((page*rowsPerPage) +currRow)) class="tooltipTask" title="@Model.FullTaskList[((page * rowsPerPage) + currRow) - 1].Description"></span>
+                                        <span class="tooltipTask" title="@Model.FullTaskList[((page * rowsPerPage) + currRow) - 1].Description"><sup>[?]</sup></span>
+                                    </label>
+                                </div>
+                                if (currRow % rowsPerPage == 0)
+                                {
+                                    break;
+                                }
+
+                                currRow++;
+                            }
+
+                            @{
+                                currRow = 1;
+                            }
+                        </div>
+                                }
+                </div>
+
+
+            </div>
+
+        </div>
+        @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>*@
+
+        <center>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+
+    </div>
+
+    @Html.Partial("_DialogTask")
+                                @Html.Partial("_FooterSurvey")
+
+                                }
+
+
+<script>
+    var inst = $("#DialogTask").remodal();
+
+    $(document).on('cancellation', '#DialogTask', function () {
+    });
+
+    $(document).on('confirmation', '#DialogTask', function () {
+        inst.destroy();
+    });
+
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "Survey3")";
+        }
+        else {
+            $.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+
+    $(document).ready(function () {
+
+        //window.history.pushState("Survey", "Survey", "/App/Survey3/SID/" + $('#txtuid').val());
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            touchstart: function (e) {
+            },
+            hold: function (e) {
+                $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+            }
+        });
+
+        $.ajaxSetup({ cache: false });
+
+        $('#btnNext').on("click", function (e) {
+
+            e.preventDefault();
+
+            if ($("input[name^='selectedTasks']:checked").length < 1) {
+                inst.open();
+            }
+            else {
+                $('#frmTasks1').submit();
+            }
+
+        });
+
+
+
+
+        $('.responsive').slick({
+            dots: true,
+            infinite: false,
+            speed: 300,
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            responsive: [
+              {
+                  breakpoint: 1024,
+                  settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 2,
+                      infinite: true,
+                      dots: true
+                  }
+              },
+              {
+                  breakpoint: 600,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1
+                  }
+              }
+            ]
+        });
+
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });
+
+</script>

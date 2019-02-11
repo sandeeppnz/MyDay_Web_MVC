@@ -1,0 +1,93 @@
+﻿@model SANSurveyWebAPI.Models.ShiftReminderWarrenMahonyEmail
+    Content-Type: text/html; charset=utf-8
+<html>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+    <table class="table-responsive" style="padding:10px;
+        background-color:#d5f2f2">
+        <tr>
+            <td style="background-color:rgb(47, 159, 173)">
+                @Html.EmbedImage("~/images/Email/WAM_header.png")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin:0px;
+                background-color:white;padding-left:15px;
+                padding-right:10px;padding-top:10px;padding-bottom:10px;">
+                    <p>
+                        User ID: @Model.RecipientName
+                    </p>
+                    <h3 style="color:rgb(0, 0, 0)">
+                        Hi there,
+                    </h3>
+                    <center>
+                        @Html.EmbedImage("~/images/Email/shiftReminder_72.png")
+
+                        <p style="color:#008080;font-size:18px;">
+                            Upcoming work hours <br />
+                            @Model.ShiftStartTime - @Model.ShiftEndTime ( @Model.ShiftStartDate )
+                            <br />
+                        </p>
+                    </center>
+
+                    <p style="color:#008080;font-size:18px;">
+                        According to your MyDay account, you will be working on
+                        <b>@Model.ShiftStartDate from @Model.ShiftStartTime until @Model.ShiftEndTime</b>.
+                        We would like to ask you some questions about a four-hour window within this work day.
+                        You will receive an email when this survey becomes available.
+                    </p>
+
+                    @*<p style="color:#008080;font-size:18px">
+                            If you are no longer working during these hours,
+                            please login to your profile to update your roster.
+                            If you experience any difficulty, please do not hesitate to contact our helpdesk at
+                            <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>.
+                        </p>*@
+
+                    <p style="color:#008080;font-size:18px">
+                        If you are no longer working during these hours, please contact
+                        <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a> to update your roster..
+                    </p>
+
+
+
+                    <center>
+                        <a href=@Model.Link style="background:azure;
+                            padding-bottom:20px;padding-top:20px;
+                            padding-left:40px; padding-right:40px;
+                            text-align:center; text-decoration: none;
+                            display: inline-block;font-size: 16px;
+                            border: solid;border-color:#008080;border-radius:5px;
+                            color:#008080;"
+                           class="button"><b>Update roster</b></a>
+                    </center>
+
+                    <p style="color:#008080;font-size:18px">
+                        Thank you for your contribution to this research!
+                    </p>
+                    <p>
+                        <b style="color:black">
+                            Professor Rhema Vaithianathan
+                        </b>
+                        <br />
+                        Co-Director, Centre for Social Data Analytics
+                        <br />
+                        Auckland University of Technology, New Zealand
+
+                        <br />
+                        <br />
+                    </p>
+                    <p>
+                        IRB: 18/297
+                    </p>
+
+                </div>
+                <div style="background-color:white;text-align:right">
+                    @Html.EmbedImage("~/images/Email/warrenmahony_header.png")
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

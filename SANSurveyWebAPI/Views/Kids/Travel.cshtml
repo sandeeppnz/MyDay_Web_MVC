@@ -1,0 +1,219 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsTravelVM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutKids.cshtml"; }
+    ViewBag.Title = "Survey: Travel";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("Travel", "Kids", FormMethod.Post,
+                new { name = "frmTravel", id = "frmTravel", @class = "nav-right" }))
+{
+    @Html.HiddenFor(m => m.HiddFromLocationId)
+    @Html.HiddenFor(m => m.HiddToLocationId)
+    @Html.HiddenFor(m => m.ToLocation)
+    @Html.HiddenFor(m => m.OtherToLocation)
+    
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                <span>@Model.PageQuestion1</span> 
+                @if (@Model.FromLocation != "Other")
+                { <span class="SurveyTitle"> @Model.FromLocation </span>}
+                else
+                { <span class="SurveyTitle"> @Model.OtherFromLocation </span>}
+                <span>&nbsp;</span><span>@Model.ToInString</span><span>&nbsp;</span>
+                @if (@Model.ToLocation != "Other")
+                { <span class="SurveyTitle">@Model.ToLocation</span> }
+                else
+                { <span class="SurveyTitle"> @Model.OtherToLocation </span> }
+                <span>@Model.QuestionMark</span>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div style="text-align:left"><i>@Model.QuestionHint</i></div> <br /><br />
+            <div class="" id="divTransport">
+
+                @foreach (var yt in Model.TransportOptionList)
+                {
+                    <input type="checkbox" name="chkTransport" value="@yt.Value" id="@yt.Value" class="uncheck"/>                    
+                    <label for="@yt.Id">@yt.Value</label>
+                    <br />                    
+                    @Html.HiddenFor(model => model.HiddenTransport, new { @id = "hiddTransport" })
+                }
+                <div id="divOtherOption" class="Cont" style="width:300px;">
+                    @Html.TextBoxFor(model => model.OtherTransport, new
+                   {
+                       @id = "txtOtherTransport",
+                       @class = "form-control",
+                       @placeholder = "Please specify if selected Other",
+                       @style = "width:300px;display:none;"
+                   })
+                </div>
+                <small id="SelectedMOT_Incomplete" class="invalid" style="text-align:left">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    &nbsp; <span>@Model.MOTErrorMessage </span>                   
+                </small>
+            </div>
+            <br /><br /><br />            
+                <div class="form-group row">
+                    <center>
+                        <label class="col-form-label" style="font-size:18px;">
+                            <span>@Model.PageQuestion2</span>
+                                @if (@Model.FromLocation != "Other")
+                                { <span> @Model.FromLocation </span>}
+                                else
+                                { <span> @Model.OtherFromLocation </span>}
+                            <span>&nbsp;</span><span>@Model.ToInString</span>
+                            <span>&nbsp;</span>
+                            @if (@Model.ToLocation != "Other")
+                            { <span>@Model.ToLocation</span> }
+                            else { <span> @Model.OtherToLocation </span> }
+                            <span>@Model.QuestionMark</span>
+                        </label>
+
+                        <br /><br />
+                        <div class="" id="divTravelDuration">
+                            <div class="col-md-12 col-sm-12 col-xs-12 padding-0 ">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                            <div class="row"></div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <div class="row">
+                                                <div class="input-group input-group-lg">
+                                                    @Html.TextBoxFor(model => model.TravelInHours, new { @id = "spin_Hrs", @name = "TimeHours", @class = "form-control input-lg" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1">
+                                            <div class="row"></div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <div class="row">
+                                                <div class="input-group input-group-lg">
+                                                    @Html.TextBoxFor(model => model.TravelInMins, new { @id = "spin_Min", @name = "TimeMinutes", @class = "form-control input-lg" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                            <div class="row"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <small id="SelectedTSEM_Incomplete" class="invalid" style="text-align:left">
+                            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                            &nbsp; <span>@Model.TimeSpentErrorMessage</span>
+                        </small>
+                    </center>              
+            </div>
+        <center>            
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>
+    </div>
+    @Html.Partial("_FooterSurvey")
+}
+<script src="~/Scripts/StopBack/StopBackBrowserButton.js"></script>
+<script>
+    $("input[id='spin_Hrs']").TouchSpin({
+        postfix: "Hours&nbsp;&nbsp;&nbsp;",
+        postfix_extraclass: "CustomSpinnerLabel",
+        buttondown_class: "btn CustomSpinnerButtonPlus",
+        buttonup_class: "btn CustomSpinnerButtonNeg",
+        //postfix_extraclass: "btn btn-default"
+
+        min: 0,
+        max: 4,
+        step: 1,
+    });
+    $("input[id='spin_Min']").TouchSpin({
+        postfix: "Minutes",
+        min: 0,
+        max: 59,
+        step: 1,
+
+        postfix_extraclass: "CustomSpinnerLabel",
+        buttondown_class: "btn CustomSpinnerButtonPlus",
+        buttonup_class: "btn CustomSpinnerButtonNeg"
+        //postfix_extraclass: "btn btn-default"
+    });
+
+    //to toggle the other textbox
+    $(document).ready(function () {
+        $('#Other').click(function () {
+            //var name = $(this).attr('id');           
+            $('.Cont').find('[name="OtherTransport"]').toggle();
+        });
+    });
+
+    //Important to add values of checkboxes
+    function updateHiddenTransport() {
+        var hiddTransport = [];
+
+        $('#divTransport :checked').each(function () {           
+            //if ($(this).val() != "Other")
+                hiddTransport.pop();
+                hiddTransport.push($(this).val());
+            //else
+            //    hiddTransport.push($('#txtOtherTransport').val());
+                //if ($(this).val() == "Other")
+                //{ hiddTransport.push($('#txtOtherTransport').val()); }
+        });        
+        $('#hiddTransport').val(hiddTransport);
+    }
+    $(function () {
+        $('#divTransport input').click(updateHiddenTransport);
+        updateHiddenTransport();
+    });
+    //end of checkbox values
+
+    $(document).ready(function () {
+        $('#SelectedTSEM_Incomplete').hide();
+        $('#SelectedMOT_Incomplete').hide();
+    });
+
+    $('input.uncheck').on('change', function () {
+        $('input.uncheck').not(this).prop('checked', false);
+        updateHiddenTransport();
+    });
+
+    function CustomValidation() {
+        var allFilled = true; 
+        //alert($(':checkbox[name=chkTransport]:checked').length);
+        if ($(':checkbox[name=chkTransport]:checked').length >= 1) {
+            if ($(':checkbox[name=chkTransport]:checked').val() == "Other" && $('#txtOtherTransport').val() == "") {
+                $('#SelectedMOT_Incomplete').show(); allFilled = false;
+            }
+            else { $('#SelectedMOT_Incomplete').hide(); }
+        }       
+        else { $('#SelectedMOT_Incomplete').show(); allFilled = false; }
+
+        if ($('#spin_Hrs').val() == 0 && $('#spin_Min').val() == 0)
+        { $('#SelectedTSEM_Incomplete').show(); allFilled = false; }       
+        else { $('#SelectedTSEM_Incomplete').hide(); }
+       
+        return allFilled;
+    }
+    $('#btnNext').on("click", function (e) {
+        e.preventDefault();
+        if (CustomValidation()) {
+            $('#frmTravel').submit();
+        }
+    });
+</script>
+<style>
+    input[type=checkbox] {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FF */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+        padding: 15px;
+    }
+</style>

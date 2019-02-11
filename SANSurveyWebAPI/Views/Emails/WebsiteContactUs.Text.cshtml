@@ -1,0 +1,46 @@
+﻿@model SANSurveyWebAPI.Models.WebsiteContactUsEmail
+
+Content-Type: text/plain; charset=utf-8
+
+@*Dear @Model.Name,
+
+@Model.Message 
+
+Thank you.
+Centre for Social Data Analytics
+Auckland, New Zealand*@
+
+<html>
+@*<body style="background-color:#f2f2f2; font-family:Arial, Helvetica, sans-serif">*@
+<body style="font-family:Arial, Helvetica, sans-serif">
+    <div>
+        <br />
+        &nbsp; @Html.EmbedImage("~/images/header.png")
+        <br />
+    </div>
+    <div>
+        <h3 style="color:#808080">
+            Hi there,
+        </h3>
+
+
+        <h3 style="color:black">
+            Contact: <span style="color:black"> @Model.ContactName </span><br />
+            Preferred:<span style="color:black"> @Model.PreferredContact</span><br />
+            Time: <span style="color:black">@Model.PreferredTime</span><br />
+            Email Address: <span style="color:black">@Model.ReturnEmail</span><br />
+            Phone Number: <span style="color:black">@Model.ReturnPhone</span><br />
+            Message: <span style="color:black">@Model.Message</span><br />
+
+        </h3>
+        <h4 style="color:#808080">
+            Thank you,
+            <br />
+            Centre for Social Data Analytics
+            <br />
+            Auckland, New Zealand
+        </h4>
+    </div>
+
+</body>
+</html>

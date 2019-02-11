@@ -1,0 +1,58 @@
+﻿@*@model SANSurveyWebAPI.ViewModels.Web.SurveyMyTaskViewVM*@
+<div class="remodal"
+     data-remodal-id="_DialogNewTask"
+     id="_DialogNewTask">
+    <button data-remodal-action="close" class="remodal-close"></button>    
+     
+            <i class='fa fa-info fa-3x'></i>
+            <h4>
+                Add new task
+            </h4>
+            <br />
+      
+        <select id="drpTaskList" style="padding:10px;">
+            <option>Select Task</option>
+        </select>
+    @*@Html.HiddenFor(m=>m.hiddenTaskIds, new { @id = "hiddTaskId" })*@
+        <br /><br /><br />
+        <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnNewTask">Submit Selected Task</button>
+    </div>
+        <script>      
+            var param;
+            $(document).ready(function () {                
+                $.get('../Survey3/remainingTasksList', function (data) {
+                    console.log(data)
+                    $.each(data, function (index, value) {
+                        $('<option>').val(value.Id).text(value.ShortName).appendTo("#drpTaskList");
+                    })
+                })
+            });
+            $('#btnNewTask').on("click", function (e) {
+                e.preventDefault(); //alert(param);
+                //window.location.href = "@Url.Action("newTaskaddition", "Survey3")";
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("newTaskaddition", "Survey3")",                
+                    data: { taskId: param },
+                    success: function (result) {
+                        //$("sharelink").html(result);
+                        //location.reload();
+                        $('#div_to_load_PartialView').html(data);
+                    }
+                });
+
+            });
+            $(function () {
+                $('#drpTaskList').change(function () {
+                    // if changed to, for example, the last option, then
+                    // $(this).find('option:selected').text() == D
+                    // $(this).val() == 4
+                    // get whatever value you want into a variable
+                    var x = $(this).val(); param = $(this).val();
+                    // and update the hidden input's value
+                    //$('#hiddTaskId').val(x);
+                    //param1 = $('#hiddTaskId').val(); alert("param1: " + param1)                    
+                });
+            });
+            
+        </script>

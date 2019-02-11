@@ -1,0 +1,292 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.FirstTraining2VM
+@{
+    Layout = "~/Views/Shared/_LayoutExit.cshtml";
+    ViewBag.Title = "MyWorkplace Survey";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="~/Scripts/StyleUp/styleUp.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("FirstTraining", "ExitV2", FormMethod.Post, new { name = "frmFirstTraining", id = "frmFirstTraining" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxExitV2Step)
+   
+    <div class="container">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>  
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+            {
+                CurrStep = 9,
+                MaxStep = Model.MaxExitV2Step
+            }) 
+            <div class="panel panel-default" id="ExitSurveyPage1">
+                <div class="remove-TealBox" style="padding-bottom:7px;">
+                    We would like to gather information about your job preferences...
+                </div>               
+                <div class="panel-body">
+                    <div class="form-group row" style="padding-left:12px;">
+                        <label class="col-form-label">
+                            Please select the three most important items to “your training”.
+                        </label>
+                    </div>
+
+                    <div class="form-group" style="padding-left:12px;">
+                        <div id="tables">
+                            <table id="PatientTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int i = 0;
+                                        //for (i = 0; i <= 7; i++)
+                                        {                                            
+                                            foreach (var r in Model.QnsYourTraining)
+                                            {
+                                            <tr id=@string.Concat(r.ID)>
+                                                @Html.HiddenFor(model => model.QnsYourTraining[i].ID)
+                                                @Html.HiddenFor(model => model.QnsYourTraining[i].Name)
+                                                <td style="width:70%;">                                                   
+                                                    @Html.Label(r.Name, new { @style = "font-weight:normal;" })
+                                                   
+                                                    @{
+                                                        if (r.ID == 7)
+                                                        {                                                          
+                                                            @Html.TextBoxFor(model => model.QnsYourTraining[i].OtherOptionString, new { @id = "txtYourTraining",
+                                                                                             @class = "form-control",
+                                                                                             @placeholder = "Please specify if selected Other",
+                                                                                             @style = "width:300px" })
+                                                        }
+
+                                                        if (Model.QnsYourTraining[i].LongName != null)
+                                                        {
+                                                            <span class="tooltipTask" title="@Model.QnsYourTraining[i].LongName"><sup>[?]</sup></span>
+                                                        }
+                                                    }
+
+                                                </td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsYourTraining[i].Ans, "1", new { @id = "Radio_" + r.ID, data_col = "1", @class= "onePerColumn" })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsYourTraining[i].Ans, "2", new { @id = "Radio_" + r.ID, data_col = "2", @class = "onePerColumn" })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsYourTraining[i].Ans, "3", new { @id = "Radio_" + r.ID, data_col = "3", @class = "onePerColumn" })</td>
+                                            </tr>
+                                                                i++;
+                                                                    }
+                                                                }
+                                                            }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row" style="padding-left:12px;">
+                        <label class="col-form-label">
+                            Please select the three most important items to “feeling a valued member of your team”.
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <div id="tables">
+                            <table id="PatientTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int j = 0;
+                                        //for (i = 8; i <= 14; i++)
+                                        {
+                                            foreach (var r in Model.QnsFeelingValued)
+                                            {
+                                            <tr id=@string.Concat(r.ID)>
+                                                @Html.HiddenFor(model => model.QnsFeelingValued[j].ID)
+                                                @Html.HiddenFor(model => model.QnsFeelingValued[j].Name)
+                                                <td style="width:70%;">
+                                                    @Html.Label(r.Name, new { @style = "font-weight:normal;" })
+
+                                                    @{
+                                                        if (r.ID == 6)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.QnsFeelingValued[j].OtherOptionString, new { @id = "txtFeelingValued",
+                                                                                             @class = "form-control",
+                                                                                             @placeholder = "Please specify if selected Other",
+                                                                                             @style = "width:300px" })
+                                                        }
+
+                                                        if (Model.QnsFeelingValued[j].LongName != null)
+                                                        {
+                                                            <span class="tooltipTask" title="@Model.QnsFeelingValued[j].LongName"><sup>[?]</sup></span>
+                                                        }
+                                                    }
+
+                                                </td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsFeelingValued[j].Ans, "1", new { @id = "Radio_" + r.ID, data_col="1", @class = "rdbtn"})</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsFeelingValued[j].Ans, "2", new { @id = "Radio_" + r.ID, data_col = "2", @class = "rdbtn" })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsFeelingValued[j].Ans, "3", new { @id = "Radio_" + r.ID, data_col = "3", @class = "rdbtn"})</td>
+                                            </tr>
+                                                                j++;                                                                
+                                                            }
+                                                        }
+                                     }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                        <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogTask")
+    @Html.Partial("_DialogTaskSelection")
+}
+
+<style>
+    #Q0Panel {
+        pointer-events: none;
+    }
+</style>
+
+<script>
+    //$('input[type="radio"]').change(function (ev) {
+    //$(".rdbtn").on("change", function (ev) {        
+    //    var clicked = $(ev.target);
+    //    //$(".rdbtn[data-col=" + clicked.data("col") + "]").attr("checked", false);
+    //    alert(clicked.data("col"));
+    //    $(".rdbtn[data-col=" + clicked.data("col") + "]").attr("checked", false);
+    //    clicked.attr("checked", true);
+    //});
+    //$('input[type="radio"]').change(function () {
+    //                                                var classes = $(this).prop('class').split(' ');
+    //                                                for (i in classes)
+    //        $('.' + classes[i]).attr('disabled', true);
+    //});
+
+
+    $(document).ready(function () {
+        $(".onePerColumn :radio").change(function () {
+            var col = $(this).attr("value");
+            alert(col);
+            $(".onePerColumn :radio[value='" + col + "']:checked").not(this).each(function () {
+                $(this).prop('checked', false);
+            });
+
+        });
+    });
+
+
+    @*//Validation of all radio box present in Patient table added on 22nd Nov 2017 ---- by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        var tb = document.getElementById('PatientTable');
+        var trs = tb.getElementsByTagName('tr');
+
+        for (var i = 1 ; i < trs.length - 1; i++) {
+            var allRadiochecked = $("input:radio[id=Radio_" + i + "]").is(':checked');
+            if (allRadiochecked != true) { $('#TaskType_Incomplete').show(); allFilled = false; break; }
+            else { $('#TaskType_Incomplete').hide(); }
+        }
+        return allFilled;
+    }
+    //End of validation of all radio box check
+
+    var inst = $("#_DialogTask").remodal();
+    var instTasks = $("#_DialogTaskSelection").remodal();
+
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmFirstTraining').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {
+        AddCustomValidation();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmFirstTraining').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+    function RemoveCustomValidation() {
+        $('#TaskType_Incomplete').hide();
+    }
+
+    $(document).ready(function () {
+        RemoveCustomValidation();
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            touchstart: function (e) {},
+            hold: function (e) { $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open'); }
+        });
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+           
+            if (AddCustomValidation()) {
+                LoaderLocal();
+                $('#frmFirstTraining').submit();
+            }
+            else {
+                inst.open();
+            }
+            //End of validation of radiobuttons
+
+        });  
+        $('#btnPrev').on("click", function (e) {
+                e.preventDefault();
+                window.location.href = "@Url.Action("FifthWorkEnvironment", "ExitV2")";
+            });
+
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });*@
+
+
+
+    //$("input[id^='Radio']").icheck({
+    //    labelHover: true,
+    //    tap: true,
+    //    checkboxClass: 'icheckbox_flat-green',
+    //    radioClass: 'icheckbox_flat-green'
+    //});
+
+    //$("input[id^='TaskTypeRadio']").icheck({
+    //    labelHover: true,
+    //    tap: true,
+    //    checkboxClass: 'icheckbox_flat-green',
+    //    radioClass: 'icheckbox_flat-green'
+    //});
+
+   
+
+</script>
+
+
+

@@ -1,0 +1,52 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.GetSelectedTasksVM
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+    ViewBag.Title = "Survey: Add New Tasks";
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+    DateTime TaskEndDateTime = (DateTime) Session["CurrTaskEndTime"];
+    string TaskEndTime = TaskEndDateTime.ToString("hh:mm tt");
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("NewTask", "Survey3", FormMethod.Post,
+                            new { name = "frmNewTask", id = "frmNewTask", @class = "nav-right" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+               
+            </h3>
+        </div>
+        <div class="panel-body">  
+                <div id="dual-list-box" class="form-group row">
+                    @*<select multiple="multiple" data-title="Tasks" data-source="../../data/output.json"
+                            data-value="ID" data-text="Name"></select>*@
+                  @*@Html.ListBoxFor(model => model.AvailableTasks, new SelectList {Model.AvailableTasks,"Value","Text" })*@
+                   @*@Html.HiddenFor(model => model.HiddenSelectedTasksIds, new { @id = "hiddSelectedTasks" })*@
+                    <select multiple="multiple">
+                        <option>@Model.AvailableTasks</option>
+                    </select>
+                </div>          
+        </div>       
+        <center>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>   
+
+    @Html.Partial("_DialogTask")
+    @Html.Partial("_DialogTaskDuplicate")
+    @Html.Partial("_DialogTaskOtherName")
+    @Html.Partial("_FooterSurvey")
+}
+<script type="text/javascript">
+    
+</script>
+

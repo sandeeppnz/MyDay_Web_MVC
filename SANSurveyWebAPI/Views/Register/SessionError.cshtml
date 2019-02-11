@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Session Error";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Session Error - @SANSurveyWebAPI.Constants.AppHeader</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+
+
+    <body class="loginBody">
+        <div class="container TextAlignCenter">
+
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="row loginbox">
+
+                    <h1>
+                        <span class="fa fa-exclamation-triangle" />
+                    </h1>
+
+                    <h3>
+                        The current session in this browser has expired. <br />
+                    </h3>
+
+                    Please click @Html.ActionLink("login", "Login", "Account") again.
+
+                    @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="submit">Login again&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>*@
+                    @*@Html.ActionLink("Login", "Account", new { @class = "btn btn-success btn-block btn-lg" })*@
+                    @*<br />
+                        <br />
+                        Still having trouble? @Html.ActionLink("Please contact us", "Contact", "Home")*@
+
+                </div>
+
+                @Html.Partial("_Footer")
+
+
+
+
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+
+
+
+
+
+    </body>
+
+
+</html>

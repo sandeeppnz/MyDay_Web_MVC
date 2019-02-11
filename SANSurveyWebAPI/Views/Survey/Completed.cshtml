@@ -1,0 +1,86 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyTaskRating1ViewModel
+
+@{
+    ViewBag.Title = "Thank you: Survey";
+}
+
+
+@using (Html.BeginForm("Completed", "Survey", FormMethod.Post, new { name = "frmCompleted", id = "frmCompleted" }))
+{
+
+
+#line default
+#line hidden
+
+#line 4 <div class="container OtherPageContainer">
+
+        @Html.ValidationSummary(true, "Please check the form for errors.")
+
+        @*<h3>
+               Survey Progress
+            </h3>*@
+
+
+
+        <div class="panel panel-default" id="Tasks">
+
+
+
+            <div class="panel-heading">
+                <h3>
+                   Thank you!
+                </h3>
+
+
+            </div>
+
+            <div class="panel-body">
+
+                <center>
+                    <div>
+                        <h1>
+                            <span class="glyphicon glyphicon-thumbs-up" />
+                        </h1>
+                        <h3>
+                            We value your response and thank you for participating
+                        </h3>
+                    </div>
+
+
+                </center>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-success btn-block btn-lg btnCustomNext" id="btnNext" type="button">Return to Home</button>
+            </div>
+
+
+        </div>
+    </div>
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        var countClick = 0;
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+
+            $('#frmCompleted').submit();
+
+            //bootbox.dialog({
+            //    message: "Your answers are valuable to us. There are some empty fields. <br /><br /> Do you want to continue without filling them? ", title: "Incomplete Information",
+            //    buttons: {
+            //        main: { label: "Cancel", className: "btn btn-default", callback: function () { return true; } },
+            //        success: { label: "Next", className: "btn btn-success", callback: function () { $('#frmTaskRating1').submit(); } }
+            //    }
+            //});
+        });
+
+    });
+
+</script>
+
+
+

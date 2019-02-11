@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNet.Identity
+@*@model SANSurveyWebAPI.ViewModels.Web.ViewModelBase*@
+
+@{
+    double progressValueValue = (double) Session["ProgressValueValue"];
+    string surveyspan = Session["KidsSurveySpan"].ToString();
+    string surveydate = Session["SurveyDate"].ToString();
+    Session["LoginEmailAddress"] = User.Identity.GetUserName();
+}
+@{
+    try
+    {      
+        <div id="DesktopLayout" class="">
+            <h3>
+                <span class="lbll lbl-default"></span>
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> @*@Model.ShiftSpan*@
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Help & Feedback</a>
+                        @*<img src="~/Images/help_org.png" style="width:72px;" />*@
+                        </span>
+                <br />
+            </h3>
+            <h4 class="SpanWIndow">Survey Span for @surveydate: @surveyspan</h4>
+            <div class="progress" style="width:51%;margin-left:3px;">
+                <div class="progress-bar" role="progressbar" aria-valuenow="@progressValueValue"
+                     aria-valuemin="0" aria-valuemax="100" style="width:@progressValueValue%">
+                    @progressValueValue%
+                </div>
+            </div>
+            <br />
+        </div>
+        @*<div id="MobileLayout" class="" style="padding-left:5px;">
+            <h3>
+                <span title="Your shift period" class="" style="font-size:small;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> 
+                </span>
+            
+                <br />
+                <span title="Your username" class="" style="font-size:small;">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Feedback&nbsp;</a>                    
+                </span>
+                <br />
+                <br />
+                <span class="lbll lbl-default" style="font-size:smaller;"></span>              
+            </h3><br />            
+            <div class="progress" style="width:51%;margin-left:3px;">
+                <div class="progress-bar" role="progressbar" aria-valuenow="@progressValueValue"
+                     aria-valuemin="0" aria-valuemax="100" style="width:@progressValueValue%">
+                    @progressValueValue%
+                </div>
+            </div><br />
+        </div>*@
+        @Html.Partial("_DialogHelp")
+        @Html.Partial("_DialogHelpComplete")
+    }
+    catch (Exception)
+    {
+
+    }
+}
+<style>
+    .lbl-default {
+    background-color: #ffffff;
+    }
+    .lbll {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    }
+    .SpanWIndow {
+        background-color: #78787F;
+        color: white;
+        width: 51%;
+        margin-left: 3px;
+        font-size:21px;
+    }
+</style>
+
+<script>
+
+    var DialogHelp = $("#DialogHelp").remodal();
+    var DialogHelpComplete = $("#DialogHelpComplete").remodal();
+
+    function Help() {
+        DialogHelp.open();
+    }
+
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                backgroundColor: 'transparent',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+    $('.progress-bar').css('background-color', 'teal');
+</script>

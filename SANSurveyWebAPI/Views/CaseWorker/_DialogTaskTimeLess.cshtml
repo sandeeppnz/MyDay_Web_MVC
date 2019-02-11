@@ -1,0 +1,17 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyTaskTimeCheckViewModel
+@{
+    <div class="remodal" data-remodal-id="DialogTaskTimeLess" id="DialogTaskTimeLess">
+        <button data-remodal-action="close" class="remodal-close"></button>
+
+        <i class='fa fa-flask fa-3x'></i>
+        <br /><br />Your answers are valuable to improve our study.
+        <br /><br />The time allocated has exceeded the remaining time for the survey period.
+
+
+        <br /><br />The maximum time that can be allocated is @Model.remainingTimeHrs hours and @Model.remainingTimeMins minutes, before the end of the survey time period.
+
+
+        <br /><br />
+        <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button">OK</button>
+    </div>
+}

@@ -1,0 +1,76 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.ResumeSurveyMV
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+    ViewBag.Title = "Survey - Additional";
+}
+@using (Html.BeginForm("AddShiftTime", "CaseWorker",
+                            new
+                            {
+                                id = "frmAdditionalShiftTime",
+                                @class = ""
+                            }))
+{
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+    @Html.HiddenFor(model => model.SurveyProgressNext)
+    <div style="padding:20px;">
+        <div class="panel panel-default">
+            <div class="panel-body" style="background-color:#b2d8d8">
+                <center>
+                    <div>
+                        <h1>
+                            <i class="fa fa-question-circle-o fa-2x" aria-hidden="true"></i>
+                        </h1>
+                        <h4>
+                            Is there any other task you did
+                            between
+                            <br />
+                            @Model.SurveySpan
+                            that you would
+                            like to tell us about?
+                        </h4>
+                    </div>
+                    <br />
+                    <button name="button"
+                            value="No"
+                            class="btn btn-success btn-lg"
+                            type="submit">
+                        No, continue to complete
+                    </button>
+                    <br />
+                    <br />
+                    <button name="button"
+                            value="Yes"
+                            class="btn btn-default btn-lg"
+                            type="submit">
+                        Yes, there is another task
+                    </button>
+                </center>
+            </div>
+        </div>
+        @Html.Partial("_FooterSurvey")
+    </div>
+}
+
+<script>
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "Survey3")";
+        }
+        else {
+            //$.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+    $(document).ready(function () {
+        window.history.pushState("Survey", "Survey", "/App/CaseWorker/SID/" + $('#txtuid').val());
+    });
+
+
+
+</script>

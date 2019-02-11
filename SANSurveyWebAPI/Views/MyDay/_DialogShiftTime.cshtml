@@ -1,0 +1,17 @@
+﻿<div class="remodal" 
+     data-remodal-id="_DialogShiftTime" 
+     id="_DialogShiftTime">
+    <button data-remodal-action="close" class="remodal-close"></button>
+
+    <i class='fa fa-flask fa-3x'></i>
+    <br /><br />Thank you for your participation in the MyDay surveys. As you were not working during this period, we will not proceed with today's survey. Please update your roster with your next working day.
+    <br /><br />  
+    <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnOK">Update your roster</button>
+  </div>
+<script>
+    $('#btnOK').on("click", function (e) {
+        e.preventDefault(); 
+        //window.location.href = "@Url.Action("List", "Calendar")";
+        $('#frmShiftTime').submit();
+    });      
+</script>

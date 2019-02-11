@@ -1,0 +1,669 @@
+﻿body {
+    /*padding-top: 20px;*/
+    background-color: #fff;
+}
+
+.panel {
+    margin-bottom: 0px;
+}
+
+.panel-body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.panel-default > .panel-heading {
+    color: #fff;
+    background-color: #008080;
+    border-color: #008080;
+    /*//329999*/
+    border-radius: 0px;
+}
+
+.container {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+
+/*funky radios*/
+
+.funkyradio label {
+    padding-left: 10px;
+    margin-bottom: 0px;
+}
+
+.funkyradio input[type="checkbox"]:empty ~ label:before, .funkyradio input[type="radio"]:empty ~ label:before  {
+    top: 0px;
+    left: 0px;
+}
+
+.funkyradio input[type="checkbox"]:disabled ~ label:before, .funkyradio input[type="radio"]:disabled ~ label:before  {
+    font-family: FontAwesome;
+    content: '\f00c';
+    text-indent: .9em;
+    color: #fff;
+    background-color: #008080;
+}
+
+
+.funkyradio-default input[type="radio"]:disabled ~ label, .funkyradio-default input[type="checkbox"]:disabled ~ label {
+    /*background: #b6ff00;*/
+    text-decoration: line-through;
+    color: #003333;
+    background: #b2d8d8;
+}
+
+.funkyradio-default input[type="radio"]:disabled, .funkyradio-default input[type="checkbox"]:disabled {
+    display: none;
+    font-family: FontAwesome;
+    content: '\f00c';
+}
+
+
+/*------------*/
+
+
+
+/* ------------ Validation -----------------*/
+.has-error {
+    border: 1px solid #a94442;
+}
+
+.remodal-confirm {
+    padding: 10px;
+}
+
+.remodal-cancel {
+    background-color: transparent;
+    color: #000000;
+}
+
+    .remodal-cancel:hover, .remodal-cancel:active {
+        background-color: transparent;
+        color: #000000;
+    }
+
+.invalid_label {
+    color: #a94442;
+}
+
+.invalid {
+    color: #a94442;
+    margin-top: 5px;
+    font-size: 85%;
+}
+/*-------------------------*/
+
+
+
+
+
+/* -----Slideout-------------*/
+.slideout-menu {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 256px;
+    min-height: 100vh;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    z-index: 0;
+    display: none;
+}
+
+.slideout-menu-left {
+    left: 0;
+}
+
+.slideout-menu-right {
+    right: 0;
+}
+
+.slideout-panel {
+    position: relative;
+    z-index: 1;
+    will-change: transform;
+    background-color: #FFF; /* A background-color is required */
+    min-height: 100vh;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+    overflow: hidden;
+}
+
+    .slideout-open .slideout-menu {
+        display: block;
+    }
+/*--------------*/
+
+
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+
+.SurveyTitle {
+    font-weight: bold;
+    color: #b2d8d8;
+}
+
+/*.k-button {
+    background-color:#008080;
+
+}
+.k-primary {
+    background-color:#008080;
+
+}
+
+.k-scheduler-delete{
+    background-color:#008080;
+
+}*/
+
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    /*padding-left: 15px;
+    padding-right: 15px;*/
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    /*max-width: 280px;*/
+    max-width: 350px;
+}
+
+
+.btn-default {
+    border-radius: 0px;
+}
+
+
+
+/*.btn-success {
+    color: #fff;
+    background-color: #003333;
+    border-color: #003333;
+    border-radius: 0px;
+}*/
+
+.btn-success {
+    color: #003333;
+    background-color: white;
+    border:solid;
+    border-color:#008080;
+}
+
+
+
+    /*.btn-success:hover,
+    .btn-success:focus,
+    .btn-success.focus,
+    .btn-success:active,
+    .btn-success.active,
+    .open > .dropdown-toggle.btn-success {
+        color: #fff;
+        background-color: #008080;
+        border-color: #008080;
+    }*/
+
+         .btn-success:hover,
+    .btn-success:focus,
+    .btn-success.focus,
+    .btn-success:active,
+    .btn-success.active,
+    .open > .dropdown-toggle.btn-success {
+        color: #fff;
+        background-color: #003333;
+        border-color: #003333;
+    }
+
+
+    .btn-success.disabled, .btn-success.disabled.active, .btn-success.disabled.focus, .btn-success.disabled:active, .btn-success.disabled:focus, .btn-success.disabled:hover, .btn-success[disabled], .btn-success[disabled].active, .btn-success[disabled].focus, .btn-success[disabled]:active, .btn-success[disabled]:focus, .btn-success[disabled]:hover, fieldset[disabled] .btn-success, fieldset[disabled] .btn-success.active, fieldset[disabled] .btn-success.focus, fieldset[disabled] .btn-success:active, fieldset[disabled] .btn-success:focus, fieldset[disabled] .btn-success:hover {
+        background-color: #808080;
+        border-color: #808080;
+    }
+
+/*.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}*/
+
+
+
+/*----Slick Carasoule----*/
+
+#CarouselContainer {
+    /*margin:20px;*/
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#CarouselInnerContainer {
+    /*margin:20px;*/
+    margin-left: 20px;
+    /*margin-right:20px;*/
+    outline: none;
+}
+
+#slidercarousel {
+    width: 90% !important;
+}
+
+.carasoulePanel:hover {
+    outline: none;
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+    /*background:gray;*/
+}
+
+.slick-slide img {
+    width: 100%;
+}
+
+.slick-next {
+    padding-left: 20px;
+    background-color: transparent;
+}
+
+    .slick-next:before {
+        /*padding-left:20px;*/
+        background-color: transparent;
+    }
+
+
+.slick-prev:before {
+    background-color: transparent;
+}
+
+.slick-pre {
+    background-color: transparent;
+}
+
+/*.slick-slide {
+    margin: 0px 10px;
+}*/
+
+/*.slick-prev:before, .slick-next:before {
+    color: transparent;
+
+}*/
+
+
+/*---------------*/
+
+
+
+/*progress bar*/
+.progress-bar-success {
+    /*background-color: #808080;*/
+    background-color: #008080;
+    border-radius: 0px;
+}
+
+.progress {
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
+
+/*---------------*/
+
+
+
+
+
+
+/*-----Spinner TextBox-------*/
+.CustomSpinnerButtonNeg {
+    font-size: 20px;
+}
+
+.input-lg {
+    text-align: center;
+}
+
+
+.input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn {
+    padding: 10px 12px;
+}
+
+
+.CustomSpinnerLabel {
+    border: thin;
+}
+
+
+/*------------*/
+
+
+
+/*---Rating Slider----*/
+
+.CustomRatingLabel {
+    font-weight: normal;
+    vertical-align: middle;
+    font-size: 16px;
+    vertical-align: bottom;
+    text-align: left;
+}
+
+
+
+.slider {
+    width: 60% !important;
+}
+
+.slider-tick.round {
+    background-color: #b2d8d8;
+}
+
+.slider-tick {
+    background-color: #b2d8d8;
+    opacity: 1;
+}
+
+div.slider-track-high {
+    background-color: #b2d8d8;
+}
+
+.slider-track-low, .slider-track-high {
+    background-color: #b2d8d8;
+}
+
+.slider-selection.tick-slider-selection {
+    background-color: #b2d8d8;
+}
+
+#CustomeSliderRound .slider-handle.custom::before {
+    line-height: 20px;
+    font-size: 20px;
+    content: ''; /*unicode star character  \26AB*/
+    color: #595959;
+}
+
+#CustomeSliderRound .slider-selection {
+    background-color: #b2d8d8;
+}
+
+#CustomeSliderRound .slider-track-high {
+    background-color: #fff;
+}
+
+#CustomeSliderRound .slider-track-low {
+    background-color: #b2d8d8;
+}
+
+.slider-handle {
+    background-color: #595959;
+}
+
+    .slider-handle.custom {
+        background: transparent none;
+        /* You can customize the handle and set a background image */
+    }
+
+        .slider-handle.custom::before {
+            line-height: 20px;
+            font-size: 20px;
+            content: ''; /*unicode star character  \26AB*/
+            color: #595959;
+        }
+
+
+.tooltip-inner {
+    font-size: 16px;
+    margin-top: 5px;
+    background-color: #595959;
+}
+
+.tooltip-arrow {
+    background-color: transparent;
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #595959;
+}
+
+.tooltip-main {
+    z-index: 1;
+}
+/*-----------*/
+
+
+/*---- Well input Tables ----*/
+.CustomeWellGray {
+    background-image: -webkit-linear-gradient(top, #e8e8e8 0%, #f5f5f5 100%);
+    background-image: -o-linear-gradient(top, #e8e8e8 0%, #f5f5f5 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e8e8e8), to(#f5f5f5));
+    background-image: linear-gradient(to bottom, #e8e8e8 0%, #f5f5f5 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe8e8e8', endColorstr='#fff5f5f5', GradientType=0);
+    background-repeat: repeat-x;
+    border-color: #dcdcdc;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    padding-top: 15px;
+    padding-bottom: 25px;
+    box-shadow: none;
+}
+
+.CustomeWellWhite {
+    background-image: -webkit-linear-gradient(top, #fff 0%, #fff 100%);
+    background-image: -o-linear-gradient(top, #fff 0%, #fff 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+    background-image: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#fff', GradientType=0);
+    background-repeat: repeat-x;
+    border-color: #fff;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    padding-top: 0px;
+    padding-bottom: 0px;
+    box-shadow: none;
+}
+
+/*--------*/
+
+
+
+
+/*---------Roster/Calendar-----------*/
+.k-nonwork-hour {
+    background-color: #f2f2f2;
+}
+
+/*.k-state-hover a,
+      a:hover {
+        color: #000000;
+      }*/
+
+.k-state-hover .k-link {
+    /*color: #000000;*/
+    /*background-color: #f2f2f2;
+    border: thick;*/
+}
+
+
+/*.k-nav-prev .k-state-hover > .k-link  {
+    color: #000000;
+    background-color:#003333;
+}*/
+
+
+
+/*.k-scheduler-table td, .k-scheduler-table th
+        {
+          height: 5.5em;
+        }*/
+
+/*.k-scheduler-monthview .k-scheduler-table td
+        {
+          height: 15.5em;
+        }*/
+/*k-slot-cell {
+    color:#000000;
+    content: "\25AE";
+    font-family: FontAwesome;*/
+/*left:10px;
+    position:absolute;
+    top:0;*/
+/*}*/
+
+
+
+#scheduler {
+    z-index: 1;
+}
+
+k-state-default k-nav-current {
+}
+
+div.k-loading-mask {
+    z-index: 3; /* must be larger than the z-index:2 of #container */
+}
+
+/*.k-link:link, .k-nav-current.k-state-hover .k-link, k-link k-event-delete {
+}*/
+
+
+
+/*.k-nav-current > .k-link span + span {
+    max-width: 200px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: top;
+}*/
+
+
+/*.k-scheduler-header-wrap div.k-event,
+.k-scheduler-content div.k-event {
+    background-color: #008080;
+    border-width: 0px;
+    color: #ffffff;
+}*/
+
+
+
+
+/*-----------*/
+
+
+
+
+
+
+/* --- Repsonsive --- */
+@media screen and (max-width: 768px) {
+
+    h5 {
+        font-size: 11px;
+    }
+
+
+    h4 {
+        font-size: 12px;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    #QuestionSummary {
+        font-size: 11px;
+    }
+
+
+    div.slider {
+        width: 80% !important;
+    }
+
+
+    .km-pane-wrapper .k-edit-field > :not([type=checkbox]):not([type=radio]):not(.k-button), .km-pane-wrapper .k-mobile-list .k-widget, .km-pane-wrapper .k-mobile-list select:not([multiple]), .km-pane-wrapper .k-mobile-list textarea, .km-pane-wrapper :not(.k-state-default):not(.k-pager-input) > input:not([type=checkbox]):not([type=radio]) {
+        width: 70%;
+    }
+
+    .input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn {
+        font-size: 12px;
+    }
+
+
+    /*.panel {
+        margin-bottom: 0px;
+    }
+
+    .panel-body {
+        padding-left: 0px;
+        padding-right: 0px;
+    }*/
+
+    .container {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+
+    /*.k-link:link, .k-nav-current.k-state-hover .k-link, k-link k-event-delete {
+        background-color: transparent;
+    }*/
+}
+
+
+@media screen and (max-width: 414px) {
+
+    .input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn {
+        font-size: 18px;
+    }
+}
+
+/* ---------- */
+
+
+
+
+

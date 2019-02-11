@@ -1,0 +1,65 @@
+﻿@model IEnumerable<SANSurveyWebAPI.DTOs.PageStatDto>
+
+    @{
+        ViewBag.Title = "Details";
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    }
+
+    <h2>Activity Log</h2>
+
+    <table class="table">
+        <tr>
+
+            <th>
+                Page Name
+            </th>
+
+            <th>
+                Page Type
+            </th>
+
+            <th>
+                Profile Id
+            </th>
+            <th>
+                PageDateTimeUtc
+            </th>
+            <th>
+                Remark
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PageType)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfileId)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PageDateTimeUtc)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(model => item.Remark)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>

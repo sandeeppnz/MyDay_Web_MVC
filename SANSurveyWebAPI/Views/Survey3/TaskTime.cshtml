@@ -1,0 +1,350 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyTaskTime1ViewModel
+
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+    ViewBag.Title = "Survey: Set Task Time";
+
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+
+}
+
+
+
+@using (Ajax.BeginForm("TaskTime", "Survey3",
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  Url = @Url.Action("TaskTime", "Survey3"),
+                  OnSuccess = "OnSuccess",
+                  OnFailure = "OnFailure"
+              }, new { id = "frmTaskTime1", @class = "nav-right" }
+     )
+    )
+
+{
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+
+    @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+    @Html.HiddenFor(model => model.TaskId)
+    @Html.HiddenFor(model => model.TaskName)
+
+
+    <div class="panel panel-default" id="Tasks">
+
+        <div class="panel-heading">
+
+
+            <h3>
+                @Model.PageQuestion
+                <span class="SurveyTitle"> @Model.TaskName</span>
+                starting at @TaskStartTime?
+            </h3>
+        </div>
+        @*<div class="progress progress-striped active">
+            <div class="progress-bar progress-bar-success CustomProgressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:@(( (decimal) ( (int) Session["SurveyDuration"] - (int) @Session["RemainingDuration"]) / (int) Session["SurveyDuration"] ) * 100 )%">
+                @((int) Session["SurveyDuration"] - (int) @Session["RemainingDuration"]) min of tasks covered (@Session["RemainingDuration"] min remaining for end time of shift)
+                <span class="sr-only">@Session["CurrProgressValue"] Complete (success)</span>
+            </div>
+        </div>*@
+
+
+        <div class="panel-body">
+
+            <div style="text-align:left">
+
+                <i>
+                    Please enter the amount of time in hours and/or minutes
+
+                </i>
+            </div>
+
+            <br />
+
+            <br />
+            <br />
+            <div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="row">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="row">
+                        <div class="input-group input-group-lg">
+                            <input id="spin_Hrs" type="text" value=@Model.TimeHours name="TimeHours" class="form-control input-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-1">
+                    <div class="row">
+
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="row">
+                        <div class="input-group input-group-lg">
+
+                            <input id="spin_Min" type="text" value=@Model.TimeMinutes name="TimeMinutes" class="form-control input-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="row">
+                    </div>
+                </div>
+
+            
+            </div>
+            <script>
+                $("input[id='spin_Hrs']").TouchSpin({
+                    postfix: "Hours&nbsp;&nbsp;&nbsp;",
+                    postfix_extraclass: "CustomSpinnerLabel",
+                    buttondown_class: "btn CustomSpinnerButtonPlus",
+                    buttonup_class: "btn CustomSpinnerButtonNeg",
+                    //postfix_extraclass: "btn btn-default"
+
+                    min: 0,
+                    max: 4,
+                    step: 1,
+                });
+                $("input[id='spin_Min']").TouchSpin({
+                    postfix: "Minutes",
+                    min: 0,
+                    max: 59,
+                    step: 1,
+
+                    postfix_extraclass: "CustomSpinnerLabel",
+                    buttondown_class: "btn CustomSpinnerButtonPlus",
+                    buttonup_class: "btn CustomSpinnerButtonNeg"
+                    //postfix_extraclass: "btn btn-default"
+                });
+            </script>
+
+            <br />
+            <br />
+            <br />
+
+            
+        </div>
+
+        @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>*@
+    
+        <center>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+
+    </div>
+    @Html.Partial("_DialogTaskTime")
+    @Html.Partial("_DialogTaskTimeEmpty")
+    @Html.Partial("_FooterSurvey")
+    @Html.HiddenFor(m => m.remainingTimeHours, new { id = "rHrs" });
+    @Html.HiddenFor(m => m.remainingTimeMinutes, new { id = "rMins" });
+    @Html.Partial("_DialogTaskTimeLess", new SANSurveyWebAPI.ViewModels.Web.SurveyTaskTimeCheckViewModel() { remainingTimeHrs = @Model.remainingTimeHours, remainingTimeMins = @Model.remainingTimeMinutes })
+}
+
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    .glyphicon-remove:before {
+        content: '';
+    }
+
+    .glyphicon-ok:before {
+        content: '';
+    }
+</style>
+
+
+
+
+
+
+<script>
+    $(document).on('cancellation', '#DialogTaskTime', function () {
+        //$('#frmTaskTime1').submit();
+        //inst.destroy();
+    });
+    $(document).on('confirmation', '#DialogTaskTime', function () {
+        //$('#frmTaskTime1').submit();
+        //inst.destroy();
+    });
+
+
+    $(document).on('cancellation', '#DialogTaskTimeEmpty', function () {
+        //$('#frmTaskTime1').submit();
+        //instEmpty.destroy();
+    });
+
+    $(document).on('confirmation', '#DialogTaskTimeEmpty', function () {
+        //$('#frmTaskTime1').submit();
+        //instEmpty.destroy();
+    });
+
+
+
+    $(document).on('cancellation', '#DialogTaskTimeLess', function () {
+        //instLess.destroy();
+    });
+
+    $(document).on('confirmation', '#DialogTaskTimeLess', function () {
+        //instLess.destroy();
+    });
+
+    function IsValid() {
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+
+        if (hrs == 4 && min > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    function IsEmpty() {
+
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+
+        if (hrs == 0 && min == 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    function IsMore() {
+
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+        var total = parseInt((parseInt(hrs) * 60)) + parseInt(min);
+        var totalInt = parseInt(total);
+
+
+        var rHrs = $("#rHrs").val();
+        var rMins = $("#rMins").val();
+        var totalR = parseInt((parseInt(rHrs) * 60)) + parseInt(rMins);
+        var totalRInt = parseInt(totalR);
+
+        if (totalInt > totalRInt) {
+            return true;
+        }
+        return false;
+    }
+
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "Survey3")";
+        }
+        else {
+            $.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+
+
+
+    $(document).ready(function () {
+
+        //window.history.pushState("Survey", "Survey", "/App/Survey3/SID/" + $('#txtuid').val());
+
+        var inst = $("#DialogTaskTime").remodal();
+        var instEmpty = $("#DialogTaskTimeEmpty").remodal();
+        var instLess = $("#DialogTaskTimeLess").remodal();
+
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+
+
+            //e.preventDefault();
+
+
+            if (IsEmpty()) {
+                e.preventDefault();
+                instEmpty.open();
+            }
+            else if (IsMore()) {
+                e.preventDefault();
+                instLess.open();
+            }
+            else if (!IsValid()) {
+                e.preventDefault();
+                inst.open();
+            }
+            else {
+                inst.destroy();
+                instEmpty.destroy();
+                instLess.destroy();
+                $('#frmTaskTime1').submit();
+            }
+        });
+
+        $('#frmTaskTime1')
+         .formValidation({
+             framework: 'bootstrap',
+             excluded: ':disabled',
+             icon: {
+                 valid: 'glyphicon glyphicon-ok',
+                 invalid: 'glyphicon glyphicon-remove',
+                 validating: 'glyphicon glyphicon-refresh'
+             },
+             fields: {
+                 TimeHours: {
+                     validators: {
+                         between: {
+                             min: 0,
+                             max: 4,
+                             message: 'The hours must be between 0 and 4'
+                         }
+                     }
+                 },
+                 TimeMinutes: {
+                     validators: {
+                         between: {
+                             min: 0,
+                             max: 59,
+                             message: 'The minutes must be between 0 and 59'
+                         },
+                     }
+                 }
+
+             }
+         })
+         .find('[id="spin_Hrs"]')
+             .TouchSpin({
+                 min: 0,
+                 max: 4,
+                 decimals: 0
+             })
+             .on('change touchspin.on.min touchspin.on.max', function () {
+                 // Revaliate the field
+                 $('#frmTaskTime1').formValidation('revalidateField', 'TimeHours');
+             })
+             .find('[id="spin_Min"]')
+             .TouchSpin({
+                 min: 0,
+                 max: 59,
+                 decimals: 0
+             })
+             .on('change touchspin.on.min touchspin.on.max', function () {
+                 // Revaliate the field
+                 $('#frmTaskTime1').formValidation('revalidateField', 'TimeMinutes');
+             })
+             .end();
+    });
+
+</script>

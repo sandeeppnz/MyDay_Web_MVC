@@ -1,0 +1,6 @@
+﻿@model DoSurveyApp.Models.RadioButtonListItem
+
+@Html.HiddenFor(x => x.Display)
+@Html.Kendo().RadioButtonFor(x => x.IsSelected)
+@Html.LabelFor(x => x.IsSelected, Model.Display)
+<br /> 

@@ -1,0 +1,167 @@
+﻿
+@using Microsoft.AspNet.Identity
+@model SANSurveyWebAPI.ViewModels.Web.ViewModelBase
+
+
+@{
+    //int surveyDuration = (int) Session["SurveyDuration"];
+    int progressValueValue = (int) Session["ProgressValueValue"];
+    bool showProgressBar = progressValueValue < 5 ? false : true;
+
+    Session["LoginEmailAddress"] = User.Identity.GetUserName();
+
+    //int remainingDuration = (int) Session["RemainingDuration"];
+    //decimal calc = (surveyDuration - remainingDuration) / remainingDuration;
+    //decimal percentage = calc * 100;
+    //int surveyDuration = (int) Session["SurveyDuration"];
+}
+
+
+@{
+    try
+    {
+        <div id="DesktopLayout" class="hidden">
+
+            <h3>
+                <span class="label label-default">Survey Period: @Model.SurveySpan </span>
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> @Model.ShiftSpan
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Help & Feedback</a>
+                        @*<img src="~/Images/help_org.png" style="width:72px;" />*@
+                        </span>
+                <br />
+
+                @if (showProgressBar)
+                {
+                    <span class="pull-left" style="width:540px">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                 aria-valuemin="0" aria-valuemax="100" style="width:@progressValueValue%">
+                                @progressValueValue%
+                            </div>
+                        </div>
+                    </span>
+                    <br />
+                }
+                else
+                {
+                    <span class="pull-left" style="width:540px">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                 aria-valuemin="0" aria-valuemax="100" style="width:@progressValueValue%">
+                                
+                            </div>
+                        </div>
+                    </span>
+                    <br />
+                }
+
+            </h3>
+
+
+        </div>
+        <div id="MobileLayout" class="hidden" style="padding-left:5px;">
+            <h3>
+                <span title="Your shift period" class="" style="font-size:small;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> @Model.ShiftSpan
+                </span>
+            
+                <br />
+                <span title="Your username" class="" style="font-size:small;">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Feedback&nbsp;</a>
+                    @*<img src="~/Images/help_org.png" style="width:72px;" />*@
+                </span>
+                <br />
+                <br />
+                <span class="label label-default" style="font-size:smaller;">Survey Period: @Model.SurveySpan </span>
+              
+                @if (showProgressBar)
+                {
+                    <span class="pull-left" style="width:280px">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                 aria-valuemin="0" aria-valuemax="100" style="width:@progressValueValue%">
+                                @progressValueValue%
+
+                            </div>
+                        </div>
+                    </span>
+                    <br />
+                    <br />
+
+                }
+                else
+                {
+                    <span class="pull-left" style="width:280px">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                 aria-valuemin="0" aria-valuemax="100" style="width:@progressValueValue%">
+                                @progressValueValue%
+
+                            </div>
+                        </div>
+                    </span>
+                    <br />
+                    <br />
+                }
+               
+
+            
+            
+            </h3>
+
+        </div>
+        @Html.Partial("_DialogHelp")
+        @Html.Partial("_DialogHelpComplete")
+
+    }
+    catch (Exception)
+    {
+
+    }
+}
+
+<script>
+
+    var DialogHelp = $("#DialogHelp").remodal();
+    var DialogHelpComplete = $("#DialogHelpComplete").remodal();
+
+
+    //$("#linkHelp")[0].click();
+
+    function Help() {
+        //alert('Link Clicked');
+        DialogHelp.open();
+    }
+
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+</script>

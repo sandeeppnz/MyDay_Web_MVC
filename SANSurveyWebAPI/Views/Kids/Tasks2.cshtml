@@ -1,0 +1,129 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsTasksLocationVM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutKids.cshtml";  }
+    ViewBag.Title = "Kids Survey: Tasks";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("Tasks2", "Kids", FormMethod.Post,
+                new { name = "frmTasks2", id = "frmTasks2", @class = "nav-right" }))
+{   
+    @Html.HiddenFor(m => m.QLocationId)
+    @Html.HiddenFor(m => m.QLocation)
+    @Html.HiddenFor(m => m.QOtherLocation)
+    @Html.HiddenFor(m => m.SpentStartTime)
+    @Html.HiddenFor(m => m.SpentEndTime)
+
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                @Model.PageQ1 
+                @if (@Model.QLocation == "Other")
+                {<span class="SurveyTitle">@Model.QOtherLocation</span>}
+                else
+                {<span class="SurveyTitle">  @Model.QLocation </span>}
+                @Model.QBetween
+                <span class="SurveyTitle"> @Model.SpentStartTime </span>
+                 @Model.QAnd <span class="SurveyTitle"> @Model.SpentEndTime </span>
+                @Model.PageQ2
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div style="text-align:left"><i>@Model.QuestionHint</i></div> <br /><br />
+            <div class="col-md-12 col-sm-12 col-xs-12 padding-0 ">
+                <div class="col-md-12 col-sm-12 col-xs-12" id="divTasks">                    
+                    @foreach (var yt in Model.TaskOptionList)
+                    {
+                        <input type="checkbox"
+                               name="chkYesNo" value="@yt.Value" id="@yt.Value" />
+                                        <label class="chkLabel" for="@yt.Value">@yt.Value<span class="spanCls">&nbsp;&nbsp;</span></label><br />
+                    }
+                    @Html.HiddenFor(model => model.SelectedTasks, new { @id = "hiddselectedTasks" })
+                </div>
+                <div id="divOtherTasks" class="Cont" style="width:300px;">
+                    @Html.TextBoxFor(model => model.OtherTasks, new { @id = "txtOtherTasks", @class = "form-control",
+                                                                            @placeholder = "Please specify if selected Other",
+                                                                            @style = "width:300px;display:none;" })
+                </div>
+        </div>
+        <center>
+            <div>
+                <small id="SelectedTasks_Incomplete" class="invalid" style="text-align:left">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>  
+                    &nbsp; @Model.ErrorMessage              
+                </small>
+            </div>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>  </div>  
+    @Html.Partial("_FooterSurvey")
+}
+<script src="~/Scripts/StopBack/StopBackBrowserButton.js"></script>
+<script>    
+    //to toggle the other textbox
+    $(document).ready(function () {
+        $('#Other').click(function () {
+            //var name = $(this).attr('id');           
+            $('.Cont').find('[name="OtherTasks"]').toggle();
+        });
+    });
+
+    //Important to add values of checkboxes
+    function updateTextArea() {
+        var allTasks = [];
+
+        $('#divTasks :checked').each(function () {
+            allTasks.push($(this).val());
+        });
+        $('#hiddselectedTasks').val(allTasks);
+        //alert($('#hiddselectedLocation').val());
+    }
+    $(function () {
+        $('#divTasks input').click(updateTextArea);
+        updateTextArea();
+    });
+    //end of checkbox values
+    function CustomValidation() {
+        var allFilled = true;
+        var data = $('#hiddselectedTasks').val()
+        //var arr = data.split(',');        
+
+        if ($(':checkbox[name=chkYesNo]:checked').length >= 1) {
+            if ($(':checkbox[name=chkYesNo]:checked').val() == "Other" && $('#txtOtherTasks').val() == "") {
+                $('#SelectedTasks_Incomplete').show(); allFilled = false;
+            }
+            else if (~data.indexOf("Other")) {
+                if ($('#txtOtherTasks').val() == "")
+                { $('#SelectedTasks_Incomplete').show(); allFilled = false; }
+            }
+            else {
+                $('#SelectedTasks_Incomplete').hide();
+            }
+        }
+        else { $('#SelectedTasks_Incomplete').show(); allFilled = false; }
+
+        return allFilled;
+    }
+    $('#btnNext').on("click", function (e) {
+        e.preventDefault();
+        if (CustomValidation()) {
+            $('#frmTasks2').submit();
+        }
+    });
+</script>
+<style>
+    input[type=checkbox] {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FF */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+        padding: 15px;
+    }
+    .spanCls {
+    margin:10px;
+    }
+</style>

@@ -1,0 +1,67 @@
+﻿@model SANSurveyWebAPI.Models.MasterData
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>MasterData</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecurrentSurveyTimeSlot, "Total time for task performance in hours", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.RecurrentSurveyTimeSlot, new { @id = "txtTimeSlot", type="number", @min="2", @max="4", @class = "form-control",@placeholder = "Enter time in minutes" })               
+            </div>
+            
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecurrentSurveyTaskSelectionLimit, "Limit on total task selection", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBoxFor(model => model.RecurrentSurveyTaskSelectionLimit, new { @id = "txtTaskLimit", type = "number", @min = "3", @max = "5", @class = "form-control", @placeholder = "Enter task selection limit " })               
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoOfSurveyPerParticipant, "Number of surveys per participant", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBoxFor(model => model.NoOfSurveyPerParticipant, new { @id = "txtNoOfSurveys", type = "number", @min = "1", @max = "3", @class = "form-control", @placeholder = "Enter no. of surveys per participant" })               
+            </div>
+        </div>
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.TaskTypes, "Types of task list", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBoxFor(model => model.TaskTypes, new { @id = "txtTaskTypes", @class = "form-control", @placeholder = "" })               
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SurveyForUsers, "Different users of survey", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBoxFor(model => model.SurveyForUsers, new { @id = "txtSurveyUsers", @class = "form-control", @placeholder = "" })               
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SurveyTypes, "Different types of survey", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @Html.TextBoxFor(model => model.SurveyTypes, new { @id = "txtSurveyTypes", @class = "form-control", @placeholder = "" })               
+            </div>
+        </div>*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

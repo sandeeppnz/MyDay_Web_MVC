@@ -1,0 +1,94 @@
+﻿@model SANSurveyWebAPI.Models.ExitSurveyEmail
+
+Content-Type: text/plain; charset=utf-8
+
+<html>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+    <table class="table-responsive" style="padding:10px;
+        background-color:#d5f2f2">
+        <tr>
+            <td style="background-color:rgb(47, 159, 173)">
+                @Html.EmbedImage("~/images/Email/header.png")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin:0px;
+                background-color:white;padding-left:15px;
+                padding-right:10px;padding-top:10px;padding-bottom:10px;">
+                    <p>
+                        User ID: @Model.RecipientName
+                    </p>
+                    <h3 style="color:rgb(0, 0, 0)">
+                        Hi there,
+                    </h3>
+
+                    <p style="color:#008080;font-size:18px;">
+                        Thank you for your recent participation in the MyDay surveys. To support our study, we would like to ask you to complete one last survey about yourself, your place of work and your supervision. We estimate that this survey will take about 10-15 minutes to complete.
+                    </p>
+                    <p style="color:#008080;font-size:18px;">
+                        On completion of this survey, we will send you a <b>£10 Amazon voucher.</b>
+                    </p>
+                    <center>
+                        <a href=@Model.Link style="background:azure;
+                            padding-bottom:20px;padding-top:20px;
+                            padding-left:40px; padding-right:40px;
+                            text-align:center; text-decoration: none;
+                            display: inline-block;font-size: 16px;
+                            border: solid;border-color:#008080;border-radius:5px;
+                            color:#008080;"
+                           class="button"><b>Click to begin</b></a>
+                    </center>
+                    <p style="color:#008080;font-size:18px;">
+                        Your response is anonymous and your data is processed in accordance with the Data Protection Act and Health Education England Privacy policy.
+                    </p>
+                    <p style="color:#008080;font-size:18px">
+                        If you need assistance, please contact our help desk
+                        <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>.
+                    </p>
+                    <p style="color:#008080;font-size:18px;">
+                        Thank you for your contribution to this research!
+                    </p>
+                    <p>
+                        <b style="color:black">
+                            Professor Rhema Vaithianathan
+                        </b>
+                        <br />
+                        Co-Director, Centre for Social Data Analytics
+                        <br />
+                        Auckland University of Technology, New Zealand
+
+                        <br />
+                        <br />
+
+                        <b style="color:black">
+                            Dr Peter Hockey
+                        </b>
+                        <br />
+                        Postgraduate Dean
+                        <br />
+                        Health Education England, Wessex
+                        <br />
+                        <br />
+
+                        <b style="color:black">
+                            Dr Amanda Goodall
+                        </b>
+                        <br />
+                        Senior Lecturer, Faculty of Management
+                        <br />
+                        Cass Business School, London
+                    </p>
+
+                    <p>
+                        IRB: 30632
+                    </p>
+                </div>
+                <div style="background-color:white;text-align:right">
+                    @Html.EmbedImage("~/images/Email/footer.png")
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

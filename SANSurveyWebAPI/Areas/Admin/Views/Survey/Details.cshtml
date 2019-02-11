@@ -1,0 +1,85 @@
+﻿@model SANSurveyWebAPI.Models.Survey
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<h2>Details</h2>
+<div>
+    <h4>Survey</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Uid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uid)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.ProfileId)*@
+            @Html.DisplayName("Profile")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProfileId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RosterItemId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RosterItemId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDateTimeUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDateTimeUtc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyUserStartDateTimeUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyUserStartDateTimeUtc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyUserCompletedDateTimeUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyUserCompletedDateTimeUtc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyExpiryDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyExpiryDateTime)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

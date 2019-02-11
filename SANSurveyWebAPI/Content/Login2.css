@@ -1,0 +1,245 @@
+﻿.loginBody {
+    background-color: #003333;
+  
+}
+
+.loginBodyV2 {
+    background-color: azure;
+}
+
+
+
+
+
+/* Change the white to any color ;) */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    -webkit-text-fill-color: #003333 !important;
+}
+
+
+.form-control {
+    border-radius: 5px;
+    /*margin: 12px 3px;
+    height: 40px;*/
+}
+
+.input-group, .form-control,.input-group-addon {
+
+    /*border-radius:0px;*/
+}
+
+
+.logo {
+    margin: auto;
+    text-align: center;
+    /*padding-top: 10%;*/
+}
+
+.logoImage {
+    /*padding-top: 10%;*/
+    /*height: 120px;*/
+}
+
+.loginbox {
+    margin-top: 20%;
+    /*margin-right: 1%;*/
+    /*border-top: 6px solid #008080;*/
+    background-color: #fff;
+    padding:20px;
+
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    /*border:solid;*/
+    /*border-width:1px;*/
+    /*border-color:#006666;*/
+    /*box-shadow: 0 10px 10px -2px rgba(0,0,0,0.12),0 -2px 10px -2px rgba(0,0,0,0.12);*/
+}
+
+.loginboxV2 {
+    margin-top: 20%;
+    /*margin-right: 1%;*/
+    /*border-top: 6px solid #008080;*/
+    background-color: #fff;
+    padding:20px;
+
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+    border-radius: 5px;
+    border-style:solid;
+    border-color:#008080;
+
+    /*border:solid;*/
+    /*border-width:1px;*/
+    /*border-color:#006666;*/
+    /*box-shadow: 0 10px 10px -2px rgba(0,0,0,0.12),0 -2px 10px -2px rgba(0,0,0,0.12);*/
+}
+
+
+
+
+
+.consentbox {
+    margin-top: 5%;
+    /*border-top: 6px solid #008080;*/
+    background-color: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    /*border:solid;*/
+    /*border-width:1px;*/
+    /*border-color:#006666;*/
+    /*box-shadow: 0 10px 10px -2px rgba(0,0,0,0.12),0 -2px 10px -2px rgba(0,0,0,0.12);*/
+}
+
+
+.ForgetPasswordBox {
+    margin-top: 20%;
+
+    /*border-top: 6px solid #008080;*/
+    background-color: #fff;
+    padding: 20px;
+}
+
+.ForgetPasswordBoxConsent {
+    /*margin-top: 20%;*/
+    /*border-top: 6px solid #008080;*/
+    background-color: #fff;
+    text-align:center;
+    padding-top: 10px;
+     padding-left: 20px;
+    padding-right: 20px;
+}
+
+.singtext {
+    font-size: 28px;
+    color: #003333;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+
+
+
+/*footer*/
+.footer a {
+    color: #808080;
+    text-decoration: none;
+}
+
+.footer {
+    color: #808080;
+    text-align: center;
+}
+/*footer end*/
+
+
+/*for logintemplate blue*/
+.grayBody {
+    background-color: #E9E9E9;
+}
+
+.grayResetBox {
+    background-color: #E9E9E9;
+    border-radius: 10px;
+}
+
+
+/*.submitButton {
+    background-color: #003333;
+    border-radius: 5px;
+    color: #fff;
+    margin-top: 12px;
+    margin-bottom: 10px;
+    padding: 10px 0px;
+    width: 100%;
+    margin-left: 2px;
+    font-size: 16px;
+    outline: none;
+}*/
+
+    .submitButton:hover, .submitButton:focus {
+        /*color: #006666;*/
+        color: #fff;
+        background-color: #008080;
+        outline: none;
+    }
+
+.forGotPassword {
+    background-color: #F2F2F2;
+    padding: 15px 0px;
+    /*margin-right: 1%;*/
+
+    text-align: center;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.btn-success {
+    color: #003333;
+    background-color: white;
+    border:solid;
+    border-color:#008080;
+}
+    .btn-success:hover,
+    .btn-success:focus,
+    .btn-success.focus,
+    .btn-success:active,
+    .btn-success.active,
+    .open > .dropdown-toggle.btn-success {
+        color: #fff;
+        background-color: #003333;
+        border-color: #003333;
+    }
+
+
+.btn-success2 {
+    color: #fff;
+    background-color: #003333;
+    border-color: #003333;
+    border-radius:0px;
+
+}
+
+    .btn-success2:hover,
+    .btn-success2:focus,
+    .btn-success2.focus,
+    .btn-success2:active,
+    .btn-success2.active,
+    .open2 > .dropdown-toggle2.btn-success2 {
+        color: #fff;
+        background-color: #008080;
+        border-color: #008080;
+    }
+
+
+.btn-success.disabled, .btn-success.disabled.active, .btn-success.disabled.focus, .btn-success.disabled:active, .btn-success.disabled:focus, .btn-success.disabled:hover, .btn-success[disabled], .btn-success[disabled].active, .btn-success[disabled].focus, .btn-success[disabled]:active, .btn-success[disabled]:focus, .btn-success[disabled]:hover, fieldset[disabled] .btn-success, fieldset[disabled] .btn-success.active, fieldset[disabled] .btn-success.focus, fieldset[disabled] .btn-success:active, fieldset[disabled] .btn-success:focus, fieldset[disabled] .btn-success:hover {
+    background-color: #808080;
+    border-color: #808080;
+}
+
+
+
+.TextAlignCenter {
+    text-align: center;
+}
+
+.forGotPassword:hover {
+    /*box-shadow: 0 10px 10px -2px rgba(0,0,0,0.12);*/
+}
+
+.forGotPassword a {
+    color: #000;
+    outline: none;
+}
+
+    .forGotPassword a:hover, .forGotPassword a:active, .forGotPassword a:focus {
+        text-decoration: none;
+        outline: none;
+    }
+

@@ -1,0 +1,196 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.Page1_ExitSurveyVM
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "MyDay Exit Survey – Subjective Well-being";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("Page1", "ExitSurvey", FormMethod.Post, new { name = "frmExitSurveyPage1", id = "frmExitSurveyPage1" }))
+{
+    <div class="container">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStepExitSurvey)
+
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+       {
+           CurrStep = 1,
+           MaxStep = Model.MaxStepExitSurvey
+       })
+
+            <div class="panel panel-default" id="ExitSurveyPage1">
+                <div class="panel-heading">
+                    <h4>Welcome to the MyDay Exit Survey. To begin, we have some general questions about your life</h4>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <i>
+                            For each statement, please indicate your degree of agreement.
+                        </i>
+                    </div>                   
+
+                    <div class="form-group">
+                        <div id="tables">
+
+                            <table id="PatientTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Very<br /> Dissatisfied</th>
+                                        <th>Dissatisfied</th>
+                                        <th>Neutral</th>
+                                        <th>Satisfied</th>
+                                        <th>Very<br />  Satisfied</th>              
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int i = 0;
+                                        foreach (var r in Model.QnsList)
+                                        {
+                                            <tr id=@string.Concat(r.ID)>
+                                                @*<td>@Html.Label(r.ID.ToString())</td>*@
+
+                                                @Html.HiddenFor(model => model.QnsList[i].ID)
+                                                @Html.HiddenFor(model => model.QnsList[i].Name)
+
+                                                <td>
+                                                    @Html.Label(r.Name)
+
+                                                    @{
+                                                        if (Model.QnsList[i].LongName != null)
+                                                        {
+                                                            <span class="tooltipTask" title="@Model.QnsList[i].LongName"><sup>[?]</sup></span>
+                                                        }
+
+                                                    }
+
+                                                </td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Very Dissatisfied", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Dissatisfied", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Neutral", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Satisfied", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Very Satisfied", new { @id = "Radio_" + r.ID })</td>                                               
+                                            </tr>
+                                                            i++;
+                                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogTask")
+                                                        @Html.Partial("_DialogTaskSelection")
+                                                        }
+
+<style>
+    #Q0Panel {
+        pointer-events: none;
+    }
+</style>
+
+<script>
+    //Validation of all radio box present in Patient table added on 22nd Nov 2017 ---- by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        var tb = document.getElementById('PatientTable');
+        var trs = tb.getElementsByTagName('tr');
+
+        for (var i = 1 ; i < trs.length - 1; i++) {
+            var allRadiochecked = $("input:radio[id=Radio_" + i + "]").is(':checked');
+            if (allRadiochecked != true) { $('#TaskType_Incomplete').show(); allFilled = false; break; }
+            else { $('#TaskType_Incomplete').hide(); }
+        }
+        return allFilled;
+    }
+    //End of validation of all radio box check
+
+    var inst = $("#_DialogTask").remodal();
+    var instTasks = $("#_DialogTaskSelection").remodal();
+
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmExitSurveyPage1').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {
+        AddCustomValidation();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmExitSurveyPage1').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+    function RemoveCustomValidation() {
+        $('#TaskType_Incomplete').hide();
+    }
+
+    $(document).ready(function () {
+        RemoveCustomValidation();
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            touchstart: function (e) {},
+            hold: function (e) { $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open'); }
+        });
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+           
+            if (AddCustomValidation()) {
+                LoaderLocal();
+                $('#frmExitSurveyPage1').submit();
+            }
+            else {
+                inst.open();
+            }
+            //End of validation of radiobuttons
+
+        });      
+
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });
+
+
+
+    $("input[id^='Radio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id^='TaskTypeRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+</script>
+
+
+

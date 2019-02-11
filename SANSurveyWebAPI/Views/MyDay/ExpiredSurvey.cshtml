@@ -1,0 +1,71 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SidMV
+
+@{
+
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+
+    ViewBag.Title = "Expired Survey";
+}
+
+@using (Html.BeginForm("ExpiredSurvey", "MyDay", FormMethod.Post, new { name = "frmExpiredSurvey", id = "frmExpiredSurvey", @class = "" }))
+{
+
+
+
+    @Html.HiddenFor(model => model.Uid, new { @id="txtuid" })
+
+
+    <div style="padding:20px;">
+        <div class="panel panel-default">
+           
+            <div class="panel-body">
+
+                <center>
+                    <div>
+                        <h1>
+                            <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
+                        </h1>
+                        <h3>
+                            Sorry, this survey has expired.
+                        </h3>
+                        <h4>
+                            Please contact us if you wish to respond to this survey.
+                        </h4>
+
+                    </div>
+
+
+                </center>
+            </div>
+            <button class="btn btn-success btn-block btn-lg" id="btnNext" type="submit">Return to Home</button>
+        </div>
+        @Html.Partial("_FooterSurvey")
+
+
+    </div>
+}
+
+
+<script>
+    @*function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "MyDay")";
+        }
+        else {
+            $.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }*@
+
+
+    $(document).ready(function () {
+        window.history.pushState("Survey", "Survey", "/MyDay/ExpiredSurvey/" + $('#txtuid').val());
+    });
+
+</script>

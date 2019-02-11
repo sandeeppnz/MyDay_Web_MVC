@@ -1,0 +1,73 @@
+﻿@model SANSurveyWebAPI.Areas.CallStaff.ViewModels.ProfileViewVM
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Areas/CallStaff/Views/Shared/_LayoutCallStaff.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <h4>Profile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LoginEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoginEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationStatus)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegisteredDateTimeUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegisteredDateTimeUtc)
+        </dd>
+
+
+
+
+
+        @*<dt>
+                @Html.DisplayNameFor(model => model.Sequence)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Sequence)
+            </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

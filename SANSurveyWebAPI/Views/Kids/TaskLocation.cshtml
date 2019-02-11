@@ -1,0 +1,155 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsTaskLocationVM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutKids.cshtml";  }
+    ViewBag.Title = "Survey: Select Task Location";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("TaskLocation", "Kids", FormMethod.Post, 
+    new { name = "frmTimeline", id = "frmTimeline", @class = "nav-right" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                @Model.PageQuestion               
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div style="text-align:left"><i>@Model.QuestionHint</i></div> <br /><br />  
+            <div>
+                <div class="table-responsive">
+                    <table class="table">
+                       <tr>
+                            <td class="firstTd"><label for="TaskLocation">Location</label></td>
+                            <td>@Html.TextBoxFor(model => model.TaskLocation, new { @id = "txtTaskLocation" })
+                            <br />                               
+                           <span class="helpMsg"></span></td>                            
+                       </tr>                      
+                       <tr>
+                            <td class="firstTd"><label for="WhereAreYou">Where are you </label></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.WhereAreYou, new { @id = "txtWhereAreYou" })
+                                <br /><span class="helpMsg"></span>
+                            </td>
+                       </tr>
+                       <tr>
+                            <td class="firstTd"><label for="Neighbourhood">Is that place in your neighbourhood?</label></td>
+                            <td>                                                                
+                                @foreach (var yt in Model.YesNoOptionList)
+                                {
+                                    <input type="checkbox"
+                                           name="chkYesNo" value="@yt.Value" id="@yt.Value" />
+                                            <label class="chkLabel" for="@yt.Value">@yt.Value<span class="spanCls">&nbsp;</span></label>                                            
+                                }<br />
+                                <span class="helpMsg"></span>
+                            </td>
+                       </tr>
+                       <tr>
+                            <td class="firstTd"><label for="InsideOROutside">Are you inside or outside</label></td>
+                            <td>
+                                @foreach (var yt in Model.InOutOptionList)
+                                {
+                                    <input type="checkbox"
+                                           name="chkInOut" value="@yt.Value" id="@yt.Value" />
+                                        <label class="chkLabel" for="@yt.Value">@yt.Value<span class="spanCls">&nbsp;</span></label>
+                                }
+                                <br /><span class="helpMsg"></span>
+                            </td>
+                       </tr>
+                       <tr>
+                            <td class="firstTd"><label for="timeSpent">Time spent</label></td>
+                            <td>                                
+                                <div>   
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="row">
+                                            <div class="input-group input-group-lg">
+                                                <input id="spin_Hrs" type="text" value=@Model.TotalHours name="TimeHours" class="form-control input-lg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1">
+                                        <div class="row"></div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="row">
+                                            <div class="input-group input-group-lg">
+                                                <input id="spin_Min" type="text" value=@Model.TotalMins name="TimeMinutes" class="form-control input-lg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br /><br /><br />
+                                <span class="helpMsg">Add total time spent in this location</span>
+                            </td>
+                       </tr>
+                       <tr>
+                            <td class="firstTd"><label for="HowDidYouGetThere">How did you get there?</label></td>
+                            <td>
+                                @foreach (var yt in Model.TravelOptionList)
+                                {
+                                    <input type="checkbox"
+                                           name="chkTravel" value="@yt.Value" id="@yt.Value" />
+                                            <label class="chkLabel" for="@yt.Value">@yt.Value<span class="spanCls">&nbsp;</span></label>
+                                }
+                            <br /><span class="helpMsg"></span>
+                            </td>
+                       </tr>
+                    </table>
+                </div>          
+            </div>    
+        </div>
+        <center>
+            <div>
+                <small id="SelectedTasks_Incomplete" class="invalid" style="text-align:left">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    &nbsp; @Model.ErrorMessage
+                </small>
+            </div>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>
+    @Html.Partial("_FooterSurvey")
+}
+<link rel="stylesheet" href="~/Scripts/TimeDropper/timedropper.css" />
+<script src="~/Scripts/TimeDropper/timedropper.js"></script>
+<script>
+    $("input[id='spin_Hrs']").TouchSpin({
+        postfix: "Hours&nbsp;&nbsp;&nbsp;",
+        postfix_extraclass: "CustomSpinnerLabel",
+        buttondown_class: "btn CustomSpinnerButtonPlus",
+        buttonup_class: "btn CustomSpinnerButtonNeg",
+        //postfix_extraclass: "btn btn-default"
+
+        min: 0,
+        max: 4,
+        step: 1,
+    });
+    $("input[id='spin_Min']").TouchSpin({
+        postfix: "Minutes",
+        min: 0,
+        max: 59,
+        step: 1,
+
+        postfix_extraclass: "CustomSpinnerLabel",
+        buttondown_class: "btn CustomSpinnerButtonPlus",
+        buttonup_class: "btn CustomSpinnerButtonNeg"
+        //postfix_extraclass: "btn btn-default"
+    });
+</script>
+<style>
+    .firstTd {
+    width: 24%;
+    }
+    .helpMsg {
+    color:dimgrey
+    }
+    .chkLabel {
+    font-weight:normal;
+    }
+    .spanCls {
+    margin:10px;
+    }
+</style>

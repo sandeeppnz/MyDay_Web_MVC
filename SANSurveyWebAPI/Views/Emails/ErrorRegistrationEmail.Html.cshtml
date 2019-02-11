@@ -1,0 +1,72 @@
+﻿@model SANSurveyWebAPI.Models.ErrorRegistrationEmail
+Content-Type: text/html; charset=utf-8
+<html>
+@*<body style="background-color:#f2f2f2; font-family:Arial, Helvetica, sans-serif">*@
+<body style="font-family:Arial, Helvetica, sans-serif;width:730px">
+    @*<img src= @Model.Heading height='42' width='42'/>*@
+
+    <div>
+        <br />
+        &nbsp; @Html.EmbedImage("~/images/header.png")
+        <br />
+    </div>
+
+    @*<br />
+    <br />*@
+
+    @*</div>
+        <div style="padding:20px;padding-top:0px;background-color:#ffffff">*@
+
+    <div>
+        <h3 style="color:#808080">
+            Hi there,
+        </h3>
+
+        <h2 style="color:#008080">
+            You are invited to participate in a survey being conducted by the Auckland University of Technology and Health Education England about the work day experience of junior doctors.
+        </h2>
+
+        <h3>
+            Please sign up and complete your registration.
+        </h3>
+
+
+        @*<h4 style="color:#008080">*@
+        <a href=@Model.Link  style="background:#006666; padding:15px; text-align:center; text-decoration: none;display: inline-block;font-size: 16px; border: none;color: white; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);"
+           class="button">Sign Up Now</a>
+        @*</h4>*@
+        <h3 style="color:#808080">
+            Alternatively, you can click on the link below to sign-up and participate in the surveys.&nbsp;
+            <br />
+            <a href=@Model.Link style="color:#006666" >@Model.Link</a>
+        </h3>
+        <h4 style="color:#808080">
+            Thank you,
+            <br />
+            Centre for Social Data Analytics
+            <br />
+            Auckland, New Zealand
+        </h4>
+        @*<h6 style="color:#808080">
+            Auckland University of Technology
+            <br />
+            55 Wellesley St E, Auckland, 1010
+            <br />
+            Tel: +64 7878 87878
+            <br />
+            Email: info@surveyapp.com
+            <br />
+            Website: www.surveyapp.com
+            <br />
+        </h6>*@
+        @*<hr />*@
+
+        @*<div style="background-color:#000000">
+            &nbsp; @Html.EmbedImage("~/images/aut footer.png")
+        </div>*@
+        @*<br />
+            <br />*@
+    </div>
+
+</body>
+</html>

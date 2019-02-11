@@ -1,0 +1,56 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SidMV
+
+@{
+
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+
+    ViewBag.Title = "Completed Survey";
+}
+
+@using (Html.BeginForm("CompletedSurvey", "Survey3", FormMethod.Post, new { name = "frmCompletedSurvey", id = "frmCompletedSurvey", @class = "" }))
+{
+
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+
+
+    <div style="padding:20px;">
+        <div class="panel panel-default">
+          
+            <div class="panel-body">
+
+                <center>
+                    <div>
+                        <h1>
+                            <i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>
+                        </h1>
+                        <h3>
+                            Thank you, you have already completed this survey. You will receive an email when a new survey becomes available.
+                        </h3>
+                     
+
+                    </div>
+
+
+                </center>
+            </div>
+            <button class="btn btn-success btn-block btn-lg" id="btnNext" type="submit">Return to Home</button>
+        </div>
+        @Html.Partial("_FooterSurvey")
+
+
+    </div>
+}
+
+
+<script>
+   
+
+
+    $(document).ready(function () {
+        window.history.pushState("Survey", "Survey", "/Survey3/CompletedSurvey/" + $('#txtuid').val());
+    });
+
+</script>

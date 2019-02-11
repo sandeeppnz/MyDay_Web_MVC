@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Profiles";
+    Layout = "~/Areas/CallStaff/Views/Shared/_LayoutCallStaff.cshtml";
+}
+
+
+<h2>@ViewBag.Title</h2>
+
+
+@*http://www.telerik.com/forums/custom-button-hyperlink-on-each-row-in-telerik-grid*@
+
+
+@(Html.Kendo().Grid<SANSurveyWebAPI.DTOs.ProfileDto>()
+        .Name("Profiles_Grid")
+        .Columns(columns =>
+        {
+            //columns.Bound(c => c.Id);
+            columns.Bound(o => o.Name).ClientTemplate(@Html.ActionLink("#=Name#", "View", new { Id = "#=Id#" }).ToHtmlString());
+            //columns.Bound(c => c.Name).Width(240);
+            columns.Bound(c => c.LoginEmail);
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Scrollable()
+        .Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Profiles_Read", "Profiles"))
+            .PageSize(20)
+        )
+)
+

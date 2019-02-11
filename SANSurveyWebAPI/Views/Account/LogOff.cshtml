@@ -1,0 +1,73 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Logout";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - @SANSurveyWebAPI.Constants.AppHeader</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.blockUI.js"></script>
+
+</head>
+<body class="loginBody TextAlignCenter">
+    <div class="container">
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8">
+            <div class="row loginbox">
+                @*<h1><span class="glyphicon glyphicon-ok-circle" /></h1>*@
+                @*<h1>
+                    <span class="glyphicon glyphicon-thumbs-up" />
+                </h1>*@
+                <h3>Logout successfully</h3>
+                @Html.ActionLink("Goto Login", "Login", "Account", new { id = "loginLink", @class = "btn btn-success btn-lg btn-block" })
+            </div>
+
+            <br>
+            <br>
+
+            <footer class="footer">
+                <p>© @DateTime.Now.Year @SANSurveyWebAPI.Constants.AppFooter </p>
+            </footer> <!--footer Section ends-->
+
+
+
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+    </div>
+
+
+
+</body>
+</html>
+
+
+<script>
+    function LoaderLocal() {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        })
+    }
+
+
+    $(document).ready(function () {
+
+        $('#loginLink').click(function (e) {
+            LoaderLocal();
+        });
+    });
+</script>

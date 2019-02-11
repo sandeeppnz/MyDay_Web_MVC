@@ -1,0 +1,291 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterScreeningViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Screening";
+}
+
+@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+
+@*<link href="~/Content/kendo/2016.3.1118/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2016.3.1118/Custom/kendo.Custom3.css" rel="stylesheet" />*@
+
+
+
+
+@using (Html.BeginForm("Screening", "Register", FormMethod.Post, new { name = "frmWork1", id = "frmWork1", @class = "" }))
+{
+
+    <div class="container OtherPageContainer remodal-bg">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 1, MaxStep = Model.MaxStep })
+            @Html.ValidationSummary(true, "Please check the form for errors.")
+
+            <div class="panel panel-default" id="Work">
+                <div class="panel-heading">
+                    <h4>Firstly, we would like to learn about your level of training and medical specialty ...</h4>
+                </div>
+                @Html.HiddenFor(model => model.ProfileId)
+                @Html.HiddenFor(model => model.MaxStep)
+                <div class="panel-body">
+                    @{
+                        List<SelectListItem> CurrentLevelTraniningList = new List<SelectListItem>();
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Foundation Year 1",
+                            Value = "Foundation Year 1"
+                        });
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Foundation Doctor Year 2",
+                            Value = "Foundation Doctor Year 2"
+                        });
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Core Medical Training Year 1",
+                            Value = "Core Medical Training Year 1"
+                        });
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Core Medical Training 2",
+                            Value = "Core Medical Training 2"
+                        });
+
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Specialty Training Year 1 (ST1)",
+                            Value = "Specialty Training Year 1 (ST1)"
+                        });
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Specialty Training Year 2 (ST2)",
+                            Value = "Specialty Training Year 2 (ST2)"
+                        });
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Specialty Training Year 3 (ST3)",
+                            Value = "Specialty Training Year 3 (ST3)"
+                        });
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Specialty Training Year 4 (ST4)",
+                            Value = "Specialty Training Year 4 (ST4)"
+                        });
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Specialty Training Year 5 (ST5)",
+                            Value = "Specialty Training Year 5 (ST5)"
+                        });
+
+
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Specialty Training Year 6 (ST6)",
+                            Value = "Specialty Training Year 6 (ST6)"
+                        });
+
+                        CurrentLevelTraniningList.Add(new SelectListItem
+                        {
+                            Text = "Not in training",
+                            Value = "Not in training"
+                        });
+                    }
+                    <div class="form-group row">
+                        @*@Html.LabelFor(model => model.CurrentLevelOfTraining, new { @class = "col-sm-4 col-form-label" })*@
+
+                        
+                        <label class="col-sm-4 col-form-label">
+                            What level of medical training are you currently doing?
+                            <br />
+                            <small>
+                                (If you are currently between levels, tell us the level you are about to finish)
+                            </small>
+                        </label>
+                        
+                        <div class="col-sm-8">
+                            @(Html.Kendo().DropDownListFor(model => model.CurrentLevelOfTraining)
+  .Name("CurrentLevelOfTraining")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(CurrentLevelTraniningList)
+  .OptionLabel("Select your current level of training")
+  .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpCurrentLevelTranining" })
+                            )
+                            <small id="CurrentLevelOfTraining_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+                    </div>
+
+
+
+                    @{
+                        List<SelectListItem> CurrentPlacementList = new List<SelectListItem>();
+                        CurrentPlacementList.Add(new SelectListItem
+                        {
+                            Text = "Yes",
+                            Value = "Yes"
+                        });
+
+                        CurrentPlacementList.Add(new SelectListItem
+                        {
+                            Text = "No",
+                            Value = "No"
+                        });
+                    }
+
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.IsCurrentPlacement, new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            @(Html.Kendo()
+                                .DropDownListFor(model => model.IsCurrentPlacement)
+                                  .Name("IsCurrentPlacement")
+                                  .Filter("contains")
+                                  //.Placeholder("Select your speciality")
+                                  .DataTextField("Text")
+                                  .DataValueField("Value")
+                                  .BindTo(CurrentPlacementList)
+                                  .OptionLabel("Select your current placement")
+                                  .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpIsCurrentPlacement" })
+                            )
+                            <small id="IsCurrentPlacement_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+                    </div>
+                    @*@Html.HiddenFor(m => m.SpecialityId)*@
+                </div>
+                <button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+        @Html.Partial("_Dialog")
+
+                        }
+
+
+<script>
+    var inst = $(".remodal").remodal();
+
+    function AddCustomValidation() {
+
+        var allFilled = true;
+
+        var drpCurrentLevelOfTrainingText = $('#drpCurrentLevelTranining').val();
+        if (drpCurrentLevelOfTrainingText == "") {
+            $('[name="CurrentLevelOfTraining"]').parent().addClass("has-error");
+            $('#CurrentLevelOfTraining_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="CurrentLevelOfTraining"]').parent().removeClass("has-error");
+            $('#CurrentLevelOfTraining_Incomplete').hide();
+        }
+
+        
+        var drpCurrentPlacementText = $('#drpIsCurrentPlacement').val();
+        if (drpCurrentPlacementText == "") {
+            $('[name="IsCurrentPlacement"]').parent().addClass("has-error");
+            $('#IsCurrentPlacement_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="IsCurrentPlacement"]').parent().removeClass("has-error");
+            $('#IsCurrentPlacement_Incomplete').hide();
+        }
+
+        return allFilled;
+    }
+
+    $(document).ready(function () {
+        RemoveCustomValidation();
+        //function AllFilled() {
+        //    var allFilled = true;
+
+
+        //    var drpWorkPlaceText = $('#drpWorkPlace').val();
+        //    if (drpWorkPlaceText == "") {
+        //        allFilled = false;
+        //    }
+
+
+        //    return allFilled;
+        //}
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            if (AddCustomValidation()) {
+                $('#frmWork1').submit();
+            }
+            else {
+                inst.open();
+            }
+
+            //bootbox.dialog({
+            //    //message: "<i class='fa fa-warning fa-3x'></i>  There are incomplete field(s). <br /><br />We value your responses and they will help our study.<br /><br /> Do you want to go back?", title: "Your answers are valuable to us...",
+            //    message: "<i class='fa fa-flask fa-3x'></i>  <br /><br />Your answers are valuable to improve our study.<br/> However, there are incomplete <span style='color:#ff0000'>field(s)</span>. <br /><br />Do you want to complete?",
+            //    buttons: {
+            //        main: { label: "Yes, I want to complete", className: "btn btn-success btn-lg btn-block", callback: function () { return true; } },
+            //        success: { label: "No, goto next", className: "btn btn-default btn-lg btn-block pull-right", callback: function () { $('#frmWork1').submit(); } }
+            //    },
+            //});
+
+            //document.getElementsByTagName("html")[0].style.visibility = "visible";
+        });
+    });
+
+
+    $(document).on('confirmation', '.remodal', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmWork1').submit();
+        //alert('Confirmation button is clicked');
+        //console.log('Confirmation button is clicked');
+    });
+
+    $(document).on('cancellation', '.remodal', function () {
+        //alert('Cancel button is clicked');
+        //console.log('Cancel button is clicked');
+        //AddCustomValidation();
+    });
+
+
+
+    $(document).on('closing', '.remodal', function (e) {
+    });
+
+    function RemoveCustomValidation() {
+        $('[name="CurrentLevelOfTraining"]').parent().removeClass("has-error");
+        $('[name="CurrentPlacement"]').parent().removeClass("has-error");
+        $('#CurrentLevelOfTraining_Incomplete').hide();
+        $('#IsCurrentPlacement_Incomplete').hide();
+    }
+
+
+</script>
+
+
+
+
+

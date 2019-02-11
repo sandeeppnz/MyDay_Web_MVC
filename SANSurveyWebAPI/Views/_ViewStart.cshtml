@@ -1,0 +1,24 @@
+﻿@{
+
+    if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else if (Request.IsAuthenticated && User.IsInRole("DataScientist"))
+    {
+        Layout = "~/Areas/DataScientist/Views/Shared/_LayoutDataScientist.cshtml";
+    }
+    else if (Request.IsAuthenticated && User.IsInRole("CallStaff"))
+    {
+        Layout = "~/Areas/CallStaff/Views/Shared/_LayoutCallStaff.cshtml";
+    }
+    else if (Request.IsAuthenticated && User.IsInRole("Registered User"))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    else if (Request.IsAuthenticated && User.IsInRole("ClientAdmin"))
+    {
+        Layout = "~/Areas/ClientAdmin/Views/Shared/_LayoutClientAdmin.cshtml";
+    }
+}

@@ -1,0 +1,119 @@
+﻿@model SANSurveyWebAPI.DTOs.SurveyDto
+
+@{
+    ViewBag.Title = "Delete Profile Roster";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Shift</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.ProfileId)
+
+        <dt>
+            SurveyId
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Uid)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Uid)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDateTimeUtc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDateTimeUtc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SurveyDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyUserStartDateTimeUtc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SurveyUserStartDateTimeUtc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyUserCompletedDateTimeUtc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SurveyUserCompletedDateTimeUtc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyProgressNext)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SurveyProgressNext)
+        </dd>
+
+        @*Profile*@
+        <hr/>
+        <dt>
+            @Html.DisplayNameFor(model => model.RosterItemId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RosterItemId)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProfileId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProfileId)
+        </dd>
+
+        <hr />
+
+        
+      
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SysGenRandomNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SysGenRandomNumber)
+        </dd>
+
+
+
+
+
+      
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "RosterDetails", new { id = @Session["SelectedProfileId"] })
+        </div>
+    }
+</div>

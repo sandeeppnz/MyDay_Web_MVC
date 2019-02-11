@@ -1,0 +1,403 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterTask2ViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Task";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Task", "Register", FormMethod.Post, new { name = "frmTasks1", id = "frmTasks1" }))
+{
+
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+       {
+           CurrStep = 2,
+           MaxStep = Model.MaxStep,
+           SurveyType = 0
+       })
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+
+
+
+            <div class="panel panel-default" id="Tasks">
+
+                <div class="panel-heading">
+                    <h4>
+                        Now, we would like to know what tasks you perform at work...
+                    </h4>
+                </div>
+
+                <div class="panel-body">
+                    <div>
+                        The MyDay Survey will poll you over the next 3 to 5 working days with short surveys on the tasks you perform and how you feel when performing these tasks.
+                        The following question will help customize the MyDay Survey so that you will only be asked about tasks that you regularly perform as part of your job.
+                        Please note that you will be able to introduce new tasks in the MyDay surveys if you need to at a later date.
+
+                    </div>
+
+                    <br />
+                    <br />
+                    <p style="font-weight:bold;">How often do you perform the following tasks as part of your job?</p>
+                    <br />
+                    
+                    <div class="form-group">
+                        @*<div class="col-sm-3">
+                            <img src="~/Content/img/doctor_patient.jpg" style="width:50%;height:50%;" />
+                        </div>*@
+                        @*<div class="col-sm-9">
+                            <br />
+                            <br />
+                            @Html.Label("In this rotation, are you directly interacting with patients?", new { @class = "col-form-label" })
+                            <br />                          
+
+                        </div>*@
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <div id="tables">
+                            <div id="PatientPanel">
+                                @*<div>
+                                    <i>
+                                        <b>
+                                            Please select the tasks that you expect to perform in the next 5 working days.
+                                        </b>
+                                    </i>
+
+                                </div>*@
+                                <table id="PatientTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            @*<th>Id</th>*@
+                                            <th>Task</th>
+                                            <th>Often</th>
+                                            <th>Rarely</th>
+                                            <th>Never</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @{
+                                            int i = 0;
+                                            foreach (var r in Model.FullTaskListPatient)
+                                            {
+                                                if (r.ID == 65)
+                                                {
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    <tr id=@string.Concat(r.ID)>
+                                                        @*<td>@Html.Label(r.ID.ToString())</td>*@
+
+                                                        @Html.HiddenFor(model => model.FullTaskListPatient[i].ID)
+                                                        @*@Html.HiddenFor(model => model.FullTaskList[i].Name)*@
+                                                        <td>
+                                                            @Html.Label(r.Name)
+                                                            <span class="tooltipTask" title="@Model.FullTaskListPatient[i].LongName"><sup>[?]</sup></span>
+                                                        </td>
+                                                        <td> @Html.RadioButtonFor(model => model.FullTaskListPatient[i].Frequency, "Often", new { @id = "Radio_" + r.ID })</td>
+                                                        <td> @Html.RadioButtonFor(model => model.FullTaskListPatient[i].Frequency, "Rarely", new { @id = "Radio_" + r.ID })</td>
+                                                        <td>
+                                                            @Html.RadioButtonFor(model => model.FullTaskListPatient[i].Frequency, "Never", new { @id = "Radio_" + r.ID })
+
+                                                            @*<small id= @string.Concat(r.ID + "_Incomplete") class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>*@
+
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                i++;
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>                            
+                        </div>
+                    </div>
+
+
+                </div>
+                @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                <button class="btn btn-success btn-block btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>*@
+                
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+
+
+    </div>
+        @Html.Partial("_DialogTask")
+        @Html.Partial("_DialogTaskSelection")
+
+                                            }
+
+
+<script>
+
+    var inst = $("#_DialogTask").remodal();
+    var instTasks = $("#_DialogTaskSelection").remodal();
+    //AddCustomValidationAllTasksSelected();
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmTasks1').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {
+        //AddCustomValidation();
+        AddCustomValidationAllTasksSelected();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmTasks1').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+
+
+    $('#frmTasks1 input').on('change', function () {
+        if (this.id == "TaskTypeRadio") {
+            ToggleTaskPanels();
+            //$('#TaskType_Incomplete').hide();
+        }
+    });
+
+    function ToggleTaskPanels() {
+        var val = $('input[id=TaskTypeRadio]:checked', '#frmTasks1').val()
+        if (val == 'Yes') {
+            $('#PatientPanel').show();
+            $('#Non-PatientPanel').hide();
+        }
+        else if (val == 'No') {
+            $('#PatientPanel').hide();
+            $('#Non-PatientPanel').show();
+        }
+        else {
+            $('#PatientPanel').hide();
+            $('#Non-PatientPanel').hide();
+        }
+    }
+
+
+
+    function RemoveCustomValidation() {
+        $('#TaskType_Incomplete').hide();
+        //var trs = document.getElementsByTagName('tr');
+        //for (var k = 1 ; k < trs.length; k++) {
+        //    var k = trs[k].attr('id');
+        //    debugger;
+        //    $('#Q1Ans_Incomplete').show();
+        //    //debugger;
+        //}
+    }
+
+    //function AddCustomValidation() {
+       
+    //    var allFilled = true;
+    //    alert($("input[name^='TaskType']:checked").length);
+    //    if ($("input[name^='TaskType']:checked").length < 1) {
+    //        $('#TaskType_Incomplete').show();
+    //        allFilled = false;
+    //    }
+    //    else {
+    //        $('#TaskType_Incomplete').hide();
+    //    }
+    //    return allFilled;
+    //}
+
+   
+    function IsCheckedAtleastOne(row, tableName)
+    {
+        var eitherChecked = false;
+
+        var isCheckedOften = $('#' + tableName + ' tbody tr:eq(' + row + ')  td:eq(1) input').is(':checked');
+
+        if (isCheckedOften)
+            eitherChecked = true;
+        
+        var isCheckedRarely = $('#' + tableName + ' tbody tr:eq(' + row + ')  td:eq(2) input').is(':checked');
+        if(isCheckedRarely)
+            eitherChecked = true;
+
+        var isCheckedNever = $('#' + tableName + ' tbody tr:eq(' + row + ')  td:eq(3) input').is(':checked');
+        if(isCheckedNever)
+            eitherChecked = true;
+
+        return eitherChecked;
+    }
+
+    function AddCustomValidationAllTasksSelected() {
+
+
+        var val = $('input[id=TaskTypeRadio]:checked', '#frmTasks1').val()
+        //alert(val); alert($("input[id=TaskTypeRadio]:checked").length);
+        var allFilled = true;
+        //if (val == "Yes") //PatientTable
+        {
+            var tb = document.getElementById('PatientTable');
+            var trs = tb.getElementsByTagName('tr');
+          
+            for (var k = 0 ; k < trs.length-1; k++) {
+
+                var isFilled  = IsCheckedAtleastOne(k, "PatientTable"); 
+                if (allFilled == true && isFilled == false)
+                {
+                    allFilled = false;
+                }
+
+                if (!allFilled)
+                {
+                    return false;
+                }
+
+            }
+        }
+
+        //if (val == "No") //NonPatientTable
+        //{
+        //    var tb = document.getElementById('NonPatientTable');
+        //    var trs = tb.getElementsByTagName('tr');
+
+        //    for (var k = 0 ; k < trs.length; k++) {
+
+        //        var isFilled = IsCheckedAtleastOne(k, "NonPatientTable");
+        //        if (allFilled == true && isFilled == false) {
+        //            allFilled = false;
+        //        }
+        //        if (!allFilled) {
+        //            return false;
+        //        }
+        //    }
+        //}
+
+
+        return allFilled;
+
+    }
+
+
+    $(document).ready(function () {
+
+        RemoveCustomValidation();
+
+        //ToggleTaskPanels();
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            //enableSwipe: true,
+            touchstart: function (e) {
+                //$('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+
+                ////console.log("touch start " + );
+            },
+            //swipe: function (e) { console.log("swipe " + e.direction); },
+            //tap: function (e) { console.log("tap"); },
+            //doubletap: function (e) { console.log("double tap"); },
+            hold: function (e) {
+                //$('#my-tooltip').tooltipster('open');
+                //debugger;
+                //e.tooltipster('open');
+
+                $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+
+            }
+        });
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            //if (AddCustomValidation()) {
+                if (AddCustomValidationAllTasksSelected()) {
+                    LoaderLocal();
+                    $('#frmTasks1').submit();
+                }
+                else {
+                    inst.open();
+                    //instTasks.open();
+                }
+            //}
+            //else {
+            //    inst.open();
+            //}
+
+
+            //if ($("input[name^='selectedProfileDefaultTasksList']:checked").length < 5) {
+            //    inst.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmTasks1').submit();
+            //}
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("WellBeing", "Register")";
+            //if ($("input[name^='selectedProfileDefaultTasksList']:checked").length < 5) {
+            //    inst.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmTasks1').submit();
+            //}
+        });
+
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+
+            //trigger: 'custom',
+            //triggerOpen: {
+            //    mouseenter: true,
+            //    //touchstart: true,
+            //    hold: true
+            //},
+            //triggerClose: {
+            //    mouseleave: true,
+            //    originClick: true,
+            //    touchleave: true
+            //}
+        });
+    });
+
+
+
+    $("input[id^='Radio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id^='TaskTypeRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+
+
+
+</script>
+
+
+
+
+

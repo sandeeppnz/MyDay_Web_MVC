@@ -1,0 +1,139 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterWAMProfileRoleVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";    
+    ViewBag.Title = "Your role at Warren and Mahoney";    
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("WAMProfileRole", "Register", FormMethod.Post, new { name = "frmWAMProfileRole", id = "frmWAMProfileRole" }))
+{
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 19, MaxStep = Model.MaxStep, SurveyType = 1 })         
+
+
+            <div class="panel panel-default" id="Placement">
+                <div class="panel-heading">
+                    <h4>
+                        Next, we would like to know about your role at work
+                    </h4>
+                </div>
+            <br />
+                <div class="panel-body">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">What is your current position at Warren and Mahoney?</label>
+                    <div class="col-sm-8">
+                     @*@Html.TextBoxFor(model => model.myProfileRole, new {@id = "txtUserRole", @class = "form-control", @placeholder = "Please enter your role"})*@                        
+                     @Html.DropDownListFor(model => model.myProfileRole, new SelectList(@Model.disciplineRoleObjList, "Id","Designation"), "Select Discipline / Role", new { @id = "txtUserRole", @class= "form-control" })
+                        <small id="ProfileRole_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>                                
+                    </div>                    
+                    </div>
+                    @{
+                        List<SelectListItem> RoleStartYearList = new List<SelectListItem>();
+
+                        RoleStartYearList.Add(new SelectListItem {Text = "1", Value = "1"});
+                        RoleStartYearList.Add(new SelectListItem { Text = "2", Value = "2" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "3", Value = "3" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "4", Value = "4" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "5", Value = "5" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "6", Value = "6" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "7", Value = "7" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "8", Value = "8" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "9", Value = "9" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "10", Value = "10" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "11", Value = "11" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "12", Value = "12" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "13", Value = "13" });
+                        RoleStartYearList.Add(new SelectListItem { Text = "14", Value = "14" });
+                        RoleStartYearList.Add(new SelectListItem {Text = "15+", Value = "15+"});
+                    }             
+
+                    <div id="roleStartYear">
+                        <div class="form-group row">                          
+                            <label class="col-sm-4 col-form-label">Roughly how many years have you been in this position?</label>
+                            <div class="col-sm-8">
+                                @(Html.Kendo().DropDownListFor(model => model.roleStartYear)
+                                      .Name("RoleStartYear")
+                                      .Filter("contains")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(RoleStartYearList)
+                                      .OptionLabel("----- Select year -----")
+                                      .HtmlAttributes(new { @style = "", @class = "", @id = "drpRoleStartYear" })
+                                                                    )
+
+                                <br />
+                                <small id="StartYear_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>                                
+                              
+                            </div>
+                        </div>
+                <div style="padding:10px"> 
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>                   
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+
+            </div>
+        </div> @Html.Partial("_Footer")
+    </div> @Html.Partial("_DialogPlacement")
+            </div></div>
+                            }
+
+<script type="text/javascript">
+
+    var inst = $("#_DialogPlacement").remodal();
+
+    $(document).on('confirmation', '#_DialogPlacement', function () {        
+        LoaderLocal();
+        //RemoveCustomValidation();
+        $('#frmWAMProfileRole').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogPlacement', function () {
+        AddCustomValidation();
+    });
+    function AddCustomValidation() {
+        var allFilled = true;
+
+        if ($('#txtUserRole').val() == "") { $('#ProfileRole_Incomplete').show(); allFilled = false; }
+        else { $('#ProfileRole_Incomplete').hide(); }
+
+        var drpRoleStartYear = $('#drpRoleStartYear').val();
+        if (drpRoleStartYear == "") {
+            $('#StartYear_Incomplete').show();
+            allFilled = false;
+        }
+        else { $('#StartYear_Incomplete').hide(); }
+        return allFilled;
+    }
+    $(document).ready(function () {
+        $('#ProfileRole_Incomplete').hide();
+        $('#StartYear_Incomplete').hide();
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            if (AddCustomValidation())
+            {
+                LoaderLocal();
+                $('#frmWAMProfileRole').submit();
+            }
+            else {
+                inst.open();
+            }
+        });
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("WAMWellBeing", "Register")";
+        });
+    })
+</script>
+

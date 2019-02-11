@@ -1,0 +1,1143 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.CalendarListViewModel
+
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        //Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    ViewBag.Title = "Roster";
+    @Html.Partial("_DialogCalendarPastDateSelected");
+    @Html.Partial("_DialogCalendarErrorSurveyCreatedDelete");
+}
+
+
+@*<script src="~/Scripts/Calendar2/data.js"></script>*@
+
+<style>
+    h1, .h1, h2, .h2, h3, .h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+     .responsive-calendar .day.today a {
+        border: 2px solid #f2dede;
+        border-radius: 5px;
+    }
+
+
+    .responsive-calendar .day.active a {
+        /*background-color: #008080;
+    color: #dcdcdc;*/
+        background-color: #dcdcdc;
+        color: #000000;
+    }
+
+    .day .badge {
+        /*background-color: #dcdcdc;*/
+        background-color: #008080;
+    }
+
+    .responsive-calendar .day.active a:hover {
+        /*background-color: #003333;*/
+        background-color: #dcdcdc;
+    }
+
+    /*.badge-warning {
+        background-color: #000000;
+    }*/
+
+
+    .responsive-calendar .day .badge {
+        right: 10px;
+        left: 10px;
+        top: 5px;
+        /*font-family: 'fontawesome-selected';*/
+        /*color: #1d86c8;
+      position: absolute;
+      text-align: center;
+      width:0px;
+      top:50px;*/
+        /*width: 100%;*/
+    }
+
+    .agenda {
+    }
+        /* Dates */
+        .agenda .agenda-date {
+            width: 80px;
+        }
+
+            .agenda .agenda-date .dayofmonth {
+                width: 40px;
+                font-size: 36px;
+                line-height: 36px;
+                float: left;
+                text-align: right;
+                margin-right: 10px;
+            }
+
+            .agenda .agenda-date .shortdate {
+                font-size: 0.75em;
+            }
+        /* Times */
+        .agenda .agenda-time {
+            /*width: 140px;*/
+        }
+
+
+        /* Events */
+        .agenda .agenda-events {
+        }
+
+            .agenda .agenda-events .agenda-event {
+            }
+
+
+    .modal-content {
+        border-radius: 0px;
+    }
+
+
+
+    /*.modal-dialog {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .modal-content {
+        margin: 0 auto;
+    }*/
+
+
+    /*.responsive-calendar .day.active a {
+          background-color: transparent;
+          color: #000000;
+      }
+
+          .responsive-calendar .day.active a:hover {
+              background-color: transparent;
+          }*/
+</style>
+
+
+<input type="hidden" id="MonthYear" value=@Model.YearMonth>
+<input type="hidden" id="ProfileId" value=@Model.ProfileId>
+<input type="hidden" id="ProfileName" value=@Model.ProfileName>
+<input type="hidden" id="ProfileEmail" value=@Model.ProfileEmail>
+<input type="hidden" id="ProfileOffset" value=@Model.ProfileOffset>
+
+
+@if (Model.freezeRoster == true)
+{
+    <div class="consentbox" style="padding:20px;">
+
+        <center>
+            <div style="background-color:#b2d8d8;padding:20px">
+                               
+                <i class="fa fa-check-circle fa-4x" aria-hidden="true"></i>
+
+                <br /><h2>Thank you for participating in MyDay survey. <br /> You will receive your exit survey shortly.</h2>
+                <br />
+                <button style="background-color:#b2d8d8;color:black;font-size:27px;font-weight:bolder;" data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnOk">:)</button>
+                <br /><br />
+
+                
+            </div>
+            <br />
+           
+
+
+        </center>
+    </div>
+}
+else
+{
+
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Responsive calendar - START -->
+        <div class="responsive-calendar">
+            <div class="controls">
+                <a class="pull-left" data-go="prev"><div class="btn btn-default">&nbsp;&nbsp;<i class="fa fa-chevron-left" aria-hidden="true"></i>&nbsp;&nbsp;</div></a>
+                <h4><span data-head-year></span> <span data-head-month></span></h4>
+                <a class="pull-right" data-go="next"><div class="btn btn-default">&nbsp;&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i>&nbsp;&nbsp;</div></a>
+            </div><hr />
+            <div class="day-headers">
+                <div class="day header">Mon</div>
+                <div class="day header">Tue</div>
+                <div class="day header">Wed</div>
+                <div class="day header">Thu</div>
+                <div class="day header">Fri</div>
+                <div class="day header">Sat</div>
+                <div class="day header">Sun</div>
+            </div>
+            <div class="days" data-group="days">
+                
+            </div>
+            <hr />
+            <div style="text-align:left;padding-left:20px;padding-bottom:10px;">
+                <b>Legend:</b> <br />
+                <img src="~/Images/today.png" />
+                Today
+                &nbsp;
+                &nbsp;
+                <img src="~/Images/booked.png" />
+                On Duty
+            </div>
+
+        </div>
+        <!-- Responsive calendar - END -->
+        <div>
+
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        @*<label class="print pull-right">
+                <span class="print-btn hidden-print">
+                    Print your list!
+                </span>
+            </label>*@
+        @*<h2 class="">Roster Details</h2>*@
+        @*<a id="btnCreate" data-target='#newModal' data-toggle='modal' class="btnNew"><div class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add new roster detail</div></a>*@
+        @*<p>Shows your working schedule.</p>*@
+        <div class="agenda" id="AgendaList">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- DeleteError -->
+<div class="modal fade" id="deleteErrorModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Error
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="row text-center">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Unable to delete as there is a survey allocated to it.
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <center>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        OK
+                    </button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- NewModal -->
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Add new roster detail
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    @*<div class="row">
+                            <label class="col-sm-2 control-label">Roster Id</label>
+                            <div class='col-sm-6'>
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>*@
+                    @*<div class="row">
+                            <label class="col-sm-offset-1 control-label"
+                                   for="">Set your new schedule dates and times below, click Save</label>
+                            <br />
+                            <br />
+                        </div>*@
+                    <div class="row">
+                        <label class="col-sm-3 control-label"
+                               for="StartDateNew">Start</label>
+
+                        <div class='col-sm-6'>
+                            <div class="form-group">
+                                @(Html.Kendo().DateTimePicker()
+        .Name("datetimepicker1New")
+        .HtmlAttributes(new
+        {
+            style = "width:100%;",
+            //@readonly = "readonly",
+            @id = "datetimepicker1New"
+        })
+                                )
+
+                                @*<div class='input-group date' id='datetimepicker1New'>
+                                        <input type='text' class="form-control" readonly="readonly" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>*@
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-3 control-label"
+                               for="EndDateNew">End</label>
+
+                        <div class='col-sm-6'>
+                            <div class="form-group">
+
+                                @*<div class='input-group date' id='datetimepicker2New'>
+                                        <input type='text' class="form-control" readonly="readonly" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>*@
+                                @(Html.Kendo().DateTimePicker()
+        .Name("datetimepicker2New")
+        .HtmlAttributes(new
+        {
+            style = "width:100%;",
+            //@readonly = "readonly",
+            @id = "datetimepicker2New"
+        })
+                                )
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="row">
+                    <label class="col-sm-3 control-label"
+                           for=""></label>
+                    <div class='col-sm-9'>
+                        <small id="Date_Error_New" class="invalid control-label"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;The End <i>date and time</i> should be more than the Start <i>date and time</i>.</small>
+                        <small id="Date_Error_New_Restriction" class="invalid control-label"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;The start to end should be less than 12 hours.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnSaveNew" class="btn btn-success">
+                    <i class='fa fa-floppy-o'></i>&nbsp;&nbsp;Save Now
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- EditModal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Edit roster detail
+                </h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+
+                <form class="form-horizontal" role="form">
+
+
+                    @*<div class="row">
+                            <label class="col-sm-2 control-label">Roster Id</label>
+                            <div class='col-sm-6'>
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <input type="hidden" id="RosterItemId" value="">
+
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"
+                                   for="">Current Start</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control"
+                                       id="currStart" readonly="readonly" disabled="disabled" />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"
+                                   for="">Current End</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control"
+                                       id="currEnd" readonly="readonly" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr />
+
+
+                    <div class="row">
+                        <label class="col-sm-offset-1 control-label"
+                               for="StartDate">Set your new schedule</label>
+                        <br />
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-4 control-label"
+                               for="StartDate">Start</label>
+
+                        <div class='col-sm-6'>
+                            <div class="form-group">
+
+                                @(Html.Kendo().DateTimePicker()
+        .Name("datetimepicker1")
+        .HtmlAttributes(new
+        {
+            style = "width:100%;",
+            //@readonly = "readonly",
+            @id = "datetimepicker1"
+        })
+                                )
+
+                                @*<div class='input-group date' id='datetimepicker1'>
+                                        <input type='text' class="form-control" readonly="readonly" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>*@
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <label class="col-sm-4 control-label"
+                               for="EndDate">End</label>
+
+                        <div class='col-sm-6'>
+                            <div class="form-group">
+
+                                @(Html.Kendo().DateTimePicker()
+        .Name("datetimepicker2")
+        .HtmlAttributes(new
+        {
+            style = "width:100%;",
+            //@readonly = "readonly",
+            @id = "datetimepicker2"
+        })
+                                )
+
+
+
+
+                                @*<div class='input-group date' id='datetimepicker2'>
+                                        <input type='text' class="form-control" readonly="readonly" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>*@
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="row">
+
+                    <label class="col-sm-3 control-label"
+                           for=""></label>
+
+                    <div class='col-sm-9'>
+                        <small id="Date_Error_Edit" class="invalid control-label"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;The End <i>date and time</i> should be more than the Start <i>date and time</i>.</small>
+                        <small id="Date_Error_Edit_Restriction" class="invalid control-label"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;The start to end should be less than 10 hours.</small>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left"
+                        data-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnSaveEdit" class="btn btn-success">
+                    <i class='fa fa-floppy-o'></i>&nbsp;&nbsp;Finish editing
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
+
+
+
+
+<style>
+    .RbtnMargin {
+        margin-left: 5px;
+    }
+
+
+    .modal-dialog-center {
+        margin-top: 25%;
+    }
+</style>
+
+<script type="text/javascript">
+
+    var d = new Date();
+    var curr_date = d.getDate();
+    var curr_month = d.getMonth() + 1; //Months are zero based
+    var curr_year = d.getFullYear();
+    var today = curr_year + "-" + curr_month + "-" + curr_date;
+
+    function IsInPast(dateStr) {
+        var nowDateTimeBrowser = new Date();
+
+        var selectedDateLocalised = new Date(dateStr);
+         var isafter = moment(selectedDateLocalised).isAfter(nowDateTimeBrowser);
+
+        if (isafter)
+            return false;
+        else
+            return true;
+    }
+
+    var instPast = $("#_DialogCalendarPastDateSelected").remodal();
+    var instErrorSurveyCreatedDelete = $("#_DialogCalendarErrorSurveyCreatedDelete").remodal();        
+
+    $(document).on('cancellation', '#_DialogCalendarPastDateSelected', function () {
+    });
+    $(document).on('cancellation', '#_DialogCalendarErrorSurveyCreatedDelete', function () {
+    });
+
+
+    function addLeadingZero(num) {
+        if (num < 10) {
+            return "0" + num;
+        } else {
+            return "" + num;
+        }
+    }
+
+
+    var profileId = $('#ProfileId').val();
+    var profileName = $("#ProfileName").val();
+    var profileEmail = $("#ProfileEmail").val();
+    var profileOffset = $("#ProfileOffset").val();
+
+    function LoadData() {
+        var result = "";
+        $.ajax({
+            type: "GET",
+            async: false,
+            data: { profileId: profileId },
+            url: "@Url.Action("Read", "Calendar")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data, status) {
+                //alert(status);
+                //handleData(data);
+                result = data;
+            },
+            error: errorFunc
+        });
+        return result;
+    }
+    function errorFunc() {
+        alert('Unable to request data...');
+    }
+
+    function SetSelectedMonthAgenda(sender) {
+
+        var thisMonthEvents = sender.options.events;
+        var stringYearMonth = sender.currentYear + "-" + addLeadingZero(parseInt(sender.currentMonth) + 1) + "-";
+
+        var stringYearMonthShort = sender.currentYear + "-" + addLeadingZero(parseInt(sender.currentMonth) + 1);
+        $('#MonthYear').val(stringYearMonthShort);
+
+        var reducedList = null;
+
+        var re = new RegExp(stringYearMonth);
+
+        var filteredKeys = filtered_keys(thisMonthEvents, re); // second parameter is a javascript regex object, so for exemple for case insensitive you would do /Peter/i
+
+        var htmlStringTableBegin = "<div class='table-responsive'><table class='table table-condensed table-bordered'><thead><tr><th>Date</th><th>Time</th></tr></thead><tbody>";
+
+        var htmlStringTableEnd = "</tbody></table></div>";
+        var htmlContents = htmlStringTableBegin;
+
+        var emptyMsg = "<tr><td colspan='2'>Please enter your roster details.</td></tr>";
+
+        if (filteredKeys.length == 0) {
+            htmlContents += emptyMsg;
+        }
+
+        for (k = 0; k < filteredKeys.length; k++) {
+            var dayEvents = thisMonthEvents[filteredKeys[k]];
+            var date = filteredKeys[k];
+
+            var dayofmonth = "<div class='dayofmonth'>" + moment(date).format('DD') + "</div>";
+            var dayofweek = "<div class='dayofweek'><br /><br />" + moment(date).format('dddd') + "</div>";
+            //var shortdateTextMuted = "<div class='shortdate text-muted'>" + moment(date).format('MMMM, YYYY') + "</div>";
+
+            var entireDate = moment(date).format('YYYY') + "-" + moment(date).format('MM') + "-" + moment(date).format('DD');
+
+            var shortdateTextMuted = "<div class='shortdate text-muted'>" + moment(date).format('MMMM, YYYY') + "<br /><br />";
+            var addButton = "<div> <a id='btnCreate' data-target='#newModal' data-toggle='modal' class='btnNew' data-id='" + entireDate + "'><div class='btn btn-default'><i class='fa fa-plus' aria-hidden='true'></i>&nbsp;&nbsp;New</div></a>" + "</div>";
+
+            var rowSpan = dayEvents.dayEvents.length;
+
+            //debugger;
+            for (i = 0; i < dayEvents.dayEvents.length; i++) {
+                if (i == 0) {
+
+                    var durText = moment.duration(moment(dayEvents.dayEvents[i].EndDateTime).diff(moment(dayEvents.dayEvents[i].StartDateTime))).humanize();
+
+
+                    htmlContents += "<tr class=''><td class='agenda-date' rowspan='" + rowSpan + "'>";
+
+                    if (IsInPast(entireDate)) {
+                        htmlContents += dayofmonth + dayofweek + shortdateTextMuted;
+
+                    }
+                    else {
+                        htmlContents += dayofmonth + dayofweek + shortdateTextMuted + addButton;
+                    }
+
+                    htmlContents += "</td>";
+
+                    htmlContents += "<td class='agenda-time'>";
+
+                    if (moment(dayEvents.dayEvents[i].StartDateTime).format('YYYY-MM-DD') == moment(dayEvents.dayEvents[i].EndDateTime).format('YYYY-MM-DD')) {
+                        //htmlContents += "(" + dayEvents.dayEvents[i].RosterItemId + ")" + moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a');
+                        htmlContents += moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a') + " <br /> (" + durText + ")";
+                    }
+                    else {
+                        //htmlContents += "(" + dayEvents.dayEvents[i].RosterItemId + ")" + moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a <i><b>(MMM DD, YYYY)</b></i>');
+                        htmlContents += moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a <i><b>(MMM DD, YYYY)</b></i>') + " <br /> (" + durText + ")"
+                    }
+
+                    if (dayEvents.dayEvents[i].HasSurvey != 'disabled') {
+                        htmlContents += "<a id='btnDelete_" + dayEvents.dayEvents[i].RosterItemId + "' class='btnDelete pull-right RbtnMargin' data-id='" + dayEvents.dayEvents[i].RosterItemId + "' ><div class='btn btn-default'><i class='fa fa-trash' aria-hidden='true'></i></div></a><a id='btnEdit_" + dayEvents.dayEvents[i].RosterItemId + "' data-target='#editModal' data-toggle='modal'  class='.btnEdit pull-right' data-go='next' data-id='" + dayEvents.dayEvents[i].RosterItemId + "'><div class='btn btn-default'><i class='fa fa-pencil' aria-hidden='true'></i></div></a>";
+                    }
+                    else {
+                        //htmlContents += "<br /><i>A survey is available!</i>";
+                    }
+                    htmlContents += "</td></tr>";
+                }
+                else {
+
+                    var durText = moment.duration(moment(dayEvents.dayEvents[i].EndDateTime).diff(moment(dayEvents.dayEvents[i].StartDateTime))).humanize();
+
+                    htmlContents += "<tr><td class='agenda-time'>";
+                    if (moment(dayEvents.dayEvents[i].StartDateTime).format('YYYY-MM-DD') == moment(dayEvents.dayEvents[i].EndDateTime).format('YYYY-MM-DD')) {
+                        //htmlContents += "(" + dayEvents.dayEvents[i].RosterItemId + ")" + moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a');
+                        htmlContents += moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a') + " <br /> (" + durText + ")";
+                    }
+                    else {
+                        //htmlContents += "(" + dayEvents.dayEvents[i].RosterItemId + ")" + moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a <i><b>(MMM DD, YYYY)</b></i>');
+                        htmlContents += moment(dayEvents.dayEvents[i].StartDateTime).format('h:mm a') + " - " + moment(dayEvents.dayEvents[i].EndDateTime).format('h:mm a <i><b>(MMM DD, YYYY)</b></i>') + " <br /> (" + durText + ")";
+                    }
+
+                    if (dayEvents.dayEvents[i].HasSurvey != 'disabled') {
+                        htmlContents += "<a id='btnDelete_" + dayEvents.dayEvents[i].RosterItemId + "' class='btnDelete pull-right RbtnMargin' data-id='" + dayEvents.dayEvents[i].RosterItemId + "' ><div class='btn btn-default'><i class='fa fa-trash' aria-hidden='true'></i></div></a><a id='btnEdit_" + dayEvents.dayEvents[i].RosterItemId + "' data-target='#editModal' data-toggle='modal' class='.btnEdit pull-right' data-go='next' data-id='" + dayEvents.dayEvents[i].RosterItemId + "'><div class='btn btn-default'><i class='fa fa-pencil' aria-hidden='true'></i></div></a>";
+                    }
+                    else {
+                        //htmlContents += "<br /><i>A survey is available!</i>";
+                    }
+                    htmlContents += "</td></tr>";
+
+                }
+            }
+
+        }
+
+        htmlContents += htmlStringTableEnd;
+
+
+        var elementPath = "#AgendaList";
+        $(elementPath).fadeOut(100, function () {
+            $(this).html(htmlContents).fadeIn(500);
+        });
+    }
+
+    function AddNewRosterPopup(dateSelected) {
+        //alert(dateSelected);
+        $('#MonthYear').val(dateSelected)
+        $(newModal).modal('show');
+        return;
+    }
+
+    $(document).ready(function () {
+
+        var MonthYear = $('#MonthYear').val();
+        if (MonthYear != '') {
+            today = MonthYear;
+        }
+
+        $.ajaxSetup({ cache: false });
+
+        $(".responsive-calendar").responsiveCalendar({
+            //time: MonthYear,
+            time: today,
+
+            activateNonCurrentMonths: false,
+            //events: JSON.parse(str),
+            events: LoadData(),
+            onInit: function () {
+                SetSelectedMonthAgenda(this);
+            },
+            onMonthChange: function () {
+                SetSelectedMonthAgenda(this);
+            },
+            onDayClick: function (events) {
+                dateStr = $(this).data('year') + '-' + addLeadingZero($(this).data('month')) + '-' + addLeadingZero($(this).data('day'));
+
+                if (IsInPast(dateStr)) {
+                    instPast.open();
+                }
+                else {
+                    AddNewRosterPopup(dateStr);
+                }
+            }
+          
+        });
+    }).on("click", ".btnDelete", function (e) {
+        var dataId = $(this).attr("data-id");
+        var box = bootbox.confirm({
+            title: "Delete roster detail",
+            message: "Are your sure?",
+            size: 'small',
+            buttons: {
+                cancel: {
+                    className: 'btn-default pull-left',
+                    label: 'Cancel'
+                },
+                confirm: {
+                    label: '<i class="fa fa-trash"></i>&nbsp;&nbsp;Yes, delete',
+                    className: 'btn-success'
+                }
+            },
+            callback: function (result) {
+
+                if (result == true) {
+
+                    var resultYearMonth;
+                    $.ajax({
+                        type: 'POST',
+                        url: "@Url.Action("Delete", "Calendar")",
+                        data: { 'id': dataId },
+                        cache: false,
+                        async: false,
+                        success: function (resultData) {
+                            if (resultData.Success) {
+                                //alert(resultData.Result);
+                                resultYearMonth = resultData.Result;
+                                $(this).modal('hide');
+                                //$('#MainContent').html(resultData);
+                                $('#MonthYear').val(resultYearMonth);
+
+                                var link = '@Url.Action("List", "Calendar", new { id = "-1" })';
+                                link = link.replace("-1", resultYearMonth);
+                                window.location.href = link;
+                                return false; // ajax used, block the normal submit
+                            }
+                            else {
+                                if (resultData.Result == 'ErrorDelete') {
+                                    $(this).modal('hide');
+                                    $(deleteErrorModal).modal('show');
+                                }
+                                else if (resultData.Result == 'ErrorSurveyCreated') {
+                                    instErrorSurveyCreatedDelete.open();
+                                }
+                                //alert("Unable to delete this roster as there is a survey.");
+                                return false;
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            //alert("Status: " + textStatus);
+                            //alert("Error: " + errorThrown);
+                        }
+                    });
+                }
+            }
+        });
+    }).on("click", ".btnEdit", function (e) {
+    });
+
+
+    var filtered_keys = function (obj, filter) {
+        var key, keys = [];
+        for (key in obj) {
+            if (obj.hasOwnProperty(key) && filter.test(key)) {
+                keys.push(key);
+            }
+        }
+        return keys;
+    }
+
+    ///BootBoxes-----------------
+    $('#btnSaveEdit').on("click", function (e) {
+
+        var profileId = $('#ProfileId').val();
+        var profileName = $("#ProfileName").val();
+        var profileEmail = $("#ProfileEmail").val();
+        var profileOffset = $("#ProfileOffset").val();
+
+        e.preventDefault();
+
+        var rosterItemId = $('#RosterItemId').val();
+
+        var datetimepicker1 = $("#datetimepicker1").data("kendoDateTimePicker");
+        var start = datetimepicker1.value();
+
+        var datetimepicker2 = $("#datetimepicker2").data("kendoDateTimePicker");
+        var end = datetimepicker2.value();
+        
+        var startStr = moment(start).format('DD/MM/YYYY HH:mm');
+        var endStr = moment(end).format('DD/MM/YYYY HH:mm');
+
+        var isafter = moment(end).isAfter(start);
+
+        //var duration = moment.duration(end.diff(start));
+        var duration = moment.duration(moment(end).diff(moment(start)));
+
+
+        var minsDuration = duration.as('minutes');
+
+        if (isafter) {
+            //10 hours
+            //if (minsDuration <= 720) //For 12hours
+            if (minsDuration <= 900) //For 15hours
+            {
+                $('#Date_Error_Edit_Restriction').hide();
+
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("SaveEditParam", "Calendar")",
+                    //data: { 'id': rosterItemId, 'startStr': startStr, 'endStr': endStr },
+                    data: { 'id': rosterItemId, 'startStr': startStr, 'endStr': endStr, 'profileId': profileId, 'profileEmail': profileEmail, 'profileOffset': profileOffset, 'profileName': profileName },
+                    cache: false,
+                    async: false,
+                    dataType: "json",
+                    success: function (response) {
+                        //alert(resultData);
+                        // now you can show output in your modal
+                        //$('#editModal').show();  // put your modal id
+                        //$('.something').show().html(resultData);
+                        //alert(response.Sucess);
+
+                        $('#MonthYear').val(response.Result);
+
+                        var link = '@Url.Action("List", "Calendar", new { id = "-1" })';
+                        link = link.replace("-1", response.Result);
+
+                        window.location.href = link;
+
+                        //window.location.href = "@Url.Action("Index", "Calendar")";
+                    },
+                    error: errorFunc
+                });
+            }
+            else {
+                $('#Date_Error_Edit_Restriction').show();
+            }
+        }
+        else {
+            $('#Date_Error_Edit').show();
+
+        }
+    });
+
+
+    $('#btnSaveNew').on("click", function (e) {
+
+        var profileId = $('#ProfileId').val();
+        var profileName = $("#ProfileName").val();
+        var profileEmail = $("#ProfileEmail").val();
+        var profileOffset = $("#ProfileOffset").val();
+
+        e.preventDefault();
+
+        var datetimepicker1 = $("#datetimepicker1New").data("kendoDateTimePicker");
+        var start = datetimepicker1.value();
+
+        var datetimepicker2 = $("#datetimepicker2New").data("kendoDateTimePicker");
+        var end = datetimepicker2.value();
+
+        var startStr = moment(start).format('DD/MM/YYYY HH:mm');
+        var endStr = moment(end).format('DD/MM/YYYY HH:mm');
+
+
+        var isafter = moment(end).isAfter(start);
+
+        var duration = moment.duration(moment(end).diff(moment(start)));
+        //var duration = moment.duration(end.diff(start));
+
+
+        var minsDuration = duration.as('minutes');
+        if (isafter) {
+            //if (minsDuration <= 720)
+            if (minsDuration <= 900)
+            {
+
+                $('#Date_Error_New_Restriction').hide();
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("SaveNewParam", "Calendar")",
+                    data: { 'startStr': startStr, 'endStr': endStr, 'profileId': profileId, 'profileEmail': profileEmail, 'profileOffset': profileOffset, 'profileName': profileName },
+                    //data: { 'startStr': startStr, 'endStr': endStr },
+                    cache: false,
+                    async: false,
+                    dataType: "json",
+                    success: function (response) {
+                        //alert(resultData);
+                        // now you can show output in your modal
+                        //$('#editModal').show();  // put your modal id
+                        //$('.something').show().html(resultData);
+                        //alert(response.Sucess);
+
+
+                        $('#MonthYear').val(response.Result);
+
+
+
+                        var link = '@Url.Action("List", "Calendar", new { id = "-1" })';
+                        link = link.replace("-1", response.Result);
+                        window.location.href = link;
+
+
+                        //window.location.href = "@Url.Action("Index", "Calendar")";
+                    },
+                    error: errorFunc
+                });
+
+            }
+            else {
+                $('#Date_Error_New_Restriction').show();
+
+            }
+
+        } else {
+            $('#Date_Error_New').show();
+
+        }
+    });
+
+    $("#deleteModal").on("show.bs.modal", function (e) {
+
+    });
+
+
+    $("#newModal").on("show.bs.modal", function (e) {
+
+        var dataId = $(e.relatedTarget).attr("data-id");
+
+        $('#Date_Error_New').hide();
+        $('#Date_Error_New_Restriction').hide();
+
+        var str;
+        if (dataId == undefined) {
+            str = $('#MonthYear').val();
+        }
+        else {
+            str = dataId;
+        }
+        //alert(str);
+
+        if (str.length < 10) {
+            str = str + "-01";
+        }
+
+        $("#datetimepicker1New").kendoDateTimePicker({
+            //interval: 60,
+            timeFormat: "hh:mm tt",
+            //min: new Date(2017,03,01,0,0,0),
+            format: "dd/MM/yyyy hh:mm tt",
+            parseFormats: ["dd/MM/yyyy hh:mm tt", "dd/MM/yyyy HH:mm", "dd/MM/yyyy", "HH:mm"]
+        });
+
+
+        $("#datetimepicker2New").kendoDateTimePicker({
+            //interval: 60,
+            timeFormat: "hh:mm tt",
+            //min: moment(new Date(str)),
+            //min: new Date(2017, 03, 01, 0, 0, 0),
+            format: "dd/MM/yyyy hh:mm tt",
+            parseFormats: ["dd/MM/yyyy hh:mm tt", "dd/MM/yyyy HH:mm", "dd/MM/yyyy", "HH:mm"]
+        });
+
+        var datetimepicker1New = $("#datetimepicker1New").data("kendoDateTimePicker");
+        datetimepicker1New.value(moment(new Date(str)).format('DD/MM/YYYY hh:mm a'));
+
+        var datetimepicker2New = $("#datetimepicker2New").data("kendoDateTimePicker");
+        datetimepicker2New.value(moment(new Date(str)).format('DD/MM/YYYY hh:mm a'));
+
+
+        datetimepicker1New.min(new Date(moment(str).format('MM/DD/YYYY')));
+        datetimepicker2New.min(new Date(moment(str).format('MM/DD/YYYY')));
+        
+
+        //MIN date setup
+        $("#datetimepicker1New").on("dp.change", function (e) {
+            $('#datetimepicker2New').data("DateTimePicker").minDate(e.date);
+        });
+
+    });
+
+    function LoadDataById(dataId) {
+        var result = "";
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("Get", "Calendar")",
+            data: { 'id': dataId },
+            cache: false,
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data, status) {
+                result = data;
+                //alert(resultData);
+                // now you can show output in your modal
+                //$('#editModal').show();  // put your modal id
+                //$('.something').show().html(resultData);
+            },
+            error: errorFunc
+        });
+        return result;
+    }
+
+    $("#editModal").on("show.bs.modal", function (e) {
+
+        $('#Date_Error_Edit').hide();
+        $('#Date_Error_Edit_Restriction').hide();
+
+
+        //var link = $(e.relatedTarget);
+        var dataId = $(e.relatedTarget).attr("data-id");
+        var result = LoadDataById(dataId);
+
+        //console.log(result.RosterItemId);
+
+        var RosterItemId = result.RosterItemId;
+        var StartDateTime = result.StartDateTime;
+        var EndDateTime = result.EndDateTime;
+
+
+        $('#RosterItemId').val(RosterItemId);
+        $('#currStart').val(StartDateTime);
+        $('#currEnd').val(EndDateTime);
+
+
+        $("#datetimepicker1").kendoDateTimePicker({
+            //interval: 60,
+            timeFormat: "hh:mm tt",
+            format: "dd/MM/yyyy hh:mm tt",
+            parseFormats: ["dd/MM/yyyy hh:mm tt", "dd/MM/yyyy HH:mm", "dd/MM/yyyy", "HH:mm"]
+        });
+
+
+        $("#datetimepicker2").kendoDateTimePicker({
+            //interval: 60,
+            timeFormat: "hh:mm tt",
+            format: "dd/MM/yyyy hh:mm tt",
+            parseFormats: ["dd/MM/yyyy hh:mm tt", "dd/MM/yyyy HH:mm", "dd/MM/yyyy", "HH:mm"]
+        });
+        var datetimepicker1 = $("#datetimepicker1").data("kendoDateTimePicker");
+        datetimepicker1.value(moment(new Date(StartDateTime)).format('DD/MM/YYYY hh:mm a'));
+        var datetimepicker2 = $("#datetimepicker2").data("kendoDateTimePicker");
+        datetimepicker2.value(moment(new Date(EndDateTime)).format('DD/MM/YYYY hh:mm a'));
+
+        datetimepicker1.min(new Date(moment(StartDateTime).format('MM/DD/YYYY')));
+        datetimepicker2.min(new Date(moment(EndDateTime).format('MM/DD/YYYY')));
+
+        $("#datetimepicker1").on("dp.change", function (e) {
+            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+        });        
+    });
+
+
+    var options = {
+        closeOnOutsideClick: false,
+        hashTracking: false,
+        closeOnEscape: false
+    };
+
+    var dialogComplete = $('[data-remodal-id=FreezeRoster]').remodal(options);
+    $(document).on("click", "#RosterMenuUser", function () {
+        //alert("I am a pop up ! ");
+        dialogComplete.open();
+    });
+
+</script>

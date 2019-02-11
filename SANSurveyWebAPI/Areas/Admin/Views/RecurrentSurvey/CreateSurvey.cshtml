@@ -1,0 +1,83 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RecurrentSurveyCreateSurveyVM
+
+@{
+    ViewBag.Title = "Create New Survey";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Survey</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+       
+        <div class="form-group">
+            @Html.Label("Profile", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @(Html.Kendo().DropDownListFor(model => model.ProfileId)
+              .Name("Profile")
+              .HtmlAttributes(new { style = "width:100%", @class = "", @id = "Profile" } )
+              .OptionLabel("Select profile...")
+              .DataTextField("ProfileName")
+              .DataValueField("Id")
+              .DataSource(source => {
+                  source.Read(read => {
+                      read.Action("GetCascadeProfiles", "Survey");
+                  });
+              })
+              )
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Working Hours", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().DropDownListFor(model=> model.ProfileRosterId)
+                .Name("Shift")
+                .HtmlAttributes(new { style = "width:100%", @class = "", @id = "Shift" })
+                .OptionLabel("Select shift...")
+                .DataTextField("Description")
+                .DataValueField("Id")
+                .DataSource(source => {
+                    source.Read(read =>
+                    {
+                        read.Action("GetCascadeShifts", "Survey")
+                        .Data("filterShifts");
+                    })
+                    .ServerFiltering(true);
+                })
+                .Enable(false)
+                .AutoBind(false)
+                .CascadeFrom("Profile")
+                )
+                <script>
+            function filterShifts() {
+                return {
+                    Profile: $("#Profile").val()
+                };
+            }
+                </script>
+
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.ProfileId)
+        @Html.HiddenFor(model => model.ProfileRosterId)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "RosterDetails", new { id = @Session["SelectedProfileId"] })
+</div>

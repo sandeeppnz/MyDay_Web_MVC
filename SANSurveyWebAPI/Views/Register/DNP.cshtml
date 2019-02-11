@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Did not wish to participate";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Forgot Password Confirmation - @SANSurveyWebAPI.Constants.AppHeader</title>
+    @*@Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")*@
+
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body class="loginBody">
+    <div class="container TextAlignCenter">
+
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8">
+            <div class="row loginbox">
+                <h1>
+                    <span class="fa fa-exclamation-triangle" />
+                </h1>
+                <h3> Unable to continue as you have opted not to participate previously.</h3>
+                <h5> If you wish to participate, please 
+                @Html.ActionLink("contact us", "Contact", "Home").
+                </h5>
+            </div>
+            @Html.Partial("_Footer")
+
+
+
+
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-4 col-md-3 col-sm-2"></div>
+</body>
+</html>

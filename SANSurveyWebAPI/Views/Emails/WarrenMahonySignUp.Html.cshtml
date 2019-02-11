@@ -1,0 +1,88 @@
+﻿@model SANSurveyWebAPI.Models.WarrenMahonySignUpEmail
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+    <table class="table-responsive" style="padding:10px;
+        background-color:#d5f2f2">
+        <tr>
+            <td style="background-color:rgb(47, 159, 173)">
+                @Html.EmbedImage("~/images/Email/WAM_header.png")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin:0px;
+                background-color:white;padding-left:15px;
+                padding-right:10px;padding-top:10px;padding-bottom:10px;">
+                    <p>
+                        User ID: @Model.RecipientName
+                    </p>
+                    <h3 style="color:rgb(0, 0, 0)">
+                        @*Dear @Model.RecipientName,*@
+                        Hi there,
+                    </h3>
+
+                    <p style="color:#008080;font-size:18px;">
+                        Auckland University of Technology are conducting an important study on the experiences of Warren and Mahoney employees as they go about their working day. The objective of this study is to understand how people’s moods and tasks are affected by where in the work space they are.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px;">
+                        MyDay surveys are a novel approach to studying wellbeing, which look at your moment-to-moment work life experience. The surveys collect finely grained data on well-being and tasks as people move through their work spaces.
+                    </p>
+                    <p style="color:#008080;font-size:18px">
+                        We would like to ask you some questions about yourself and your work situation. We will then ask follow up questions on the tasks that you perform during the day and how you feel about them. This data will be confidential.
+                    </p>
+                    <p style="color:#008080;font-size:18px">
+                        We estimate that the initial survey will take 10-15 minutes. Follow up surveys will occur three times over the next week and will track your work tasks and wellbeing. Each survey will take around 10-12 minutes.
+                    </p>     
+                    
+                    <center>
+                        <a href=@Model.Link style="background:azure;
+                            padding-bottom:20px;padding-top:20px;
+                            padding-left:40px; padding-right:40px;
+                            text-align:center; text-decoration: none;
+                            display: inline-block;font-size: 16px;
+                            border: solid;border-color:#008080;border-radius:5px;
+                            color:#008080;"
+                           class="button"><b>Click to participate</b></a>
+                    </center>
+
+                    <p style="color:#008080;font-size:18px">
+                        As part of this study, we would like to record your location while you are in the workplace. We will measure your exposure to different parts of the space during the day, and your tasks and emotions during, prior to and after that exposure. This will help us measure the impact of the work space on your wellbeing. Location data will not be identifiable. No individual data will be shared with your employer. Only broad results and trends.
+                    </p>
+
+
+                    <p style="color:#008080;font-size:18px">
+                        If you do not wish to be contacted again about participating in this study, please email
+                        <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a> quoting your name and unique identifier number. You will be removed from further recruitment communications. Your unique ID can be found at the top of this email.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px">
+                        Thank you for your contribution to this research!
+                    </p>
+                   
+                    <p>
+                        <b style="color:black">
+                            Professor Rhema Vaithianathan
+                        </b>
+                        <br />
+                        Co-Director, Centre for Social Data Analytics
+                        <br />
+                        Auckland University of Technology, New Zealand
+                        <br />
+                        <br />                       
+                    </p>
+
+                    <p>
+                        IRB: 18/297
+                    </p>
+                </div>
+                <div style="background-color:white;text-align:right">
+                    @Html.EmbedImage("~/images/Email/warrenmahony_header.png")
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

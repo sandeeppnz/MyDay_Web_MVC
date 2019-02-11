@@ -1,0 +1,332 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyTaskTime1ViewModel
+
+@{
+    ViewBag.Title = "Survey: TaskTime";
+}
+
+
+@using (Ajax.BeginForm("TaskTime", "Survey",
+                            new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                Url = @Url.Action("TaskTime", "Survey"),
+                                OnSuccess = "OnSuccess",
+                                OnFailure = "OnFailure"
+                            }, new { id = "frmTaskTime1", @class = "nav-right" }
+                                )
+                                )
+//using (Html.BeginForm("TaskTime", "Survey", FormMethod.Post, new { name = "frmTaskTime1", id = "frmTaskTime1" }))
+{
+
+  
+
+
+    <div class="container OtherPageContainer">
+
+        @Html.ValidationSummary(true, "Please check the form for errors.")
+
+        
+
+        @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+        @Html.HiddenFor(model => model.TaskId)
+        @*@Html.HiddenFor(model => model.CurrProgressValue)*@
+
+
+
+
+        <div class="panel panel-default" id="Tasks">
+            <div class="panel-heading">
+                <h3>
+                    @Model.PageQuestionSurveyVariant
+                <span class="SurveyTitle"> @Model.TaskName</span>
+                between @Session["SurveyPeriod"]
+            </h3>
+        </div>
+        @*<div class="progress progress-striped active">
+            <div class="progress-bar progress-bar-success CustomProgressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:@Session["CurrProgressValue"]%">
+                @Session["CurrProgressValue"]%
+                <span class="sr-only">@Session["CurrProgressValue"]% Complete (success)</span>
+            </div>
+        </div>*@
+        @*<h1>@Model.CurrProgressValue% Complete (success)</h1>*@
+
+
+        <div class="panel-body">
+
+            <div style="text-align:left">
+
+                <i>
+                    Please enter the amount of time in hours and/or minutes
+
+                </i>
+            </div>
+
+            <br />
+
+            <br />
+            <br />
+            <div>
+                @*<div class="col-lg-2 col-md-1 col-sm-1">
+                    <div class="row">
+                    </div>
+                </div>*@
+
+                <div class="col-lg-2 col-md-1 col-sm-1">
+            <div class="row">
+            </div>
+        </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-4">
+                    <div class="row">
+                        <div class="input-group input-group-lg">
+                            <input id="spin_Hrs" type="text" value=@Model.TimeHours name="TimeHours" class="form-control input-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-1">
+                    <div class="row">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-4">
+                    <div class="row">
+                        <div class="input-group input-group-lg">
+                            <input id="spin_Min" type="text" value=@Model.TimeMinutes name="TimeMinutes" class="form-control input-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-1">
+                    <div class="row">
+                    </div>
+                </div>
+
+
+            </div>
+            <script>
+                $("input[id='spin_Hrs']").TouchSpin({
+                    postfix: "Hours&nbsp;&nbsp;&nbsp;",
+                    postfix_extraclass: "CustomSpinnerLabel",
+                    buttondown_class: "btn CustomSpinnerButtonPlus",
+                    buttonup_class: "btn CustomSpinnerButtonNeg",
+                    //postfix_extraclass: "btn btn-default"
+
+                    min: 0,
+                    max: 4,
+                    decimals: 0,
+                    step: 1,
+                });
+                $("input[id='spin_Min']").TouchSpin({
+                    postfix: "Minutes",
+                    min: 0,
+                    max: 59,
+                    decimals: 0,
+                    step: 1,
+
+                    postfix_extraclass: "CustomSpinnerLabel",
+                    buttondown_class: "btn CustomSpinnerButtonPlus",
+                    buttonup_class: "btn CustomSpinnerButtonNeg"
+                    //postfix_extraclass: "btn btn-default"
+                });
+            </script>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="panel-footer">
+            <button class="btn btn-success btn-block btn-lg btnCustomNext" id="btnNext" type="button">NextTTT&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+        </div>
+
+
+    </div>
+</div>
+
+@Html.Partial("_DialogTaskTime")
+@Html.Partial("_DialogTaskTimeEmpty")
+
+}
+
+
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    .glyphicon-remove:before {
+        content: '';
+    }
+
+    .glyphicon-ok:before {
+        content: '';
+    }
+  
+</style>
+
+
+
+
+<script>
+
+    var inst = $("#DialogTaskTime").remodal();
+    var instEmpty = $("#DialogTaskTimeEmpty").remodal();
+
+
+    $(document).on('confirmation', '.remodal', function () {
+        //$('#frmTaskTime1').submit();
+    });
+
+    //$(document).on('confirmation', '.remodal', function () {
+    //    AddCustomValidation();
+    //});
+
+
+    function IsValid() {
+
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+
+        if (hrs == 4 && min > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    function IsEmpty() {
+
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+
+        if (hrs == 0 && min == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    
+
+    function OnSuccess(response) {
+        //alert(response);
+        $('#MainContent').html(response);
+        //slideMenu.view.toggleClose();
+
+        //window.location.href = "@Url.Action("Login", "Account")";
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+
+
+
+    $(document).ready(function () {
+        //FormValidation.Validator.FourHourInvalid = {
+        //    validate: function (validator, $field, options) {
+        //        var hrs = $("#spin_Hrs").val();
+        //        var min = $("#spin_Min").val();
+
+        //        if (hrs == 4 && min > 0) {
+        //            return false;
+        //        }
+
+        //        return true;
+        //    }
+        //};
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+
+            e.preventDefault();
+
+            if (IsEmpty()) {
+                instEmpty.open();
+            }
+            else if (!IsValid()) {
+                inst.open();
+            }
+            else {
+                $('#frmTaskTime1').submit();
+            }
+
+
+
+
+
+
+
+
+        });
+
+
+        $('#frmTaskTime1')
+        .formValidation({
+            framework: 'bootstrap',
+            excluded: ':disabled',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                TimeHours: {
+                    validators: {
+                        between: {
+                            min: 0,
+                            max: 4,
+                            message: 'The hours must be between 0 and 4'
+                        }
+                    }
+                },
+                TimeMinutes: {
+                    validators: {
+                        between: {
+                            min: 0,
+                            max: 59,
+                            message: 'The minutes must be between 0 and 59'
+                        },
+                        //FourHourInvalid: {
+                        //    min: 0,
+                        //    max: 0,
+                        //    message: 'The minutes must be 0 if the number of hours is 4'
+                        //}
+                    }
+                }
+
+            }
+        })
+        .find('[id="spin_Hrs"]')
+            .TouchSpin({
+                min: 0,
+                max: 4,
+                decimals: 0
+            })
+            .on('change touchspin.on.min touchspin.on.max', function () {
+                // Revaliate the field
+                $('#frmTaskTime1').formValidation('revalidateField', 'TimeHours');
+            })
+            .find('[id="spin_Min"]')
+            .TouchSpin({
+                min: 0,
+                max: 59,
+                decimals: 0
+            })
+            .on('change touchspin.on.min touchspin.on.max', function () {
+                // Revaliate the field
+                $('#frmTaskTime1').formValidation('revalidateField', 'TimeMinutes');
+            })
+            .end();
+
+
+
+
+        //$("#BackButton").bind("click", function (e) {
+
+        //    var button = $(this);
+        //    bootbox.confirm("Are you sure to go back?", function (result) {
+        //        if (result) {
+        //            window.location.href = "http://localhost:62247/Register/Personal1"
+        //        }
+        //    });
+        //});
+    });
+
+</script>

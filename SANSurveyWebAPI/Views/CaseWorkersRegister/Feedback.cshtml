@@ -1,0 +1,43 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.FeedbackVM
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+        ViewBag.Title = "Feedback";
+    }
+}
+
+@using (Html.BeginForm("Feedback", "CaseWorkersRegister", FormMethod.Post, new
+{ name = "frmFeedback", id = "frmFeedback", @class = "" }))
+{    
+    <div class="panel panel-default" id="Tasks">
+        <div class="panel-heading">
+            <h3>
+                Feedback
+            </h3>
+        </div>
+
+        <div class="panel-body">          
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @Html.TextAreaFor(model => model.Comment, htmlAttributes: new { @class = "form-control", @rows = 10, @placeholder="Leave your comments..." })
+                </div>
+            </div>        
+        </div>        
+        <center>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit">Submit Feedback and view Summary&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>
+    @Html.Partial("_FooterSurvey")
+}
+<script src="~/Scripts/StopBack/StopBackBrowserButton.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            $('#frmFeedback').submit();
+        });
+    });
+</script>

@@ -1,0 +1,23 @@
+﻿
+
+
+.CustomErrorTextBox {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.CustomErrorPanel {
+    border-radius: 5px;
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+    padding-left: 5px;
+}
+
+
+.modal1 > .modal-dialog {
+    width: 50% !important;
+}
+
+.AddPaddingLeft {
+    padding-left: 10px;
+}

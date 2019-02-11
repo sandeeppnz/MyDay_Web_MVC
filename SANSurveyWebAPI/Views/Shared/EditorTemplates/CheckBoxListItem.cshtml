@@ -1,0 +1,8 @@
+﻿@model SANSurveyWebAPI.Models.CheckBoxListItem
+
+@Html.HiddenFor(x => x.Display)
+@*@Html.Kendo().CheckBoxFor(x => x.IsChecked)*@
+@Html.CheckBoxFor(x => x.IsChecked)
+@Html.LabelFor(x => x.IsChecked, Model.Display)
+@*@Html.Label(Model.Display, new { @style ="padding-bottom: 5px" })*@
+<br /> 

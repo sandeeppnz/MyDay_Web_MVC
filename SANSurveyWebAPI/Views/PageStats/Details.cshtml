@@ -1,0 +1,99 @@
+﻿@model SANSurveyWebAPI.Models.PageStat
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PageStat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageAction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageAction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskStartDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskStartDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProfileId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProfileId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WholePageIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WholePageIndicator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageDateTimeUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageDateTimeUtc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

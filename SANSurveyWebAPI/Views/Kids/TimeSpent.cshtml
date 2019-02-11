@@ -1,0 +1,116 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsTimeSpentVM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutKids.cshtml";  }
+    ViewBag.Title = "Kids Survey: Time Spent";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("TimeSpent", "Kids", FormMethod.Post,
+                new { name = "frmTimeSpent", id = "frmTimeSpent", @class = "nav-right" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxStepKidsSurvey)
+    @*@Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+    { CurrStep = 2, MaxStep = Model.MaxStepKidsSurvey })*@
+
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                <span>@Model.PageQuestion</span>
+                @if (@Model.Location != "Other")
+                { <span class="SurveyTitle"> @Model.Location </span>}
+                else
+                { <span class="SurveyTitle"> @Model.OtherLocation </span>}
+                <span>@Model.OtherHalfQuestion</span>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div style="text-align:left"><i>@Model.QuestionHint</i></div> <br /><br />
+            <div class="col-md-12 col-sm-12 col-xs-12 padding-0 ">
+                <div class="col-md-12 col-sm-12 col-xs-12">                    
+                    <div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <div class="row"></div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="row">
+                                <div class="input-group input-group-lg">
+                                    @*<input id="spin_Hrs" type="text" value=@Model.TotalHours name="TimeHours" class="form-control input-lg">*@
+                                    @Html.TextBoxFor(model=> model.TotalHours, new { @id = "spin_Hrs", @name = "TimeHours", @class = "form-control input-lg" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <div class="row"></div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="row">
+                                <div class="input-group input-group-lg">
+                                    @*<input id="spin_Min" type="text" value=@Model.TotalMins name="TimeMinutes" class="form-control input-lg">*@
+                                    @Html.TextBoxFor(model => model.TotalMins, new { @id = "spin_Min", @name = "TimeMinutes", @class = "form-control input-lg" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <div class="row"></div>
+                        </div>     
+                    </div>
+                </div>
+            </div>
+        </div>
+        <center>
+            <div>
+                <small id="SelectedTasks_Incomplete" class="invalid" style="text-align:left">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>  
+                    &nbsp; @Model.ErrorMessage              
+                </small>
+            </div>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>    
+    @Html.Partial("_FooterSurvey")
+}
+<script src="~/Scripts/StopBack/StopBackBrowserButton.js"></script>
+<script>
+    $("input[id='spin_Hrs']").TouchSpin({
+        postfix: "Hours&nbsp;&nbsp;&nbsp;",
+        postfix_extraclass: "CustomSpinnerLabel",
+        buttondown_class: "btn CustomSpinnerButtonPlus",
+        buttonup_class: "btn CustomSpinnerButtonNeg",
+        //postfix_extraclass: "btn btn-default"
+
+        min: 0,
+        max: 4,
+        step: 1,
+    });
+    $("input[id='spin_Min']").TouchSpin({
+        postfix: "Minutes",
+        min: 0,
+        max: 59,
+        step: 1,
+
+        postfix_extraclass: "CustomSpinnerLabel",
+        buttondown_class: "btn CustomSpinnerButtonPlus",
+        buttonup_class: "btn CustomSpinnerButtonNeg"
+        //postfix_extraclass: "btn btn-default"
+    });
+
+    function CustomValidation() {
+        var allFilled = true;
+
+        if ($('#spin_Hrs').val() == 0 && $('#spin_Min').val() == 0)
+        { $('#SelectedTasks_Incomplete').show(); allFilled = false; }       
+        else { $('#SelectedTasks_Incomplete').hide(); }
+
+        return allFilled;
+    }
+    $('#btnNext').on("click", function (e) {
+        e.preventDefault();
+        if (CustomValidation()) {
+            $('#frmTimeSpent').submit();
+        }
+    });
+</script>

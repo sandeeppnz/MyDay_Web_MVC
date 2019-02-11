@@ -1,0 +1,112 @@
+﻿@model IEnumerable<SANSurveyWebAPI.Models.Response>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Responses</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProfileId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PageStatId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartResponseDateTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndResponseDateTimeUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShiftStartDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShiftEndDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskStartDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskEndDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Question)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Answer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyWindowStartDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyWindowEndDateTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProfileId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PageStatId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartResponseDateTimeUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndResponseDateTimeUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShiftStartDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShiftEndDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskStartDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskEndDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Question)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Answer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyWindowStartDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyWindowEndDateTime)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

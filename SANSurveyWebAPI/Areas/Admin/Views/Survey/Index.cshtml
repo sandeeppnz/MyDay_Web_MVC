@@ -1,0 +1,129 @@
+﻿@model IEnumerable<SANSurveyWebAPI.Models.Survey>
+@{
+    ViewBag.Title = "Surveys";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<h2>Surveys</h2>
+<div>
+    @Html.ActionLink("Create New", "Create")    
+</div>
+
+<div class="pull-right">
+    @Html.ActionLink("Delete All", "DeleteAll", new { @class = "pull-right" })
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+
+        <th>
+            Survey Progress Next
+        </th>
+
+        <th>
+            @Html.DisplayName("Random Number")
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.SurveyDescription)*@
+            @Html.DisplayName("Survey Span")
+        </th>
+
+
+
+
+        <th>
+            Survey Start Date
+        </th>
+
+        <th>
+            Survey Completed Date
+        </th>
+        <th>
+            @Html.DisplayName("Profile")
+        </th>
+        <th>
+            @Html.DisplayName("Shift Span")
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Uid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDateTimeUtc)
+        </th>
+        <th>
+            Expiry Date
+        </th>
+        <th>Triger Manual Reminder</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyProgressNext)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.SysGenRandomNumber)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyDescription)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyUserStartDateTimeUtc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyUserCompletedDateTimeUtc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profile.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RosterItem.Description)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Uid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDateTimeUtc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyExpiryDateTime)
+            </td>
+            <td>
+                @*@Html.ActionLink("Shift", "ShiftReminderEmail", new { id = item.Id }) |*@
+                @Html.ActionLink("Start", "StartReminderEmail", new { id = item.Id }) |
+                @*@Html.ActionLink("Complete", "CompleteReminderEmail", new { id = item.Id })|*@
+                @Html.ActionLink("Expiring Start", "ExpiringSoonNotStartedEmail", new { id = item.Id })|
+                @Html.ActionLink("Expiring Completed", "ExpiringSoonNotCompletedEmail", new { id = item.Id })|
+
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,363 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.Page13_ExitSurveyVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "MyDay Exit Survey – About You";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Page13", "ExitSurvey", FormMethod.Post,
+                                        new { name = "frmExitSurveyPage13", id = "frmExitSurveyPage13" }))
+{
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+        {
+            CurrStep = 15,
+            MaxStep = Model.MaxStepExitSurvey
+        })
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStepExitSurvey)           
+
+            @*@Html.ValidationSummary(true, "Please correct the information", new { @class = "text-danger" })*@
+
+
+            <div class="panel panel-default" id="Placement">
+
+                <div class="panel-heading">
+                    <h3>
+                        We would like to gather information about your job preferences...
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            In which year did you get your primary medical qualification
+                        </label>
+                        <div class="col-sm-8">
+                            @Html.RadioButtonFor(model => model.Q1_Applicable, "Applicable", new { @id = "HoursWorkedLastMonthRadioQ1", @name = "HoursWorkedLastMonth2", @style = "padding-bottom: 10px" })
+                           
+                            <label for="HoursWorkedLastMonth2">Applicable</label>                                                       
+                                <div id="divApplicable">
+                                    @(Html.Kendo().NumericTextBoxFor(model => model.Q1_Year)                                
+                                .Format("# year(s)")
+                                .Min(0)
+                                .Max(48)
+                                .Step(1)
+                                .Placeholder("Enter number of years")
+                                .HtmlAttributes(new { style = "width: 20%", @id = "txtTrainingYears" })
+                                    )
+
+                                </div>
+                            <br />                           
+                            @Html.RadioButtonFor(model => model.Q1_Applicable, "Not applicable", new { @id = "HoursWorkedLastMonthRadioQ1", @name = "HoursWorkedLastMonth1", @style = "padding-bottom: 10px" })
+                            <label for="HoursWorkedLastMonth1">Not applicable</label>
+                            <br />
+                            <small id="HoursWorkedLastMonth_Incomplete" class="invalid pull-left" style="display:none;"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Do you have the option for part time work, e.g. LTFT?
+                        </label>
+                        <div class="col-sm-8">
+                            @Html.RadioButtonFor(model => model.Q2_PTWork, "Yes", new { @id = "ContractTypeRadioQ2", @name = "ContractType1", @style = "padding-bottom: 10px" })
+                            <label for="ContractType1">Yes</label>
+                            <br />
+
+                            @Html.RadioButtonFor(model => model.Q2_PTWork, "No", new { @id = "ContractTypeRadioQ2", @name = "ContractType2", @style = "padding-bottom: 10px" })
+                            <label for="ContractType2">No</label>
+                            <br />
+
+                            @Html.RadioButtonFor(model => model.Q2_PTWork, "Other", new { @id = "ContractTypeRadioQ2", @name = "ContractType7", @style = "padding-bottom: 10px" })
+                            <label for="ContractType7">Other</label>
+                            
+                            <div id="OtherTextQ2Div" style="width:300px;">
+                                @Html.TextBoxFor(model => model.Q2_Other
+                                        , new
+                                        {
+                                            @id = "txtOtherQ2Text",
+                                            @class = "form-control",
+                                            @placeholder = "Please specify"
+                                        })
+                                <small id="Other_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                            </div>
+                            <small id="ContractType_IncompleteQ2" class="invalid pull-left" style="display:none;"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            <br />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Approximately, how many people work at the same level as you under your immediate senior?</label>                      
+                        <div class="col-sm-8">
+                            @(Html.Kendo().NumericTextBoxFor(model => model.Q3_NoOfPeople)            
+                                .Format("#")
+                                .Min(0)
+                                .Max(10)
+                                .Step(1)
+                                .Placeholder("Enter number")
+                                .HtmlAttributes(new { style = "width: 20%", @id = "HoursWorkedLastMonthRadio" })
+                            )
+                            <br />
+                            <small id="HoursWorkedLastMonth_Incomplete" class="invalid pull-left" style="display:none;"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Which best describes your marital status?
+                        </label>
+                        <div class="col-sm-8">
+                            @*<div id="ContractTypePanel" style="width:300px">*@
+                            @Html.RadioButtonFor(model => model.Q4_Martial, "Single", new { @id = "ContractTypeRadioQ4", @name = "ContractType1", @style = "padding-bottom: 10px" })
+                            <label for="ContractType1">Single</label>
+                            <br />
+
+                            @Html.RadioButtonFor(model => model.Q4_Martial, "Partnership", new { @id = "ContractTypeRadioQ4", @name = "ContractType2", @style = "padding-bottom: 10px" })
+                            <label for="ContractType2">Partnership</label>
+                            <br />
+
+                            @Html.RadioButtonFor(model => model.Q4_Martial, "Married", new { @id = "ContractTypeRadioQ4", @name = "ContractType3", @style = "padding-bottom: 10px" })
+                            <label for="ContractType3">Married</label>
+                            <br />
+
+                            @Html.RadioButtonFor(model => model.Q4_Martial, "Widowed", new { @id = "ContractTypeRadioQ4", @name = "ContractType4", @style = "padding-bottom: 10px" })
+                            <label for="ContractType4">Widowed</label>
+                            <br />
+
+                            <small id="ContractType_IncompleteQ4" class="invalid pull-left" style="display:none;"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            @*</div>*@
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row" id="divPartnerOrMarried">
+                        <label class="col-sm-4 col-form-label">
+                            If partnership or married: 
+                            Does your partner work within health care?
+                                                </label>
+                        <div class="col-sm-8">
+                            @*<div id="ContractTypePanel" style="width:300px">*@
+                            @Html.RadioButtonFor(model => model.Q5_PartnershipMarried, "Yes", new { @id = "ContractTypeRadioQ5", @name = "ContractType1", @style = "padding-bottom: 10px" })
+                            <label for="ContractType1">Yes</label>
+                            <br />
+
+                            @Html.RadioButtonFor(model => model.Q5_PartnershipMarried, "No", new { @id = "ContractTypeRadioQ5", @name = "ContractType2", @style = "padding-bottom: 10px" })
+                            <label for="ContractType2">No</label>
+                            <br />
+
+                            @Html.RadioButtonFor(model => model.Q5_PartnershipMarried, "I prefer not to answer", new { @id = "ContractTypeRadioQ5", @name = "ContractType3", @style = "padding-bottom: 10px" })
+                            <label for="ContractType3">I prefer not to answer</label>
+                            <br />
+
+                            <small id="ContractType_IncompleteQ5" class="invalid pull-left" style="display:none;"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogPage3")
+}
+
+<script type="text/javascript">
+    var instProceed = $("#_DialogTaskTimeProceed").remodal();
+    //I. Setting global variables for Radiobuttonfor
+    var option = "";
+    var option_selected = null;
+    //II. Assigning values to global values by change event on Radiobuttonfor
+    $('#frmExitSurveyPage13 input').on('change', function () {
+        var x = this.id;
+        var y = this.value;
+        var allfilled = true;
+        option = x; option_selected = y; 
+        
+    });
+    //Modified the AddCustomValidation function on 07/08/2017 --by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        
+        if ($("input:radio[id=ContractTypeRadioQ2]").is(':checked')) { $('#ContractType_IncompleteQ2').hide(); }
+        else { $('#ContractType_IncompleteQ2').show(); allFilled = false; }
+
+        if ($("input:radio[id=ContractTypeRadioQ4]").is(':checked'))
+        {
+            $('#ContractType_IncompleteQ4').hide();                     
+        }
+        else { $('#ContractType_IncompleteQ4').show(); allFilled = false; }
+        //III. Using the global variable to check other text field
+        if (option == "ContractTypeRadioQ2") {
+            
+            if (option_selected == "Other") 
+                if ($('#txtOtherQ2Text').val() == "")
+                { $('#Other_Incomplete').show(); allFilled = false; instProceed.open(); }
+                else
+                { $('#Other_Incomplete').hide(); }
+        }
+        //End step III. of using global variable
+        return allFilled;
+    }
+    
+    var inst = $("#_DialogPage3").remodal();
+
+    $(document).on('confirmation', '#_DialogPage3', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmExitSurveyPage13').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogPage3', function () {
+        AddCustomValidation();
+    });
+
+
+    $(document).ready(function () {
+      
+        if ($("#txtTrainingYears").val() != "0") {
+            $('#divApplicable').show();
+        }
+        else {
+            $('#divApplicable').hide();
+        }
+        if ($("#txtOtherQ2Text").val() != "") {
+            $('#OtherTextQ2Div').show();
+        }
+        else {
+            $('#OtherTextQ2Div').hide();
+        }
+        if ($('#ContractTypeRadioQ5').is(':checked')) {
+            
+            $('#divPartnerOrMarried').show();
+        }
+        else {
+            $('#divPartnerOrMarried').hide();
+        }
+
+        RemoveCustomValidation();
+
+        $.ajaxSetup({ cache: false });
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            
+            if (AddCustomValidation()) {                
+                LoaderLocal();
+
+                $('#frmExitSurveyPage13').submit();
+            }
+            else {                
+                inst.open();
+            }
+
+
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("PageContinued12", "ExitSurvey")";
+        });
+
+
+    })
+
+
+    function RemoveCustomValidation() {
+
+        $('[name="ContractType"]').parent().removeClass("has-error");
+        $('[name="HoursWorkedLastMonth"]').parent().removeClass("has-error");
+
+        $('#ContractType_Incomplete').hide();
+        $('#HoursWorkedLastMonth_Incomplete').hide();
+    }
+
+
+    $('#frmExitSurveyPage13 input').on('change', function () {
+        var x = this.id;
+
+        if (x == "HoursWorkedLastMonthRadio") {
+            $('#HoursWorkedLastMonth_Incomplete').hide();
+        }
+
+        if (x == "ContractTypeRadio") {
+            $('#ContractType_Incomplete').hide();
+        }
+    });
+
+    //----------------------------------------------------
+    $('#frmExitSurveyPage13 input').on('change', function () {
+        var x = this.id;
+        var y = this.value;        
+        
+        if (x == "HoursWorkedLastMonthRadioQ1") {
+            if (y == "Applicable") {
+                $('#divApplicable').show();
+            }
+            else {
+                $('#divApplicable').hide();
+            }
+        }
+        
+        if (x == "ContractTypeRadioQ2") {
+            if (y == "Other") {
+                $('#OtherTextQ2Div').show();
+            }
+            else {
+                $('#OtherTextQ2Div').hide();
+            }
+        }
+        
+        if (x == "ContractTypeRadioQ4") {
+            if (y == "Partnership" || y == "Married") {
+                $('#divPartnerOrMarried').show();
+            }
+            else {
+                $('#divPartnerOrMarried').hide();
+            }
+        }
+    });          
+
+
+    $("input[id^='ContractType']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id^='HoursWorkedLastMonth']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+
+
+</script>
+

@@ -1,0 +1,48 @@
+﻿@model SANSurveyWebAPI.Models.MasterData
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Master Data</h2>
+@Html.ActionLink("Edit", "Edit")
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+       
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecurrentSurveyTimeSlot, "Total time for task performance in hours", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DisplayFor(model => model.RecurrentSurveyTimeSlot)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecurrentSurveyTaskSelectionLimit, "Limit on total task selection", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DisplayFor(model => model.RecurrentSurveyTaskSelectionLimit)
+        </div>       
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoOfSurveyPerParticipant, "Number of surveys per participant", htmlAttributes: new { @class = "control-label col-md-2" })           
+            @Html.DisplayFor(model => model.NoOfSurveyPerParticipant)
+        </div>
+       @*<div class="form-group">
+            @Html.LabelFor(model => model.TaskTypes, "Types of task list", htmlAttributes: new {@class = "control-label col-md-2" })            
+            @Html.DisplayFor(model => model.TaskTypes)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SurveyForUsers, "Different users of survey", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DisplayFor(model => model.SurveyForUsers)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SurveyTypes, "Different types of survey", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.DisplayFor(model => model.SurveyTypes)
+        </div>*@        
+    </div>
+    
+            }
+
+
+
+

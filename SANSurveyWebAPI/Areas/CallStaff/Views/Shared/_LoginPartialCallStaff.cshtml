@@ -1,0 +1,79 @@
+﻿@using Microsoft.AspNet.Identity
+@using SANSurveyWebAPI.Helpers;
+@{
+    if (Request.IsAuthenticated && User.IsInRole("CallStaff"))
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Profiles", "Index", "Profiles")</li>
+
+                <li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()"> Log off</a></li>
+            </ul>
+        }
+    }
+    else
+    {
+        <ul class="nav navbar-nav navbar-right">
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        </ul>
+    }
+
+}
+
+<script>
+
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+
+    function OnSuccess(response) {
+        //alert(response);
+        window.location.href = "@Url.Action("Login", "Account")";
+    }
+
+    function OnFailure(response) {
+        alert("Logout failed");
+    }
+
+
+    $(document).ready(function () {
+        var slideMenu = $('.menu-link').bigSlide({
+            menu: '#menu',
+            side: 'right',
+            speed: '300',
+            //menuWidth: '100px',
+            easyClose: true
+        }).bigSlideAPI;
+
+        $('.menu-close').click(function () {
+            slideMenu.view.toggleClose();
+        });
+    });
+
+
+</script>
+
+
+

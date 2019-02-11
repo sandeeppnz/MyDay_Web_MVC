@@ -1,0 +1,373 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.FifthWEVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "MyWorkplace Survey";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="~/Scripts/StyleUp/styleUp.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("FifthWorkEnvironment", "ExitV2", FormMethod.Post,
+                            new { name = "frmFifthWorkEnvironment", id = "frmFifthWorkEnvironment" }))
+{
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxExitV2Step)  
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+                { CurrStep = 8,  MaxStep = Model.MaxExitV2Step })  
+            <div class="panel panel-default" id="Placement">
+                <div class="remove-TealBox">
+                    We have some final questions about your immediate supervisor                    
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            How much of his/her working time does your immediate senior <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> spend on clinical duties?
+                        </label>
+                        @*@Html.Label("Please mark the appropriate answer: My immediate senior is", new { @class = "col-sm-4 col-form-label" })*@
+                        <div class="col-sm-8">
+                            <div id="ContractTypePanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.Q1, "None of the time", new { @id = "ContractTypeRadio", @name = "ContractType1", @style = "padding-bottom: 10px" })
+                                <label for="ContractType1">None of the time</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "Approx. 1/3 of the time", new { @id = "ContractTypeRadio", @name = "ContractType2", @style = "padding-bottom: 10px" })
+                                <label for="ContractType2">Approx. 1/3 of the time</label>
+                                <br />
+
+                                @*@Html.RadioButtonFor(model => model.Q1, "an averagely able clinician", new { @id = "ContractTypeRadio", @name = "ContractType3", @style = "padding-bottom: 10px" })
+                                <label for="ContractType3">an averagely able clinician</label>
+                                <br />*@
+
+                                @Html.RadioButtonFor(model => model.Q1, "Approx. 2/3 of the time", new { @id = "ContractTypeRadio", @name = "ContractType4", @style = "padding-bottom: 10px" })
+                                <label for="ContractType4">Approx. 2/3 of the time</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "Approx. all of the time", new { @id = "ContractTypeRadio", @name = "ContractType5", @style = "padding-bottom: 10px" })
+                                <label for="ContractType5">Approx. all of the time</label>
+                                <br />
+
+                                <small id="ContractType_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Please indicate whether your immediate senior <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> is male or female
+                        </label>
+                        <div class="col-sm-8">
+                            <div id="HoursWorkedLastMonthPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.Q2, "Male", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth1", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth1">Male</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q2, "Female", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth2", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth2">Female</label>
+                                <br />
+
+                                <small id="HoursWorkedLastMonth_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="form-group row">
+                        <label id="TLabel2" class="col-sm-4 col-form-label">
+                            Approximately, how long (i.e. years) has your immediate senior <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> worked in his/her role?
+                        </label>
+                        <div class="col-sm-8">
+                            <div id="HoursWorkedLastMonthPanel">
+                                <table>
+                                    <tr>
+                                        <td>@Html.RadioButtonFor(model => model.Q4, "Yes", new { @id = "IDoNotKNowRadio1", @name = "IDoNotKNow1", @style = "padding-bottom: 10px" })
+                                        <label for="IDoNotKNow1" style="margin-right:25px;">I Know</label>
+                                        </td>
+                                        <td style="margin-left:10px;">
+
+                                            <div id="divKnow" style="display:none;float:right;">
+                                                @(Html.Kendo().NumericTextBoxFor(model => model.Q3)
+                                // .Name("TrainingBreakLengthMonths") //Commented on 2/08/2017 due to databinding issues --by Bharati
+                                .Format("# year(s)")
+                                .Min(0)
+                                .Max(48)
+                                .Step(1)
+                                .Placeholder("Enter number of years")
+                                .HtmlAttributes(new { style = "width: 100%", @id = "txtTrainingBreakLengthMonths" })
+                                                )
+                                                
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <small id="TrainingBreakLengthMonths_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            @Html.RadioButtonFor(model => model.Q4, "No", new { @id = "IDoNotKNowRadio2", @name = "IDoNotKNow2", @style = "padding-bottom: 10px" })
+                                            <label for="IDoNotKNow2">I do not know. S/he has been in this position as long as I know.</label>
+
+                                            <small id="IDoNotKNow_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                                 </div>
+                        </div>
+                    </div>
+                    <hr />                 
+                    <div class="form-group row">
+                        <label id="TLabel2" class="col-sm-4 col-form-label">
+                            Approximately, how long has s/he been your immediate senior <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> ?
+                        </label>
+                        <div class="col-sm-8">
+                            @(Html.Kendo().NumericTextBoxFor(model => model.Q5)
+            //.Name("TrainingBreakLengthMonths2") //Commented on 2/08/2017 due to databinding issues --by Bharati
+            .Format("# month(s)")
+            .Min(0)
+            .Max(12)
+            .Step(1)
+            .Placeholder("Enter number of months")
+            .HtmlAttributes(new { style = "width: 100%", @id = "txtTrainingBreakLengthMonths2" })
+                            )
+
+
+                            <small id="TrainingBreakLengthMonths2_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+
+                        <label id="TLabel2" class="col-sm-4 col-form-label">
+                            </label>
+                            <div class="col-sm-8">
+                                @(Html.Kendo().NumericTextBoxFor(model => model.Q6)
+            // .Name("TrainingBreakLengthWeeks2") //Commented on 2/08/2017 due to databinding issues --by Bharati
+            .Format("# week(s)")
+            .Min(0)
+            .Max(12)
+            .Step(1)
+            .Placeholder("Enter number of weeks")
+            .HtmlAttributes(new { style = "width: 100%", @id = "txtTrainingBreakLengthWeeks2" })
+                                )
+
+
+                                <small id="TrainingBreakLengthWeeks2_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        <label id="TLabel2" class="col-sm-4 col-form-label">
+                        </label>
+                        <div class="col-sm-8">
+                            @(Html.Kendo().NumericTextBoxFor(model => model.Q7)
+            //.Name("TrainingBreakLengthDays2") //Commented on 2/08/2017 due to databinding issues --by Bharati
+            .Format("# day(s)")
+            .Min(0)
+            .Max(12)
+            .Step(1)
+            .Placeholder("Enter number of days")
+            .HtmlAttributes(new { style = "width: 100%", @id = "txtTrainingBreakLengthDays2" })
+                            )
+                            <small id="TrainingBreakLengthDays2_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+</div>
+                    <hr />
+                    <div class="form-group row">
+                        <label id="TLabel2" class="col-sm-4 col-form-label">
+                            Approximately, how many different immediate seniors <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> have you reported to in the last month? 
+                        </label>
+                        <div class="col-sm-8">
+                            @(Html.Kendo().NumericTextBoxFor(model => model.Q8)
+            //  .Name("TrainingBreakLengthQ8") ////Commented on 2/08/2017 due to databinding issues --by Bharati
+            .Format("#")
+            .Min(0)
+            .Max(10)
+            .Step(1)
+            .Placeholder("Enter number of seniors")
+            .HtmlAttributes(new { style = "width: 100%", @id = "txtTrainingBreakLengthQ8" })
+                            )
+
+                            <br />
+                            <small id="TrainingBreakLengthQ8_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogPage3")
+}
+
+<script type="text/javascript">
+//For display of Incomplete error message on 3/08/2017 --by Bharati 
+    (function ($) {
+        $(document).ready(function () {           
+            AddCustomValidation();            
+            $('#IDoNotKNow_Incomplete').hide();
+            $('#TrainingBreakLengthMonths_Incomplete').hide();
+        });
+    })(jQuery);
+    
+    //Toggle IKnow and IDontKnow
+    
+    $('#frmFifthWorkEnvironment input').on('change', function () {
+        if ($("input:radio[id=IDoNotKNowRadio1]").is(':checked') || $("input:radio[id=IDoNotKNowRadio2]").is(':checked'))
+        { $('#IDoNotKNow_Incomplete').hide(); }
+
+        if ($("input:radio[id=IDoNotKNowRadio1]").is(':checked')) {
+            $("#divKnow").css('display', 'inline');
+            $('#IDoNotKNow_Incomplete').hide();
+
+            if ($("#txtTrainingBreakLengthMonths").val() == 0)
+            { $('#TrainingBreakLengthMonths_Incomplete').show();}
+            else { $('#TrainingBreakLengthMonths_Incomplete').hide(); }            
+        }
+        else { $('#TrainingBreakLengthMonths_Incomplete').hide(); }
+
+        if ($("input:radio[id=IDoNotKNowRadio2]").is(':checked')) {
+            $("#divKnow").css('display', 'none');
+            $('#TrainingBreakLengthMonths_Incomplete').hide();
+            $('#IDoNotKNow_Incomplete').hide();
+        }
+        else { $('#TrainingBreakLengthMonths_Incomplete').hide(); }
+    });
+
+    //Modification done on 3/08/2017 --by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+            
+        if ($("input[type=radio]:checked").length < 2) {
+            //For time spent on clinical duties
+            if ($("input:radio[id=ContractTypeRadio]").is(':checked')) { $('#ContractType_Incomplete').hide(); }
+            else { $('#ContractType_Incomplete').show(); allFilled = false; }
+            //For Male-Female validation of checkboxes
+            if ($("input:radio[id=HoursWorkedLastMonthRadio]").is(':checked')) { $('#HoursWorkedLastMonth_Incomplete').hide(); }
+            else { $('#HoursWorkedLastMonth_Incomplete').show(); allFilled = false; }            
+        }
+
+        if ($("input:radio[id=IDoNotKNowRadio1]").is(':checked') || $("input:radio[id=IDoNotKNowRadio2]").is(':checked'))
+        { $('#IDoNotKNow_Incomplete').hide(); }
+        else
+        { $('#IDoNotKNow_Incomplete').show(); }
+
+        // For Validation of Years, Months, Weeks and Days
+        if ($('#txtTrainingBreakLengthMonths').val() != 0) { $('#TrainingBreakLengthMonths_Incomplete').hide();}
+        else { $('#TrainingBreakLengthMonths_Incomplete').show(); allFilled = false; }        
+        if ($('#txtTrainingBreakLengthMonths2').val() != 0) { $('#TrainingBreakLengthMonths2_Incomplete').hide(); }
+        else { $('#TrainingBreakLengthMonths2_Incomplete').show(); allFilled = false; }        
+        if ($('#txtTrainingBreakLengthWeeks2').val() != 0) { $('#TrainingBreakLengthWeeks2_Incomplete').hide(); }
+        else { $('#TrainingBreakLengthWeeks2_Incomplete').show(); allFilled = false; }
+        if ($('#txtTrainingBreakLengthDays2').val() != 0) { $('#TrainingBreakLengthDays2_Incomplete').hide(); }
+        else { $('#TrainingBreakLengthDays2_Incomplete').show(); allFilled = false; }
+        if ($('#txtTrainingBreakLengthQ8').val() != 0) { $('#TrainingBreakLengthQ8_Incomplete').hide(); }
+        else { $('#TrainingBreakLengthQ8_Incomplete').show(); allFilled = false; }
+
+        return allFilled;
+    }
+
+
+        var inst = $("#_DialogPage3").remodal();
+
+        $(document).on('confirmation', '#_DialogPage3', function () {
+            RemoveCustomValidation();
+            LoaderLocal();
+            $('#frmFifthWorkEnvironment').submit();
+        });
+
+        $(document).on('cancellation', '#_DialogPage3', function () {
+            AddCustomValidation();
+        });
+
+
+        $(document).ready(function () {
+            
+            RemoveCustomValidation();
+
+            $.ajaxSetup({ cache: false });
+
+            $('#btnNext').on("click", function (e) {
+                e.preventDefault();
+
+                if (AddCustomValidation()) {
+                    LoaderLocal();
+
+                    $('#frmFifthWorkEnvironment').submit();
+                }
+                else {
+                    inst.open();
+                }
+
+
+            });
+
+            $('#btnPrev').on("click", function (e) {
+                e.preventDefault();
+                window.location.href = "@Url.Action("FourthWorkEnvironment", "ExitV2")";
+            });
+
+
+        })
+
+
+        function RemoveCustomValidation() {
+
+            $('[name="ContractType"]').parent().removeClass("has-error");
+            $('[name="HoursWorkedLastMonth"]').parent().removeClass("has-error");
+
+        
+            $('#ContractType_Incomplete').hide();
+            $('#HoursWorkedLastMonth_Incomplete').hide();
+            
+        }
+
+
+        $('#frmFifthWorkEnvironment input').on('change', function () {
+            var x = this.id;
+
+            if (x == "HoursWorkedLastMonthRadio") {
+                $('#HoursWorkedLastMonth_Incomplete').hide();
+            }
+
+            if (x == "ContractTypeRadio") {
+                $('#ContractType_Incomplete').hide();
+            }
+            
+        });       
+
+
+        $("input[id^='ContractType']").icheck({
+            labelHover: true,
+            tap: true,
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'icheckbox_flat-green'
+        });
+
+        $("input[id^='HoursWorkedLastMonth']").icheck({
+            labelHover: true,
+            tap: true,
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'icheckbox_flat-green'
+        });
+        $("input[id^='IDoNotKNowRadio1']").icheck({
+            labelHover: true,
+            tap: true,
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'icheckbox_flat-green'
+        });
+        $("input[id^='IDoNotKNowRadio2']").icheck({
+            labelHover: true,
+            tap: true,
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'icheckbox_flat-green'
+        });
+
+</script>
+

@@ -1,0 +1,193 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.FirstWEVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutExit.cshtml";
+    ViewBag.Title = "MyWorkplace Survey";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="~/Scripts/StyleUp/styleUp.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("FirstWorkEnvironment", "ExitV2", FormMethod.Post,
+                new { name = "frmFirstWorkEnvironment", id = "frmFirstWorkEnvironment" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxExitV2Step)
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+           { CurrStep = 4, MaxStep = Model.MaxExitV2Step })
+            <div class="panel panel-default" id="Tasks">
+                <div class="remove-TealBox">
+                    Thinking about your work environment and immediate senior, please evaluate the following statements.                   
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <i>
+                            The term "IMMEDIATE SENIOR" refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?
+                        </i>
+                    </div>
+                    <div class="form-group">
+                        <div id="tables">
+                            <table id="PatientTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Strongly<br /> disagree</th>
+                                        <th>Disagree</th>
+                                        <th>Neutral</th>
+                                        <th>Agree</th>
+                                        <th>Strongly<br />  agree</th>
+                                        <th>N/A</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = 0;
+                                        foreach (var r in Model.QnsList)
+                                        {
+                                            <tr id=@string.Concat(r.ID)>
+                                                @Html.HiddenFor(model => model.QnsList[i].ID)
+                                                @Html.HiddenFor(model => model.QnsList[i].Name)
+                                                <td>
+                                                    @Html.Label(r.Name)
+                                                    @{
+                                                        if (Model.QnsList[i].LongName != null)
+                                                        {
+                                                            <span class="tooltipTask" title="@Model.QnsList[i].LongName"><sup>[?]</sup></span>
+                                                        }
+                                                    }
+                                                </td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Strongly disagree", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Disagree", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Neutral", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Agree", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Strongly agree", new { @id = "Radio_" + r.ID })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "N/A", new { @id = "Radio_" + r.ID })</td>
+                                            </tr>
+                                                            i++;
+                                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogTask")
+    @Html.Partial("_DialogTaskSelection")
+}
+<script>
+    //Validation of all radio box present in Patient table added on 11th August 2017 ---- by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        var tb = document.getElementById('PatientTable');
+        var trs = tb.getElementsByTagName('tr');
+
+        for (var i = 1 ; i < trs.length - 1; i++) {
+            var allRadiochecked = $("input:radio[id=Radio_" + i + "]").is(':checked');
+            if (allRadiochecked != true) { $('#TaskType_Incomplete').show(); allFilled = false; break; }
+            else { $('#TaskType_Incomplete').hide(); }
+        }
+        return allFilled;
+    }
+    //End of validation of all radio box check
+
+    var inst = $("#_DialogTask").remodal();
+    var instTasks = $("#_DialogTaskSelection").remodal();
+
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmFirstWorkEnvironment').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {
+        AddCustomValidation();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmFirstWorkEnvironment').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+
+
+    $('#frmFirstWorkEnvironment input').on('change', function () {
+        if (this.id == "TaskTypeRadio") {
+            ToggleTaskPanels();
+            $('#TaskType_Incomplete').hide();
+        }
+    });
+
+    function RemoveCustomValidation() {
+        $('#TaskType_Incomplete').hide();
+    }
+
+    $(document).ready(function () {
+        RemoveCustomValidation();
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            touchstart: function (e) {},
+            hold: function (e) {$('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');}
+        });
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            
+            //For validation of radiobuttons checked Added on 11th August 2017 --by Bharati             
+            //$('#frmFirstWorkEnvironment').submit();
+            if (AddCustomValidation()) {
+                LoaderLocal();
+                $('#frmFirstWorkEnvironment').submit();
+            }
+            else {
+                inst.open();
+            }
+            //End of validation of radiobuttons
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("SecondJob", "ExitV2")";
+        });
+
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });
+    $("input[id^='Radio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id^='TaskTypeRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "End";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+<body class="loginBody">
+    <div class="container TextAlignCenter">
+
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8">
+            <div class="row loginbox">
+                <h1>
+                    <span class="fa fa-check-circle-o" />
+                </h1>
+                <h3>Thank you for your response.</h3>
+                <h5>
+                    However, if you decide to participate, please
+                    @Html.ActionLink("contact us", "Contact", "Home"), we can activate the registration process again for you.
+                </h5>
+            </div>
+            @Html.Partial("_Footer")
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-4 col-md-3 col-sm-2"></div>
+
+
+
+
+
+</body>
+</html>

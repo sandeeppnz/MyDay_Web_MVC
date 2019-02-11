@@ -1,0 +1,436 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterWAMTasksVM
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "How do you spend your working day?";
+}
+
+@using (Html.BeginForm("WAMTasks", "Register", FormMethod.Post, new { name = "frmWAMTasks", id = "frmWAMTasks", @class = "" }))
+{
+
+    <div class="container OtherPageContainer remodal-bg">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+       { CurrStep = 20, MaxStep = Model.MaxStep, SurveyType = 1 })
+
+            @Html.ValidationSummary(true, "Please check the form for errors.")
+            <div class="panel panel-default" id="Work">
+                <div class="panel-heading">
+                    <h4>
+                        Now, we would like to learn more about your activities...
+                    </h4>
+                </div>
+                @Html.HiddenFor(model => model.ProfileId)
+                @Html.HiddenFor(model => model.MaxStep)
+
+                @{
+                    List<SelectListItem> percentages = new List<SelectListItem>();
+                    percentages.Add(new SelectListItem { Text = "0%", Value = "0" });
+                    percentages.Add(new SelectListItem { Text = "10%", Value = "10" });
+                    percentages.Add(new SelectListItem { Text = "20%", Value = "20" });
+                    percentages.Add(new SelectListItem { Text = "30%", Value = "30" });
+                    percentages.Add(new SelectListItem { Text = "40%", Value = "40" });
+                    percentages.Add(new SelectListItem { Text = "50%", Value = "50" });
+                    percentages.Add(new SelectListItem { Text = "60%", Value = "60" });
+                    percentages.Add(new SelectListItem { Text = "70%", Value = "70" });
+                    percentages.Add(new SelectListItem { Text = "80%", Value = "80" });
+                    percentages.Add(new SelectListItem { Text = "90%", Value = "90" });
+                    percentages.Add(new SelectListItem { Text = "100%", Value = "100" });
+                }
+                <div class="panel-body">
+                    <table class="table table-responsive">
+                        <tbody>
+                            <tr>
+                                <th colspan="2">
+                                    Thinking about what you do in a TYPICAL day at work,
+                                    what do you estimate is the proportion of your day that you would
+                                    spend on the following activities?
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Activity</th>
+                                <th>Actual %</th>
+                            </tr>
+                            <tr>
+                                <td>Designing<span class="tooltipTask" title="For example, drawing"><sup>[?]</sup></span></td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.ClinicalActualTime)
+                                      .Name("ClinicalActualTime")
+                                      .Filter("contains")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(percentages)
+                                      .OptionLabel("Select")
+                                      .Events(e => { e.Change("OnDropDownChangeActual"); })
+                                      .HtmlAttributes(new { @style = "width:100%" }))
+
+                                    <small id="ClinicalActualTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Paperwork<span class="tooltipTask" title="For example, invoicing, timesheets"><sup>[?]</sup></span></td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.ResearchActualTime)
+                                          .Name("ResearchActualTime")
+                                          .Filter("contains")
+                                          .DataTextField("Text")
+                                          .DataValueField("Value")
+                                          .BindTo(percentages)
+                                          .OptionLabel("Select")
+                                          .Events(e => { e.Change("OnDropDownChangeActual"); })
+                                          .HtmlAttributes(new { @style = "width:100%" }))
+
+                                    <small id="ResearchActualTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Client Liaison</td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.TeachingLearningActualTime)
+                                          .Name("TeachingLearningActualTime")
+                                          .Filter("contains")
+                                          .DataTextField("Text")
+                                          .DataValueField("Value")
+                                          .BindTo(percentages)
+                                          .OptionLabel("Select")
+                                          .Events(e => { e.Change("OnDropDownChangeActual"); })
+                                          .HtmlAttributes(new { @style = "width:100%" }))
+
+                                    <small id="TeachingLearningActualTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Development / upskilling                                    
+                                </td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.AdminActualTime)
+                                          .Name("AdminActualTime")
+                                          .Filter("contains")
+                                          .DataTextField("Text")
+                                          .DataValueField("Value")
+                                          .BindTo(percentages)
+                                          .OptionLabel("Select")
+                                          .Events(e => { e.Change("OnDropDownChangeActual"); })
+                                          .HtmlAttributes(new { @style = "width:100%" }))
+
+                                    <small id="AdminActualTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <small id="Actual_SumError" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Total % should add upto 100%</small>
+                                    <br />
+                                    <br />
+                                    <label id="TotalActual" class="col-form-label pull-right"></label>
+                                    <label class="col-form-label pull-right">Total Actual:</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Thinking about what you LIKE to do in a typical day at work, what proportion of your day would you like to spend on the following activities?</th>
+                            </tr>
+                            <tr>
+                                <th>Activity</th>
+                                <th>Desired %</th>
+                            </tr>
+                            <tr>
+                                <td>Designing<span class="tooltipTask" title="For example, drawing"><sup>[?]</sup></span></td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.ClinicalDesiredTime)
+                                          .Name("ClinicalDesiredTime")
+                                          .Filter("contains")
+                                          .DataTextField("Text")
+                                          .DataValueField("Value")
+                                          .BindTo(percentages)
+                                          .OptionLabel("Select")
+                                          .Events(e => { e.Change("OnDropDownChangeDesired"); })
+                                          .HtmlAttributes(new { @style = "width:100%" }))
+
+                                    <small id="ClinicalDesiredTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Paperwork<span class="tooltipTask" title="For example, invoicing, timesheets"><sup>[?]</sup></span></td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.ResearchDesiredTime)
+                                          .Name("ResearchDesiredTime")
+                                          .Filter("contains")
+                                          .DataTextField("Text")
+                                          .DataValueField("Value")
+                                          .BindTo(percentages)
+                                          .OptionLabel("Select")
+                                          .Events(e => { e.Change("OnDropDownChangeDesired"); })
+                                          .HtmlAttributes(new { @style = "width:100%" }))
+
+                                    <small id="ResearchDesiredTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Client Liaison</td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.TeachingLearningDesiredTime)
+                                                  .Name("TeachingLearningDesiredTime")
+                                                  .Filter("contains")
+                                                  .DataTextField("Text")
+                                                  .DataValueField("Value")
+                                                  .BindTo(percentages)
+                                                  .OptionLabel("Select")
+                                                  .Events(e => { e.Change("OnDropDownChangeDesired"); })
+                                                  .HtmlAttributes(new { @style = "width:100%" }))
+                                    <small id="TeachingLearningDesiredTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Development / upskilling                                   
+                                </td>
+                                <td>
+                                    @(Html.Kendo().DropDownListFor(model => model.AdminDesiredTime)
+                                                  .Name("AdminDesiredTime")
+                                                  .Filter("contains")
+                                                  .DataTextField("Text")
+                                                  .DataValueField("Value")
+                                                  .BindTo(percentages)
+                                                  .OptionLabel("Select")
+                                                  .Events(e => { e.Change("OnDropDownChangeDesired"); })
+                                                  .HtmlAttributes(new { @style = "width:100%" }))
+                                    <small id="AdminDesiredTime_Incomplete" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <small id="Desired_SumError" class="invalid pull-right"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Total % should add upto 100%</small>
+                                    <br />
+                                    <br />
+                                    <label id="TotalDesired" class="col-form-label pull-right"></label>
+                                    <label class="col-form-label pull-right">Total Desired:</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogTaskTime")
+                    @Html.Partial("_DialogTaskTimeProceed") }
+
+<script>
+    var inst = $("#_DialogTaskTime").remodal();
+    var instProceed = $("#_DialogTaskTimeProceed").remodal();
+
+    $(document).on('cancellation', '#_DialogTaskTime', function () {
+        //AddCustomValidation();
+    });
+
+    var next = $(document).on('confirmation', '#_DialogTaskTimeProceed', function () {
+        LoaderLocal();
+        $('#frmWAMTasks').submit();
+    });
+
+    var cancelNext = $(document).on('cancellation', '#_DialogTaskTimeProceed', function () {
+        CheckIfSelect();
+    });
+
+    function CalculatePercentageDesired() {
+        var admin = $("#AdminDesiredTime").data("kendoDropDownList").value();
+        var clinic = $("#ClinicalDesiredTime").data("kendoDropDownList").value();
+        var research = $("#ResearchDesiredTime").data("kendoDropDownList").value();
+        var teaching = $("#TeachingLearningDesiredTime").data("kendoDropDownList").value();
+        var total = Number(admin) + Number(clinic) + Number(research) + Number(teaching);
+        return total;
+    }
+
+    function SetDesired() {
+        var total = CalculatePercentageDesired();
+        $('#TotalDesired').removeClass("invalid_label");
+        if (total == 100) { $('#Desired_SumError').hide(); }
+        else if (total < 100) {
+            $('#TotalDesired').addClass("invalid_label");
+            $('#Desired_SumError').show();
+        }
+        else {
+            $('#TotalDesired').addClass("invalid_label");
+            $('#Desired_SumError').show();
+        }
+
+        var s = total + "%";
+        $('#TotalDesired').text(s);
+    }
+
+    $('#frmWAMTasks input').on('change', function () {
+        CheckIfSelect();
+    });
+
+    function CheckIfSelect() {
+        var allFilled = true;
+        var admin = $("#AdminActualTime").data("kendoDropDownList").value();
+        var clinic = $("#ClinicalActualTime").data("kendoDropDownList").value();
+        var research = $("#ResearchActualTime").data("kendoDropDownList").value();
+        var teaching = $("#TeachingLearningActualTime").data("kendoDropDownList").value();
+
+        var admin2 = $("#AdminDesiredTime").data("kendoDropDownList").value();
+        var clinic2 = $("#ClinicalDesiredTime").data("kendoDropDownList").value();
+        var research2 = $("#ResearchDesiredTime").data("kendoDropDownList").value();
+        var teaching2 = $("#TeachingLearningDesiredTime").data("kendoDropDownList").value();
+
+        if (admin == "") {
+            $('[name="AdminActualTime"]').parent().addClass("has-error");
+            $('#AdminActualTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="AdminActualTime"]').parent().removeClass("has-error");
+            $('#AdminActualTime_Incomplete').hide();
+        }
+
+        if (clinic == "") {
+            $('[name="ClinicalActualTime"]').parent().addClass("has-error");
+            $('#ClinicalActualTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="ClinicalActualTime"]').parent().removeClass("has-error");
+            $('#ClinicalActualTime_Incomplete').hide();
+        }
+
+        if (research == "") {
+            $('[name="ResearchActualTime"]').parent().addClass("has-error");
+            $('#ResearchActualTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="ResearchActualTime"]').parent().removeClass("has-error");
+            $('#ResearchActualTime_Incomplete').hide();
+        }
+
+        if (teaching == "") {
+            $('[name="TeachingLearningActualTime"]').parent().addClass("has-error");
+            $('#TeachingLearningActualTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="TeachingLearningActualTime"]').parent().removeClass("has-error");
+            $('#TeachingLearningActualTime_Incomplete').hide();
+        }
+
+        if (admin2 == "") {
+            $('[name="AdminDesiredTime"]').parent().addClass("has-error");
+            $('#AdminDesiredTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="AdminDesiredTime"]').parent().removeClass("has-error");
+            $('#AdminDesiredTime_Incomplete').hide();
+        }
+
+        if (clinic2 == "") {
+            $('[name="ClinicalDesiredTime"]').parent().addClass("has-error");
+            $('#ClinicalDesiredTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="ClinicalDesiredTime"]').parent().removeClass("has-error");
+            $('#ClinicalDesiredTime_Incomplete').hide();
+        }
+
+        if (research2 == "") {
+            $('[name="ResearchDesiredTime"]').parent().addClass("has-error");
+            $('#ResearchDesiredTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="ResearchDesiredTime"]').parent().removeClass("has-error");
+            $('#ResearchDesiredTime_Incomplete').hide();
+        }
+
+        if (teaching2 == "") {
+            $('[name="TeachingLearningDesiredTime"]').parent().addClass("has-error");
+            $('#TeachingLearningDesiredTime_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="TeachingLearningDesiredTime"]').parent().removeClass("has-error");
+            $('#TeachingLearningDesiredTime_Incomplete').hide();
+        }
+        return allFilled;
+    }
+
+    function CalculatePercentageActual() {
+        var admin = $("#AdminActualTime").data("kendoDropDownList").value();
+        var clinic = $("#ClinicalActualTime").data("kendoDropDownList").value();
+        var research = $("#ResearchActualTime").data("kendoDropDownList").value();
+        var teaching = $("#TeachingLearningActualTime").data("kendoDropDownList").value();
+        var total = Number(admin) + Number(clinic) + Number(research) + Number(teaching);
+        return total;
+    }
+
+    function SetActual() {
+        var total = CalculatePercentageActual();
+        var s = total + "%";
+
+        $('#TotalActual').removeClass("invalid_label");
+        if (total == 100) {
+            $('#Actual_SumError').hide(); }
+        else if (total < 100) {
+            $('#TotalActual').addClass("invalid_label");
+            $('#Actual_SumError').show(); }
+        else {
+            $('#TotalActual').addClass("invalid_label");
+            $('#Actual_SumError').show(); }
+        $('#TotalActual').text(s);
+    }
+
+    function OnDropDownChangeDesired() {
+        SetDesired();
+    }
+
+    function OnDropDownChangeActual() {
+        SetActual();
+    }
+
+    $(document).ready(function () {
+        SetDesired();
+        SetActual();
+        CheckIfSelect();
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            if (CheckIfSelect()) {
+                if (CalculatePercentageActual() == 100
+                    && CalculatePercentageDesired() == 100) {
+                    LoaderLocal();
+                    $('#frmWAMTasks').submit();
+                }
+                else {
+                    inst.open();
+                }
+            }
+            else {
+                instProceed.open();
+            }
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("WAMProfileRole", "Register")";
+        });
+    });
+</script>
+
+
+
+
+

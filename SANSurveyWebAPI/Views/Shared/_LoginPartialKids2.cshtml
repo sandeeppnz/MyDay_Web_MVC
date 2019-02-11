@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNet.Identity
+@*@model SANSurveyWebAPI.ViewModels.Web.ViewModelBase*@
+
+@{
+    Session["LoginEmailAddress"] = User.Identity.GetUserName();
+}
+@{
+    try
+    {
+        <div id="DesktopLayout" class="hidden">
+            <h3>
+                <span class="lbll lbl-default">@*Survey Period: @Model.SurveySpan*@ </span>
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> @*@Model.ShiftSpan*@
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Help & Feedback</a>
+                        @*<img src="~/Images/help_org.png" style="width:72px;" />*@
+                        </span>
+                <br />
+            </h3>
+        </div>
+        <div id="MobileLayout" class="hidden" style="padding-left:5px;">
+            <h3>
+                <span title="Your shift period" class="" style="font-size:small;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> @*@Model.ShiftSpan*@
+                </span>
+            
+                <br />
+                <span title="Your username" class="" style="font-size:small;">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <span class="pull-right" style="font-size:small">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Feedback&nbsp;</a>
+                    @*<img src="~/Images/help_org.png" style="width:72px;" />*@
+                </span>
+                <br />
+                <br />
+                <span class="lbll lbl-default" style="font-size:smaller;">@*Survey Period: @Model.SurveySpan*@ </span>              
+            </h3>
+
+        </div>
+        @Html.Partial("_DialogHelp")
+        @Html.Partial("_DialogHelpComplete")
+    }
+    catch (Exception)
+    {
+
+    }
+}
+<style>
+    .lbl-default {
+    background-color: #ffffff;
+    }
+    .lbll {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+    }
+</style>
+
+<script>
+
+    var DialogHelp = $("#DialogHelp").remodal();
+    var DialogHelpComplete = $("#DialogHelpComplete").remodal();
+
+    function Help() {
+        DialogHelp.open();
+    }
+
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                backgroundColor: 'transparent',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+</script>

@@ -1,0 +1,623 @@
+﻿
+
+body {
+    background-color: #003333;
+}
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/*footer*/
+.footer a {
+    color: #808080;
+    text-decoration: none;
+}
+
+.footer {
+    color: #808080;
+    text-align: center;
+}
+/*footer end*/
+
+
+/* ------------ Validation -----------------*/
+    .has-error {
+        border: 1px solid #a94442;
+    }
+
+    .remodal-confirm {
+        padding: 10px;
+    }
+
+    .remodal-cancel {
+        background-color: transparent;
+        color: #000000;
+    }
+
+    .remodal-cancel:hover, .remodal-cancel:active {
+       background-color: transparent;
+       color: #000000;
+    }
+
+    .invalid_label {
+        color: #a94442;
+    }
+
+    .invalid {
+        color: #a94442;
+        margin-top: 5px;
+        font-size: 85%;
+    }
+/*-------------------------*/
+
+
+
+
+
+
+#registrationLogo {
+    background-image: url(../Images/logo-web.png);
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    background-position: right top;
+    padding-top: 65px;
+    margin-top: -30px;
+}
+
+.container {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.formBox {
+    /*border-top: 6px solid #008080;*/
+    background-color: #fff;
+    /*padding: 5%;*/
+    /*padding-bottom: 0px;
+    margin-bottom:0%;*/
+    border-radius: 0px;
+    /*border-top-left-radius: 5px;
+    border-top-right-radius: 5px;*/
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 1px;
+}
+
+
+.footerBox {
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #F2F2F2;
+    padding: 10px 0px;
+    text-align: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.adaptive-scheduler-wrapper {
+    position: relative;
+    height: 450px;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 100%;
+    }
+}
+
+
+/*#scheduler .k-scheduler-toolbar:nth-of-type(2) {
+        display: none;
+    }*/
+
+/* --- Repsonsive --- */
+@media screen and (max-width: 600px) {
+
+    body {
+        background-color: #fff;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    div.slider {
+        width: 80% !important;
+    }
+
+
+    .formBox {
+        /*border-top: 6px solid #008080;*/
+        background-color: #fff;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 0px;
+        padding-bottom: 1px;
+        margin-top: -30px;
+        margin-bottom: 0px;
+        /*padding-bottom: 0px;
+    margin-bottom:0%;*/
+        /*border-radius: 0px;*/
+        /*border-top-left-radius: 5px;
+    border-top-right-radius: 5px;*/
+    }
+
+    /*.container {
+        padding: 0px;
+    }*/
+
+
+
+
+    #registrationLogo {
+        background-image: url(../Images/logo-mobile.png);
+        background-repeat: no-repeat;
+        /*background-size: 45px;*/
+        background-position: right top;
+        padding-top: 20px;
+        margin-top: 0px;
+        /*margin-top: -40px;*/
+    }
+
+    .container {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .OtherPageContainer {
+        /*padding-right: 15px;*/
+        /*padding-left: 15px;*/
+    }
+
+
+    .km-pane-wrapper .k-edit-field > :not([type=checkbox]):not([type=radio]):not(.k-button), .km-pane-wrapper .k-mobile-list .k-widget, .km-pane-wrapper .k-mobile-list select:not([multiple]), .km-pane-wrapper .k-mobile-list textarea, .km-pane-wrapper :not(.k-state-default):not(.k-pager-input) > input:not([type=checkbox]):not([type=radio]) {
+        width: 70%;
+    }
+
+    .RemoveCalendarPadding {
+        padding: 0px;
+    }
+}
+/* ---------- */
+
+
+
+
+
+
+
+
+/*----Slick Carasoule----*/
+.carasoulePanel:hover {
+    outline: none;
+}
+
+
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+    background: transparent;
+}
+
+.slick-slide {
+    margin: 0px 10px;
+}
+
+    .slick-slide img {
+        width: 100%;
+    }
+
+
+
+/*---------------*/
+
+
+
+
+
+/*----Registration Personal-------*/
+.MonthDropDown {
+    /*max-width: 150px;*/
+    width: 100%;
+}
+
+.YearDropDown {
+    /*max-width: 150px;*/
+    width: 100%;
+}
+/*-----------*/
+
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    /*max-width: 280px;*/
+    /*max-width: 350px;*/
+    /*max-width: 80%;*/
+}
+
+.panel-default > .panel-heading {
+    color: #fff;
+    background-color: #008080;
+    border-color: #008080;
+}
+
+/*.btn-default {
+    background-color: #595959;
+    border-radius: 0px;
+}*/
+
+.btn-success {
+    color: #003333;
+    background-color: white;
+    border:solid;
+    border-color:#008080;
+}
+
+
+/*.btn-success {
+    color: #fff;
+    background-color: #003333;
+    border-color: #003333;
+}*/
+
+.btn-default {
+    /*color: #fff;
+    background-color: #003333;
+    border-color: #003333;*/
+    border-radius: 0px;
+}
+
+    /*.btn-success:hover,
+    .btn-success:focus,
+    .btn-success.focus,
+    .btn-success:active,
+    .btn-success.active,
+    .open > .dropdown-toggle.btn-success {
+        color: #fff;
+        background-color: #008080;
+        border-color: #008080;
+    }*/
+     .btn-success:hover,
+    .btn-success:focus,
+    .btn-success.focus,
+    .btn-success:active,
+    .btn-success.active,
+    .open > .dropdown-toggle.btn-success {
+        color: #fff;
+        background-color: #003333;
+        border-color: #003333;
+    }
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+
+/* ---- Step Registration ---- */
+
+.btn-circle {
+    border-radius: 0px;
+}
+
+
+.btnCustomProgressCurrent {
+    color: #fff;
+    background-color: #008080;
+    border-color: #008080;
+}
+
+
+.btnCustomProgressDone {
+    color: #fff;
+    background-color: #808080;
+    border-color: #808080;
+}
+
+/* ------------- */
+
+
+
+
+
+
+/*---Rating Slider----*/
+
+.CustomRatingLabel {
+    font-weight: normal;
+    vertical-align: middle;
+    font-size: large;
+    vertical-align: bottom;
+    text-align: right;
+}
+
+
+
+.slider {
+    width: 60% !important;
+}
+
+.slider-tick.round {
+    background-color: #b2d8d8;
+}
+
+.slider-tick {
+    background-color: #b2d8d8;
+    opacity: 1;
+}
+
+div.slider-track-high {
+    background-color: #b2d8d8;
+}
+
+.slider-track-low, .slider-track-high {
+    background-color: #b2d8d8;
+}
+
+.slider-selection.tick-slider-selection {
+    background-color: #b2d8d8;
+}
+
+#CustomeSliderRound .slider-handle.custom::before {
+    line-height: 20px;
+    font-size: 20px;
+    content: ''; /*unicode star character  \26AB*/
+    color: #595959;
+}
+
+#CustomeSliderRound .slider-selection {
+    background-color: #b2d8d8;
+}
+
+#CustomeSliderRound .slider-track-high {
+    background-color: #fff;
+}
+
+#CustomeSliderRound .slider-track-low {
+    background-color: #b2d8d8;
+}
+
+.slider-handle {
+    background-color: #595959;
+}
+
+    .slider-handle.custom {
+        background: transparent none;
+        /* You can customize the handle and set a background image */
+    }
+
+        .slider-handle.custom::before {
+            line-height: 20px;
+            font-size: 20px;
+            content: ''; /*unicode star character  \26AB*/
+            color: #595959;
+        }
+
+
+.tooltip-inner {
+    font-size: 12px;
+    margin-top: 5px;
+    background-color: #595959;
+}
+
+.tooltip-arrow {
+    background-color: transparent;
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #595959;
+}
+
+.tooltip-main {
+    z-index: 1;
+}
+
+/*-----------*/
+
+
+
+
+
+/*---------Roster/Calendar-----------*/
+.k-nonwork-hour {
+    background-color: #f2f2f2;
+}
+
+/*.k-state-hover .k-link {
+    background-color: #f2f2f2;
+    border: thick;
+}*/
+
+
+
+
+
+
+
+
+
+
+/*.k-state-hover a,
+      a:hover {
+        color: #000000;
+      }*/
+
+
+
+/*.k-nav-prev .k-state-hover > .k-link  {
+    color: #000000;
+    background-color:#003333;
+}*/
+
+
+
+/*.k-scheduler-table td, .k-scheduler-table th
+        {
+          height: 5.5em;
+        }*/
+
+/*.k-scheduler-monthview .k-scheduler-table td
+        {
+          height: 15.5em;
+        }*/
+/*k-slot-cell {
+    color:#000000;
+    content: "\25AE";
+    font-family: FontAwesome;*/
+/*left:10px;
+    position:absolute;
+    top:0;*/
+/*}*/
+
+
+
+#scheduler {
+    z-index: 1;
+}
+
+k-state-default k-nav-current {
+}
+
+div.k-loading-mask {
+    z-index: 3; /* must be larger than the z-index:2 of #container */
+}
+
+/*.k-link:link, .k-nav-current.k-state-hover .k-link, k-link k-event-delete {
+}*/
+
+
+
+/*.k-nav-current > .k-link span + span {
+    max-width: 200px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: top;
+}*/
+
+
+/*.k-scheduler-header-wrap div.k-event,
+.k-scheduler-content div.k-event {
+    background-color: #008080;
+    border-width: 0px;
+    color: #ffffff;
+}*/
+
+
+
+
+/*-----------*/
+/*.k-link:link, .k-nav-current.k-state-hover .k-link, k-link k-event-delete {
+    background-color: #fff;
+}*/
+
+
+
+.k-nav-current > .k-link span + span {
+    max-width: 200px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: top;
+}
+
+
+.k-scheduler-header-wrap div.k-event,
+.k-scheduler-content div.k-event {
+    background-color: #008080;
+    border-width: 0px;
+    color: #ffffff;
+}
+
+
+
+
+/*-----------*/
+
+
+
+
+/*---- Well input Tables ----*/
+.CustomeWellGray {
+    background-image: -webkit-linear-gradient(top, #e8e8e8 0%, #f5f5f5 100%);
+    background-image: -o-linear-gradient(top, #e8e8e8 0%, #f5f5f5 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#e8e8e8), to(#f5f5f5));
+    background-image: linear-gradient(to bottom, #e8e8e8 0%, #f5f5f5 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe8e8e8', endColorstr='#fff5f5f5', GradientType=0);
+    background-repeat: repeat-x;
+    border-color: #dcdcdc;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    padding-top: 15px;
+    padding-bottom: 25px;
+    box-shadow: none;
+}
+
+.CustomeWellWhite {
+    background-image: -webkit-linear-gradient(top, #fff 0%, #fff 100%);
+    background-image: -o-linear-gradient(top, #fff 0%, #fff 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+    background-image: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#fff', GradientType=0);
+    background-repeat: repeat-x;
+    border-color: #fff;
+    -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 rgba(255, 255, 255, .1);
+    padding-top: 0px;
+    padding-bottom: 0px;
+    box-shadow: none;
+}
+
+/*--------*/
+
+
+
+
+
+
+
+
+
+
+

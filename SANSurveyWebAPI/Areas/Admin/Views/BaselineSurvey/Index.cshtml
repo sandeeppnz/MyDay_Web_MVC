@@ -1,0 +1,91 @@
+﻿@model IEnumerable<SANSurveyWebAPI.DTOs.ProfileDto>
+
+
+
+@{
+    ViewBag.Title = "Baseline Surveys";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<h2>Baseline Surveys / Registration</h2>
+
+<table class="table">
+    <tr>
+
+        <th>
+            Profile Id
+        </th>
+
+        <th>
+            Status / Progress
+        </th>
+
+        <th>
+            Account Created (UTC)
+        </th>
+
+        <th>
+            Last Updated (UTC)
+        </th>
+
+        <th>
+            Reg. Completed (UTC)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.RegistrationEmailJobId)
+        </th>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.Uid)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationProgressNext)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDateTimeUtc)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.LastUpdatedDateTimeUtc)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(model => item.RegisteredDateTimeUtc)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.RegistrationEmailJobId)
+            </td>
+
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Uid)
+            </td>
+
+            <td>
+                @Html.ActionLink("Registration Survey", "RegistrationSurveyInvite", new { id = item.Id }) | 
+
+                @Html.ActionLink("Exit Survey", "ExitSurveyInvite", new { id = item.Id }) |
+
+                @Html.ActionLink("Activity Log", "Details", new { id = item.Id })
+            </td>
+        </tr>
+                    }
+
+</table>

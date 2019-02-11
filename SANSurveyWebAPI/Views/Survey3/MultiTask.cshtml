@@ -1,0 +1,141 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyMultiTaskVM
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+    ViewBag.Title = "Survey: Select Tasks";
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+    DateTime TaskEndDateTime = (DateTime) Session["CurrTaskEndTime"];
+    string TaskEndTime = TaskEndDateTime.ToString("hh:mm tt");
+    string TaskDate = Session["StartDate"].ToString();
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+<link href="~/Scripts/BJDualList/bootstrap-duallistbox.css" rel="stylesheet" />
+<script src="~/Scripts/BJDualList/jquery.bootstrap-duallistbox.js"></script>
+@using (Html.BeginForm("MultiTask", "Survey3", FormMethod.Post,
+                                        new { name = "frmMultiTask", id = "frmMultiTask", @class = "nav-right" }))
+{
+    @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+    @Html.ValidationSummary(true, "Please check the form for errors.")
+    @Html.HiddenFor(model => model.TotalTaskSelectionLimit, new { @id = "TTotalTaskSelectionLimit" })
+
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                @Model.PageQuestion @TaskStartTime <span>and</span> @TaskEndTime <span>on</span> @TaskDate?
+            </h3>
+        </div>        
+        <div class="panel-body">
+            <div style="text-align:left">
+                <i>@Model.QuestionHint 
+                <br /> @Model.QuestionHint2
+                <br /> @Model.QuestionHint3 
+                <br /> @Model.QuestionHint4</i></div> <br /><br />
+             <div class="col-md-12 col-sm-12 col-xs-12 padding-0 ">
+                <div class="col-md-12 col-sm-12 col-xs-12">                                       
+                    @Html.ListBox("AlltheTasks", new SelectList(@Model.AllTaskItemsObj, "Id", "ShortName"))
+                    @Html.HiddenFor(model => model.HiddenSelectedTasksIds, new { @id = "hiddSelectedTasks" })          
+                </div>
+            </div>
+        </div>
+        <center>
+            <div>
+                <small id="SelectedTasks_Incomplete" class="invalid" style="text-align:left">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    &nbsp;@*Please select at least @Model.TotalTaskSelectionLimit task to continue*@
+                    Please select at least one task to continue
+                </small>
+            </div>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>
+
+    @Html.Partial("_DialogTask")
+    @Html.Partial("_FooterSurvey")
+}
+<script type="text/javascript">  
+
+    $('#SelectedTasks_Incomplete').hide();  
+    var TTotalTaskSelectionLLimit = $("#TTotalTaskSelectionLimit").val();
+
+    $(document).ready(function () {
+        //we create the dual list control
+        $('select[id*="AlltheTasks"]').bootstrapDualListbox({
+            nonSelectedListLabel: 'Available Tasks',
+            selectedListLabel: 'Selected Tasks',
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: false,
+        });
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("selectedListBox", "Survey3")",
+            success: function (result) {
+                var lstSelected = $("select[id*=selected-list_AlltheTasks]");
+                $.each(result, function () {                    
+                    lstSelected.append($("<option></option>").val(this['Id']).html(this['ShortName']));
+                });
+            }
+        });
+        $("#btnNext").click(function () {
+            //if ($("#selected-list_AlltheTasks option").length >= Number(TTotalTaskSelectionLLimit)) {
+            if ($("#selected-list_AlltheTasks option").length >= 1) {
+                var selectValues = "";
+                $('#SelectedTasks_Incomplete').hide();
+                $("#selected-list_AlltheTasks option").each(function () {
+                    selectValues = selectValues + $(this).val() + ",";
+                });
+                $("#hiddSelectedTasks").val(selectValues.substring(0, selectValues.length - 1));
+                $("#frmMultiTask").submit();
+            }
+            else { $('#SelectedTasks_Incomplete').show(); }
+
+            return false;
+        }); 
+        $("#btnMoveMeRight").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("selectedListBox", "Survey3")",
+                    success: function (result) {
+                        var lstSelected = $("select[id*=selected-list_AlltheTasks]");
+                        $.each(result, function () {                    
+                            lstSelected.append($("<option></option>").val(this['Id']).html(this['ShortName']));
+                        });
+                    }
+            });
+        });
+        $("#btnMoveMeLeft").click(function () {
+            //var box = $("select[id*=selected-list_AlltheTasks]");
+            ////var conceptName = box.options[box.selectedIndex].val();
+            //alert($('#selected-list_AlltheTasks option').val(this['value']).val());
+            //alert($('#selected-list_AlltheTasks option:selected').val());
+            //alert(conceptName);
+            @*$.ajax({
+                type: "GET",
+                url: "@Url.Action("selectedListBox", "Survey3")",
+                success: function (result) {
+                    var lstSelected = $("select[id*=selected-list_AlltheTasks]");
+                    $.each(result, function () {                    
+                        lstSelected.append($("<option></option>").val(this['Id']).html(this['ShortName']));
+                    });
+                }
+                });*@
+        });
+    });
+    //To prevent user from going back to Multi-Task Window from TaskView
+    $(document).ready(function () {
+        function disableBack() { window.history.forward() }
+        window.onload = disableBack();
+        window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+    });
+    $(".progress-bar-success").css("background-color", "teal");
+    $("#btnMoveAllToRight").css("display", "none");
+    $("#btnMoveAllToLeft").css("display", "none");
+    $(".bootstrap-duallistbox-container").find("#btnMoveAllToRight").prop("disabled", true);
+</script>
+

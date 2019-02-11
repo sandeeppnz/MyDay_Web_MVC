@@ -1,0 +1,5 @@
+﻿@model SANSurveyWebAPI.Models.ExpiringSoonStartButNotCompletedSurveyReminderEmail
+To: @Model.ToEmail
+From: mailer@example.com
+Subject: MyDay survey would expire soon (Survey Period: @Model.SurveyWindowStartDate)
+Views: Text, Html

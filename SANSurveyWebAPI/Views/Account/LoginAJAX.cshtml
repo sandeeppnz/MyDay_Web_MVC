@@ -1,0 +1,208 @@
+﻿@using SANSurveyWebAPI.ViewModels.Web
+@model LoginViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/dist/css/formValidation.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Login.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.blockUI.js"></script>*@
+
+    @*<script src="~/Scripts/dist/js/formValidation.min.js"></script>
+    <script src="~/Scripts/dist/js/framework/bootstrap.min.js"></script>*@
+
+
+</head>
+
+<body class="loginBody">
+
+        <div class="container">
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="row loginbox" id="LoadingPanel">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div>
+                        <div class="col-lg-6 col-md-6 col-xs-7">
+                            <div>
+                                <h3>@SANSurveyWebAPI.Constants.AppBrandName</h3>
+                            </div>
+                            <div>
+                                <h4>Login</h4>
+                            </div>
+                            @*<span class="singtext"><br /><br /></span>*@
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xs-5" style="text-align:right">
+                            <img class="logoImage" src="~/Images/logo-login.png" alt="Logo">
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input type="text" id="userid" class="form-control" placeholder="Email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <br />
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input type="password" class="form-control" id="password" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <button class="btn btn-warning form-control" type="submit" id="savedata"><i class="glyphicon glyphicon-log-in"></i>&nbsp;Login</button>
+                        </div>
+
+
+                    
+
+                        @*<button id="LoginButton" type="submit" class="btn btn-success btn-lg btn-block" value="Login">
+                                Login
+                            </button>*@
+
+                    </div>
+                </div>
+                <div class="row forGotPassword">
+                    @*<a href="#">Forgot Username / Password? </a>*@
+                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                </div>
+                <br>
+                <br>
+                <footer class="footer">
+                    @*<a href='#'>Terms of use</a> |
+                        <a href='#'>Privacy Policy</a> | 
+                        <a href='#'>Contact us</a> | 
+                        <a href='#'>Feedback</a>*@
+                    <p>© @DateTime.Now.Year @SANSurveyWebAPI.Constants.AppFooter </p>
+                </footer> <!--footer Section ends-->
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+
+
+        </div>
+
+
+</body>
+</html>
+<script>
+
+    function LoaderLocal() {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    }
+
+    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+
+
+    $(document).ready(function () {
+
+        $('#savedata').click(function () {
+            var data = {
+                "userid": $("#userid").val(),
+                "password": $("#password").val()
+            };
+
+
+            $.ajax({
+                url: "/Account/ValidateUser",
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+                    if (response.Success) {
+                        $.get("@Url.Action("Index", "Home")", function (data) {
+                            $('body').html(data);
+                        });
+                      
+                    }
+                    else
+                        window.location.href = "@Url.Action("Login", "Account")";
+                },
+                error: function () {
+                    console.log('Login Fail!!!');
+                }
+            });
+        });
+
+
+        //$('#LoginButton').click(function (e) {
+        //    LoaderLocal();
+        //});
+
+
+        //$('#frmLogin').formValidation({
+        //    framework: 'bootstrap',
+        //    icon: {
+        //        valid: 'glyphicon glyphicon-ok',
+        //        invalid: 'glyphicon glyphicon-remove',
+        //        validating: 'glyphicon glyphicon-refresh'
+        //    },
+        //    fields: {
+        //        email: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'The email address is required'
+        //                },
+        //                emailAddress: {
+        //                    message: 'The input is not a valid email address'
+        //                }
+        //            }
+        //        },
+        //        password: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'The password is required'
+        //                },
+        //                stringLength: {
+        //                    min: 6,
+        //                    max: 30,
+        //                    message: 'The password must be more than 6 and less than 30 characters long'
+        //                },
+        //                regexp: {
+        //                    regexp: /^[a-zA-Z0-9_]+$/,
+        //                    message: 'The username can only consist of alphabetical, number and underscore'
+        //                }
+        //            }
+        //        }
+        //    }
+        //});
+    });
+</script>

@@ -1,0 +1,27 @@
+﻿<div class="remodal"
+     data-remodal-id="DialogLoop"
+     id="DialogComplete"
+     data-remodal-options="hashTracking: false, closeOnOutsideClick: false, closeOnEscape: false">
+
+
+    <i class="fa fa-check-circle fa-4x" aria-hidden="true"></i>
+
+    <br /><h2>Thank you for participating in the this survey.</h2>
+
+    <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnOk">:)</button>
+      <br /><br />
+
+</div>
+<script>
+    var taskType = '@Session["taskType"]';
+    var demoFor = '@Session["DemoForUser"]';
+    //alert("taskType: " + taskType);
+
+    $('#btnOk').on("click", function (e) {
+                e.preventDefault();
+                window.location.href = "@Url.Action("LogOff", "Account")";        
+        window.location.href = "@Url.Action("KidsSurvey", "Kids")"; 
+        
+            });
+
+</script>

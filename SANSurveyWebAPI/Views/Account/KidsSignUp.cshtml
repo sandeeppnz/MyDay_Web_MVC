@@ -1,0 +1,182 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Sign-up for Demo";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Signup - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+    <script src="~/Scripts/formValidation/formValidation.min.js"></script>
+    <script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+
+    <style>
+        .has-error {
+            border: none;
+        }
+    </style>
+</head>
+<body class="loginBody">
+    @using (Html.BeginForm("KidsSignUp", "Account", new { uid = @Model.Uid }, FormMethod.Post, new { name = "frmKidsSignUp", id = "frmKidsSignUp", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.HiddenFor(m => m.Uid)
+        @Html.AntiForgeryToken()
+        <div class="container">
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="row loginbox">
+                    <div style="background-color:rgb(47, 159, 173)">
+                        <img class="logoImage" src="~/Images/SignupBanner.png" alt="Logo">
+                    </div>  
+
+                    <div>
+                        <h4>Signup Form</h4>
+                    </div>
+
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+                                @Html.TextBoxFor(m => @Model.Email, new
+                           {
+                               @class = "form-control",
+                               @id = "userid"                               
+                           })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+                                @Html.TextBoxFor(m => @Model.Password,
+                               new
+                               {
+                                   @class = "form-control",                                   
+                               })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-repeat"></i></span>
+                                @Html.TextBoxFor(m => @Model.ConfirmPassword,
+                               new
+                               {
+                                   @class = "form-control"                                   
+                               })
+                             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">                           
+                            <button class="btn btn-success btn-lg btn-block " type="submit" id="btnNext">Signup</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row forGotPassword">
+                    Having trouble? 
+                    <a target="_blank" href='/#contact'>Contact us</a>
+                </div>
+                @Html.Partial("_Footer")
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        </div>
+    }
+</body>
+</html>
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    ol, ul {
+        padding-left: 0px;
+    }
+</style>
+<script type="text/javascript">
+
+    function LoaderLocal() {
+        $.blockUI({
+            css: {
+                border: 'none',                
+                backgroundColor: 'transparent',                
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        })
+    }
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+    $(document).ready(function () {
+        $('#btnNext').on("click", function (e) {
+        });
+        $('#frmKidsSignUp').formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address is required'
+                        },
+                        emailAddress: {
+                            message: 'The input is not a valid email address'
+                        },
+                        blank: {}
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required'
+                        },
+                    }
+                },
+                ConfirmPassword: {
+                    validators: {
+                        identical: {
+                            field: 'Password',
+                            message: 'The password and its confirm are not the same'
+                        }
+                    }
+                }
+            }
+        })
+        // Enable the password/confirm password validators if the password is not empty
+        .on('keyup', '[name="Password"]', function () {
+            var isEmpty = $(this).val() == '';
+            $('#frmKidsSignUp')
+                    .formValidation('enableFieldValidators', 'Password', !isEmpty)
+                    .formValidation('enableFieldValidators', 'ConfirmPassword', !isEmpty);
+
+            // Revalidate the field when user start typing in the password field
+            if ($(this).val().length == 1) {
+                $('#frmKidsSignUp').formValidation('validateField', 'password')
+                                .formValidation('validateField', 'confirm_password');
+            }
+        });
+    });
+</script>

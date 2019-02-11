@@ -1,0 +1,201 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.ThirdWEVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutExit.cshtml";
+    ViewBag.Title = "MyWorkplace Survey";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="~/Scripts/StyleUp/styleUp.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("ThirdWorkEnvironment", "ExitV2", FormMethod.Post,
+                                        new { name = "frmThirdWorkEnvironment", id = "frmThirdWorkEnvironment" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxExitV2Step)
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+            { CurrStep = 6, MaxStep = Model.MaxExitV2Step })      
+            <div class="panel panel-default" id="Placement">
+                <div class="remove-TealBox">
+                    Please mark the appropriate answer that best describes your immediate senior           
+                </div>
+
+                <div class="panel-body">
+                    <div>
+                        <i>
+                            The term "IMMEDIATE SENIOR" refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?
+                        </i>
+                    </div>
+                    <br />
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            My immediate senior <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> is ...
+                        </label>
+                        @*@Html.Label("Please mark the appropriate answer: My immediate senior is", new { @class = "col-sm-4 col-form-label" })*@
+                        <div class="col-sm-8">
+                            <div id="ContractTypePanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.Q1, "a highly distinguished clinician", new { @id = "ContractTypeRadio", @name = "ContractType1", @style = "padding-bottom: 10px" })
+                                <label for="ContractType1">a highly distinguished clinician</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "a distinguished clinician", new { @id = "ContractTypeRadio", @name = "ContractType2", @style = "padding-bottom: 10px" })
+                                <label for="ContractType2">a distinguished clinician</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "an averagely able clinician", new { @id = "ContractTypeRadio", @name = "ContractType3", @style = "padding-bottom: 10px" })
+                                <label for="ContractType3">an averagely able clinician</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "not that interested in clinical work", new { @id = "ContractTypeRadio", @name = "ContractType4", @style = "padding-bottom: 10px" })
+                                <label for="ContractType4">not that interested in clinical work</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "not a clinician", new { @id = "ContractTypeRadio", @name = "ContractType5", @style = "padding-bottom: 10px" })
+                                <label for="ContractType5">not a clinician</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "Other", new { @id = "ContractTypeRadio", @name = "ContractType6", @style = "padding-bottom: 10px" })
+                                <label for="ContractType6">Other</label>
+
+                                <div id="OtherTextQ1Div">
+                                    @Html.TextBoxFor(model => model.Q1Other
+                                        , new
+                                        {
+                                            @id = "txtOtherQ1Text",
+                                            @class = "form-control",
+                                            @placeholder = "Please specify"
+                                        })
+                                    <small id="SpecialityOtherText_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                </div>
+                                <br />
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "I do not know", new { @id = "ContractTypeRadio", @name = "ContractType7", @style = "padding-bottom: 10px" })
+                                <label for="ContractType7">I do not know</label>
+                                <br />
+                                <small id="ContractType_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>                    
+                </div>
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogPage3")
+}
+
+<script type="text/javascript">
+    var instProceed = $("#_DialogTaskTimeProceed").remodal();
+    //I. Setting global variables for Radiobuttonfor
+    var option = "";
+    var option_selected = null;
+    //II. Assigning values to global values by change event on Radiobuttonfor
+    $('#frmThirdWorkEnvironment input').on('change', function () {
+        var x = this.id;
+        var y = this.value;
+        var allfilled = true;
+        option = x; option_selected = y;
+    });
+    //Modified the AddCustomValidation function on 3/08/2017 --by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        if ($("input[type=radio]:checked").length < 1) {
+            if ($("input:radio[id=ContractTypeRadio]").is(':checked')) { $('#ContractType_Incomplete').hide(); }
+            else { $('#ContractType_Incomplete').show(); allFilled = false; }          
+        }
+        //III. Using the global variable to check other text field
+        if (option == "ContractTypeRadio") {
+            if (option_selected == "Other")
+                if ($('#txtOtherQ1Text').val() == "")
+                { $('#SpecialityOtherText_Incomplete').show(); allFilled = false; instProceed.open(); }
+                else
+                { $('#SpecialityOtherText_Incomplete').hide(); }
+        }       
+        //End step III. of using global variable        
+        return allFilled;
+    }
+
+    var inst = $("#_DialogPage3").remodal();
+
+    $(document).on('confirmation', '#_DialogPage3', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmThirdWorkEnvironment').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogPage3', function () {
+        AddCustomValidation();
+    });
+
+    $(document).ready(function () {       
+
+        RemoveCustomValidation();
+
+        $.ajaxSetup({ cache: false });
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            if (AddCustomValidation()) {
+                LoaderLocal();
+
+                $('#frmThirdWorkEnvironment').submit();
+            }
+            else {
+                inst.open();
+            }
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("SecondWorkEnvironment", "ExitV2")";
+        });
+    })
+
+    function RemoveCustomValidation() {
+        $('[name="ContractType"]').parent().removeClass("has-error"); 
+        $('#ContractType_Incomplete').hide();
+    }
+
+    $('#frmThirdWorkEnvironment input').on('change', function () {
+        var x = this.id;
+
+        if (x == "ContractTypeRadio") {
+            $('#ContractType_Incomplete').hide();
+        }
+    });
+
+    $('#frmThirdWorkEnvironment input').on('change', function () {
+        var x = this.id;
+        var y = this.value;
+
+        if (x == "ContractTypeRadio") {
+            if (y == "Other") {
+                $('#OtherTextQ1Div').show();
+            }
+            else {
+                $('#OtherTextQ1Div').hide();
+            }
+        }  
+    });
+
+    $("input[id^='ContractType']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });   
+</script>
+

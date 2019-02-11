@@ -1,0 +1,120 @@
+﻿@model SANSurveyWebAPI.Models.ExpiringSoonStartButNotCompletedSurveyReminderEmail
+
+Content-Type: text/plain; charset=utf-8
+<html>
+
+<body style="font-family:Arial, Helvetica, sans-serif;">
+    <table class="table-responsive" style="padding:10px;
+        background-color:#d5f2f2">
+        <tr>
+            <td style="background-color:rgb(47, 159, 173)">
+                @Html.EmbedImage("~/images/Email/header_cropped.png")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin:0px;
+                background-color:white;padding-left:15px;
+                padding-right:10px;padding-top:10px;padding-bottom:10px;">
+                    <p>
+                        User ID: @Model.RecipientName
+                    </p>
+                    <h3 style="color:rgb(0, 0, 0)">
+                        Hi there,
+                    </h3>
+                    <center>
+                        @Html.EmbedImage("~/images/Email/expiringSoonReminder_72.png")
+                    </center>
+                    <p style="color:#008080;font-size:18px;">
+                        A friendly reminder to complete your MyDay survey before it expires. This survey will ask you about
+                        <br />
+                        @*@Html.EmbedImage("~/images/Email/SurveyTimePeriod_16.png")*@
+                        @Model.SurveyWindowStartTime - @Model.SurveyWindowEndTime (@Model.SurveyWindowStartDate)
+                        <br />
+                    </p>
+                    <center>
+                        <a href=@Model.Link style="background:azure;
+                            padding-bottom:20px;padding-top:20px;
+                            padding-left:40px; padding-right:40px;
+                            text-align:center; text-decoration: none;
+                            display: inline-block;font-size: 16px;
+                            border: solid;border-color:#008080;border-radius:5px;
+                            color:#008080;"
+                           class="button"><b>Click to Login</b></a>
+                    </center>
+
+                    <p style="color:#008080;font-size:18px;">
+                        We appreciate your participation in MyDay surveys and your opinion is valuable to us.
+                        Please login to your MyDay account to complete this survey.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px;">
+                        Thank you for your continued participation.
+                        If you experience any difficulty,
+                        please do not hesitate to contact our help desk <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>.
+
+                    </p>
+                    <hr />
+
+                    <br />
+
+                    <p style="color:#008080;font-size:18px;">
+                        To find out more about the study, visit
+                        <a href="https://myday.aut.ac.nz/">myday.aut.ac.nz</a>. If you do not wish to be
+                        contacted again about participating in this study, please email <a href="mailto:dpa@hee.nhs.uk">dpa@hee.nhs.uk</a> quoting your name and unique identifier number, which can be found next to your address. You will be removed from further recruitment communications.
+                    </p>
+                    <p style="color:#008080;font-size:18px;">
+                        Your data is being processed in accordance with the Data Protection Act and
+                        Health Education England Privacy policy.
+                    </p>
+                    <p style="color:#008080;font-size:18px;">
+                        Thank you for your contribution to this research!
+                    </p>
+                    <p>
+                        <b style="color:black">
+                            Professor Rhema Vaithianathan
+                        </b>
+                        <br />
+                        Co-Director, Centre for Social Data Analytics
+                        <br />
+                        Auckland University of Technology, New Zealand
+
+                        <br />
+                        <br />
+
+                        <b style="color:black">
+                            Dr Peter Hockey
+                        </b>
+                        <br />
+                        Postgraduate Dean
+                        <br />
+                        Health Education England, Wessex
+                        <br />
+                        <br />
+
+                        <b style="color:black">
+                            Dr Amanda Goodall
+                        </b>
+                        <br />
+                        Senior Lecturer, Faculty of Management
+                        <br />
+                        Cass Business School, London
+                    </p>
+
+                    <p>
+                        IRB: 30632
+                    </p>
+                </div>
+                <div style="background-color:white;text-align:right">
+                    @Html.EmbedImage("~/images/Email/warrenmahony_header.png")
+                </div>
+            </td>
+        </tr>
+
+
+
+
+    </table>
+</body>
+
+</html>

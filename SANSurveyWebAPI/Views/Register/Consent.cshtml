@@ -1,0 +1,414 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.ConsentViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Informed Consent";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+
+    <link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+    <script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+    <link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+    <script src="~/Scripts/formValidation/formValidation.min.js"></script>
+    <script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>
+    @*<script src="http://kendo.cdn.telerik.com/2016.3.1118/js/kendo.all.min.js"></script>*@
+    <script src="https://da7xgjtj801h2.cloudfront.net/2016.3.1118/js/kendo.all.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/remodal/remodal.min.js"></script>
+
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+
+</head>
+
+
+
+
+<body class="loginBody">
+    @using (Html.BeginForm("Consent", "Register", new { uid = @Model.Uid }, FormMethod.Post, new { name = "frmConsent", id = "frmConsent", @class = "form-horizontal", role = "form" }))
+    {
+        <div class="container">
+            @*<div class="col-lg-1 col-md-3 col-sm-4"></div>*@
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="consentbox">
+                    @*<form id="frmConsent" class="form-horizontal">*@
+
+                    @*@Html.AntiForgeryToken()*@
+                    @Html.HiddenFor(m => m.Uid, new { @id = "uid" })
+                    @Html.HiddenFor(m => m.IsAgree)
+
+                    <div>
+                        <h3>Consent Form</h3>
+                        <div style="border: 1px solid #e5e5e5; height: 400px; overflow: auto; padding: 10px;">
+                            <div class="modal-body">
+                                <div style="font-size:medium">
+                                    <u><b>Measuring the Experiential Enjoyment of Junior Doctors Working Day Using the Day Reconstruction Method</b></u>
+                                </div>
+
+                                <br /><b>Researcher name:</b> Prof Rhema Vainthianathan of Auckland University of Technology, Professor Karen Morrison Dean of the medical school of the University of Southamton and Dr Peter Hockey Postgraduate Dean of Health Education England across Wessex, Dr Amanda Goodall, Senior Lecturer, Cass Business School, London.
+
+                                <br /><br /><b>
+                                    ERGO reference:
+                                </b> 30632
+
+                                <br /><br /><u>Participant's Consent Declaration</u>
+                                <br />
+
+                                I understand that participation is voluntary. Refusal to participate will involve no penalty. I may discontinue participation at any time without penalty or loss of accrued benefits (accrued on the basis of surveys completed or as otherwise stated by the researcher) to which I am entitled for my participation. I declare that I am at least 18 years of age. My decision to participate, decline, or withdraw from participation will have no adverse effect on my status at or future relations with my employer, hospital or Health Education Wessex. I have read and fully understood the contents of this form and hereby give consent, which consent shall be continuing, to Auckland University of Technology to collect and analyse my personal data for the research purpose and in the confidential manner specified in this form.
+                               
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group" style="padding-left:20px;">
+                            <br />
+                            <b>Please check the box(es) if you agree with the above statement(s):</b>
+                            <br />
+
+                            <div style="padding-left:30px;" class="icheckbox checkbox checked">
+                                <label>
+
+                                    <input id="CheckBox1"
+                                           class="icheckbox_flat-green"
+                                           name="CheckBox1"
+                                           type="checkbox">
+                                    &nbsp;
+                                    I have read and understood the information sheet regarding the study: Measuring the Experiential Enjoyment of Junior Doctors Working Day Using the Day Reconstruction Method and have had the opportunity to ask questions about the study.
+                                    @*&nbsp;*@
+                                    @*<span class="">*@
+                                    @*<span class="icon-check"></span>*@
+                                    @*</span>*@
+                                </label>
+                            </div>
+
+                            <div style="padding-left:30px;" class="icheckbox checkbox checked">
+                                <label class="icheckbox checkbox checked">
+                                    <input id="CheckBox2"
+                                           name="CheckBox2"
+                                           type="checkbox"
+                                           class="icheckbox_flat-green">
+
+                                    &nbsp;
+                                    I agree to take part in this research project and agree for my data to be used for the purpose of this study.                                            <span class="icon-check"></span>
+                                    @*<span class="label-text">
+                                        </span>*@
+                                </label>
+                            </div>
+
+                            <div style="padding-left:30px;" class="icheckbox checkbox checked">
+                                <label class="checkbox checked">
+                                    <input id="CheckBox3"
+                                           name="CheckBox3"
+                                           type="checkbox"
+                                           class="icheckbox_flat-green">
+
+                                    &nbsp;
+                                    I understand my participation is voluntary and I may withdraw at any time.
+
+                                </label>
+                            </div>
+
+
+                            @*<ul class="listview checkbox-strip">
+                                    <li>
+                                        <label class="checkbox checked">
+                                            <input name="feature-1" value="1" checked="" type="checkbox">
+                                            <span class="label-text">Feature 1<span class="icon-check"></span></span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox checked">
+                                            <input name="feature-2" value="2" checked="" type="checkbox">
+                                            <span class="label-text">Feature 2 - with a longer text label<span class="icon-check"></span></span>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label class="checkbox">
+                                            <input name="feature-3" value="3" type="checkbox">
+                                            <span class="label-text">Feature 3<span class="icon-check"></span></span>
+                                        </label>
+                                    </li>
+                                </ul>*@
+
+
+
+
+                            @*<label>
+                                     @Html.RadioButtonFor(m => m.IsAgree, "yes", new
+                                {
+                                    @id = "radio1",
+                                    @class = "checkbox",
+                                    @name = "IsAgree"
+                                }) YES - I am willing to participate. I have read and understood, and agree to the terms and conditions as stated in the Informed Consent Form above.
+                                 </label>
+                                 <label>
+                                     @Html.RadioButtonFor(m => m.IsAgree, "no", new
+                                {
+                                    @id = "radio2",
+                                    @class = "checkbox",
+                                    @name = "IsAgree"
+                                })  NO - I do not want to participate.
+                                 </label>*@
+
+
+
+
+                        </div>
+                        <div class="form-group">
+                            @*<button type="submit" id="btnNext" class="btn btn-success btn-block btn-lg" name="submit" value="consent">Submit</button>*@
+
+                            <div style="padding:20px">
+                                <button type="button" id="btnNext" class="btn btn-success btn-lg" name="submit" value="consent">
+                                    Submit
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    @*</form>*@
+                    @*<div class="row ForgetPasswordBoxConsent">
+                            Having trouble? @Html.ActionLink("Please contact us", "Contact", "Home").
+                        </div>*@
+
+                </div>
+                @Html.Partial("_Footer")
+            </div>
+        </div>
+
+        @Html.Partial("_DialogConsent")
+    }
+</body>
+</html>
+
+
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    .glyphicon-remove:before {
+        content: '';
+    }
+
+    .glyphicon-ok:before {
+        content: '';
+    }
+
+    #frmConsent .radio label, #frmConsent .checkbox label {
+        padding-left: 0;
+    }
+
+    #frmConsent .form-control-feedback {
+        /*position: static;
+    display: inline-block;*/
+    }
+</style>
+
+
+
+
+
+<script type="text/javascript">
+
+    var inst = $("#_DialogConsent").remodal();
+
+
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+
+    $(document).ready(function () {
+
+        $('#btnNext').on("click", function (e) {
+
+            //debugger;
+            //LoaderLocal();
+            //$('#frmConsent').submit();
+            //var m = {
+            //    Uid : "uid",
+            //    IsAgree : "isAgree"
+            //};
+
+            var Choice1 = $('input[name=CheckBox1]:checked').val();
+            var Choice2 = $('input[name=CheckBox2]:checked').val();
+            var Choice3 = $('input[name=CheckBox3]:checked').val();
+
+            var allChecked = false;
+
+            if (Choice1 == 'on' && Choice2 == 'on' && Choice3 == 'on') {
+                allChecked = true;
+            }
+
+            var data = null;
+
+            if (allChecked) {
+                var dataInt = {
+                    "IsAgree": allChecked,
+                    "Uid": $("#uid").val(),
+                };
+
+                data = dataInt;
+            }
+
+            //var isAgree = $('input[name=IsAgree]:checked').val();
+
+            var isAgree = allChecked;
+
+            var uid = $("#uid").val();
+
+
+            if (allChecked) {
+
+                $.ajax({
+                    url: '@Url.Action("Consent", "Register")',
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (response) {
+
+                        if (response.Success) {
+
+                            if (response.State == "Go") {
+                                //var url = '@Url.Action("Signup", "Account")?uid=' + uid;
+                                var url = '@Url.Action("ScreeningExt", "Register")?uid=' + uid;
+                                window.location = url;
+                            }
+                            else if (response.State == "Stop") {
+                                window.location = "/Register/End/";
+                            }
+                            else if (response.State == "DNP") {
+                                window.location = "/Register/DNP/";
+                            }
+                            else if (response.State == "Expired") {
+                                window.location = "/Register/Expired/";
+                            }
+                            else {
+
+                            }
+                        }
+                        else {
+
+                            //if the returned false
+                            //alert("response.Success = " + response.Success);
+                            //debugger;
+                            inst.open();
+
+                        }
+                    },
+                    error: function () {
+                        //console.log('Login Fail!!!');
+                        //alert('Error submitting, please try again');
+                    }
+                });
+
+            }
+            else {
+                //if the returned false
+                //alert("allChecked = " + allChecked);
+                //debugger;
+                inst.open();
+            }
+
+            //alert(response);
+            @*window.location.href = "@Url.Action("Signup", "Account", "$('#uid').val()")";*@
+            @*if (response.Success) {
+                        //alert('Success');
+                        $.get("@Url.Action("Signup", "Account")", function (uid) {
+                        });
+                    }
+                },
+            @*}).done(function () {
+                var url = '@Url.Action("Signup", "Account")?uid=' + uid;
+                window.location = url;
+                //alert('Added');
+            });*@
+
+            @*var url = '@Url.Action("Signup", "Account")?uid=' + uid;
+            window.location = url;*@
+
+
+            @*$.ajax({
+                url: '@Url.Action("Consent", "Register")',
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {*@
+            //alert(response);
+            @*window.location.href = "@Url.Action("Signup", "Account", "$('#uid').val()")";*@
+            @*if (response.Success) {
+                        //alert('Success');
+                        $.get("@Url.Action("Signup", "Account")", function (uid) {
+                        });
+                    }
+                },*@
+            //    error: function () {
+            //        //console.log('Login Fail!!!');
+            //        alert('Error submitting, please try again from the email');
+            //    }
+            //});
+        });
+
+        //$('#frmConsent').formValidation({
+        //    framework: 'bootstrap',
+        //    icon: {
+        //        valid: 'glyphicon glyphicon-ok',
+        //        invalid: 'glyphicon glyphicon-remove',
+        //        validating: 'glyphicon glyphicon-refresh'
+        //    },
+        //    fields: {
+        //        IsAgree: {
+        //            validators: {
+        //                notEmpty: {
+        //                    message: 'Please select an option'
+        //                }
+        //            }
+        //        }
+        //    }
+        //})
+        //.find('input[name="IsAgree"]')
+        //    //// Init icheck elements
+        //    .icheck({
+        //        tap: true,
+        //        checkboxClass: 'icheckbox_flat-green',
+        //        radioClass: 'icheckbox_flat-green'
+        //    })
+        //    // Called when the radios/checkboxes are changed
+        //    .on('ifChanged', function (e) {
+        //        // Get the field name
+        //        var field = $(this).attr('name');
+        //        $('#frmConsent').formValidation('revalidateField', field);
+        //    })
+        //    .end();
+    });
+
+</script>

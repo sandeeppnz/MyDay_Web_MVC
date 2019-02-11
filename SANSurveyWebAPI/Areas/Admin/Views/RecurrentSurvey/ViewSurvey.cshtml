@@ -1,0 +1,533 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.AdminSurveyDetailsVM
+@{
+    ViewBag.Title = "Survey Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<style>
+    .row {
+        margin-top: 40px;
+        padding: 0 10px;
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    .panel-heading span {
+        margin-top: -20px;
+        font-size: 15px;
+    }
+</style>
+
+<script>
+    $(document).on('click', '.panel-heading span.clickable', function (e) {
+        var $this = $(this);
+        if (!$this.hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideUp();
+            $this.addClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+        } else {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $this.removeClass('panel-collapsed');
+            $this.find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+        }
+    })
+</script>
+
+<h2>Survey Details</h2>
+<div>
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Survey</h3>
+                <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+            </div>
+            <div class="panel-body">
+                Profile ID: @Html.DisplayFor(model => model.ProfileId)
+                <br />
+                Roster / Shift ID: @Html.DisplayFor(model => model.RosterItemId)
+                <br />
+                Survey ID: @Html.DisplayFor(model => model.Id)
+                <br />
+                Survey Period: @Html.DisplayFor(model => model.SurveyDescription)
+                <br />
+                Survey UID: @Html.DisplayFor(model => model.Uid)
+                <br />
+                Survey Created Date (UTC): @Html.DisplayFor(model => model.CreatedDateTimeUtc)
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Status</h3>
+                <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+            </div>
+            <div class="panel-body">
+                Expiry Date: @Html.DisplayFor(model => model.SurveyExpiryDateTime)
+                <br />
+                Progress: @Html.DisplayFor(model => model.SurveyProgressNext)
+                <br />
+                User Started (UTC): @Html.DisplayFor(model => model.SurveyUserStartDateTimeUtc)
+                <br />
+                User Ended (UTC): @Html.DisplayFor(model => model.SurveyUserCompletedDateTimeUtc)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Shift Reminder</h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+        </div>
+        <div class="panel-body">
+
+            <button type="button" id="btnShiftReminder" class="btn btn-success" name="submit" value="consent">
+                Run Now
+            </button>
+
+            <table class="table .table-condensed">
+                <thead>
+                    <tr>
+                        <th>JobId</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>When</th>
+                        <th>CreatedAt (UTC)</th>
+                        <th>ExpiredAt (UTC)</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @{
+
+                        foreach (var item in Model.ShiftReminders)
+                        {
+                            <tr>
+                                <td>
+                                    @item.JobId
+                                </td>
+                                <td>
+                                    @{
+                                        var firstItem = Model.JobLogShiftReminderEmailList
+                                                                    .Where(b => b.HangfireJobId == item.JobId).FirstOrDefault();
+
+                                        @firstItem.JobMethod.ToString()
+
+                                    }
+
+                                    @*@Model.JobLogShiftReminderEmail.JobMethod*@
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td></td>
+                                <td>
+                                    @item.CreatedAt
+                                </td>
+                                <td>
+                                    @item.ExpireAt
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Start Survey Reminder</h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+        </div>
+        <div class="panel-body">
+
+            <button type="button" id="btnStartSurveyReminder" class="btn btn-success" name="submit" value="consent">
+                Run Now
+            </button>
+
+            <table class="table .table-condensed">
+                <thead>
+                    <tr>
+                        <th>JobId</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>When</th>
+                        <th>CreatedAt (UTC)</th>
+                        <th>ExpiredAt (UTC)</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @{
+
+                        foreach (var item in Model.StartSurveyReminders)
+                        {
+                            <tr>
+                                <td>
+                                    @item.JobId
+                                </td>
+                                <td>
+                                    @*@Model.JobLogStartSurveyReminderEmail.JobMethod*@
+
+                                    @{
+                                        var firstItem = Model.JobLogStartSurveyReminderEmailList
+                                                                    .Where(b => b.HangfireJobId == item.JobId).FirstOrDefault();
+
+                                        @firstItem.JobMethod.ToString()
+
+                                    }
+
+
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td></td>
+
+                                <td>
+                                    @item.CreatedAt
+                                </td>
+                                <td>
+                                    @item.ExpireAt
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Complete Survey Reminder</h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+        </div>
+        <div class="panel-body">
+
+            <button type="button" id="btnCompleteSurveyReminder" class="btn btn-success" name="submit" value="consent">
+                Run Now
+            </button>
+
+
+
+            <table class="table .table-condensed">
+                <thead>
+                    <tr>
+                        <th>JobId</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>When</th>
+                        <th>CreatedAt (UTC)</th>
+                        <th>ExpiredAt (UTC)</th>
+
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @{
+
+                        foreach (var item in Model.CompleteSurveyReminders)
+                        {
+                            <tr>
+                                <td>
+                                    @item.JobId
+                                </td>
+                                <td>
+                                    @*@Model.JobLogCompleteSurveyReminderEmail.JobMethod*@
+
+                                    @{
+                                        var firstItem = Model.JobLogCompleteSurveyReminderEmailList
+                                                                    .Where(b => b.HangfireJobId == item.JobId).FirstOrDefault();
+
+                                        @firstItem.JobMethod.ToString()
+
+                                    }
+
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td></td>
+
+                                <td>
+                                    @item.CreatedAt
+                                </td>
+                                <td>
+                                    @item.ExpireAt
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Expiring Soon (if not started) reminder</h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+        </div>
+        <div class="panel-body">
+
+            <button type="button" id="btnExpiringSoon1" class="btn btn-success" name="submit" value="consent">
+                Run Now
+            </button>
+
+
+            <table class="table .table-condensed">
+                <thead>
+                    <tr>
+                        <th>JobId</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>When</th>
+                        <th>CreatedAt (UTC)</th>
+                        <th>ExpiredAt (UTC)</th>
+
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @{
+
+                        foreach (var item in Model.ExpiringSoonNotStartedReminders)
+                        {
+                            <tr>
+                                <td>
+                                    @item.JobId
+                                </td>
+                                <td>
+                                    @{
+                                        var firstItem = Model.JobLogExpiringSoonSurveyNotStartedReminderEmailList
+                                                                    .Where(b => b.HangfireJobId == item.JobId).FirstOrDefault();
+
+                                        @firstItem.JobMethod.ToString()
+
+                                    }
+
+                                    @*@Model.JobLogExpiringSoonSurveyNotStartedReminderEmail.JobMethod*@
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td></td>
+
+                                <td>
+                                    @item.CreatedAt
+                                </td>
+                                <td>
+                                    @item.ExpireAt
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Expiring Soon (if not completed) reminder</h3>
+            <span class="pull-right clickable"><i class="glyphicon glyphicon-chevron-up"></i></span>
+        </div>
+        <div class="panel-body">
+            <button type="button" id="btnExpiringSoon2" class="btn btn-success" name="submit" value="consent">
+                Run Now
+            </button>
+            <table class="table .table-condensed">
+                <thead>
+                    <tr>
+                        <th>JobId</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>When</th>
+                        <th>CreatedAt (UTC)</th>
+                        <th>ExpiredAt (UTC)</th>
+
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @{
+
+                        foreach (var item in Model.ExpiringSoonNotCompletedReminders)
+                        {
+                            <tr>
+                                <td>
+                                    @item.JobId
+                                </td>
+                                <td>
+                                    @{
+                                        var firstItem = Model.JobLogExpiringSoonSurveyNotCompletedReminderEmailList
+                                                                    .Where(b => b.HangfireJobId == item.JobId).FirstOrDefault();
+
+                                        @firstItem.JobMethod.ToString()
+
+                                    }
+
+                                    @*@Model.JobLogExpiringSoonSurveyNotCompletedReminderEmail.JobMethod*@
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td></td>
+                                <td>
+                                    @item.CreatedAt
+                                </td>
+                                <td>
+                                    @item.ExpireAt
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<script>
+
+    //
+    $('#btnShiftReminder').on("click", function (e) {
+        $.ajax({
+            datatype: "text/plain",
+            type: "GET",
+            data: { id: @Model.Id },
+            url: "@(Url.Action("ShiftReminder", "RecurrentSurvey"))",
+            cache: false,
+        success: function (response) {
+            if (response.Success) {
+                var href = "@(Url.Action("ViewSurvey", "RecurrentSurvey", new { id = Model.Id }))";
+                window.location.href = href;
+            }
+            else {
+            }
+        },
+        error: function () {
+        }
+    });
+    });
+
+
+    $('#btnStartSurveyReminder').on("click", function (e) {
+        $.ajax({
+            datatype: "text/plain",
+            type: "GET",
+            data: { id: @Model.Id },
+            url: "@(Url.Action("StartSurvey", "RecurrentSurvey"))",
+            cache: false,
+        success: function (response) {
+            if (response.Success) {
+                var href = "@(Url.Action("ViewSurvey", "RecurrentSurvey", new { id = Model.Id }))";
+                window.location.href = href;
+            }
+            else {
+            }
+        },
+        error: function () {
+        }
+    });
+    });
+
+
+    $('#btnCompleteSurveyReminder').on("click", function (e) {
+        $.ajax({
+            datatype: "text/plain",
+            type: "GET",
+            data: { id: @Model.Id },
+            url: "@(Url.Action("CompleteSurvey", "RecurrentSurvey"))",
+            cache: false,
+            success: function (response) {
+                if (response.Success) {
+                    var href = "@(Url.Action("ViewSurvey", "RecurrentSurvey", new { id = Model.Id }))";
+                    window.location.href = href;
+                }
+                else {
+                }
+            },
+            error: function () {
+            }
+        });
+    });
+
+    $('#btnExpiringSoon1').on("click", function (e) {
+        $.ajax({
+            datatype: "text/plain",
+            type: "GET",
+            data: { id: @Model.Id },
+            url: "@(Url.Action("ExpiringSoon1", "RecurrentSurvey"))",
+            cache: false,
+            success: function (response) {
+                if (response.Success) {
+                    var href = "@(Url.Action("ViewSurvey", "RecurrentSurvey", new { id = Model.Id }))";
+                    window.location.href = href;
+                }
+                else {
+                }
+            },
+            error: function () {
+            }
+        });
+    });
+
+    $('#btnExpiringSoon2').on("click", function (e) {
+        $.ajax({
+            datatype: "text/plain",
+            type: "GET",
+            data: { id: @Model.Id },
+            url: "@(Url.Action("ExpiringSoon2", "RecurrentSurvey"))",
+            cache: false,
+            success: function (response) {
+                if (response.Success) {
+                    var href = "@(Url.Action("ViewSurvey", "RecurrentSurvey", new { id = Model.Id }))";
+                    window.location.href = href;
+                }
+                else {
+                }
+            },
+            error: function () {
+            }
+        });
+    });
+
+</script>

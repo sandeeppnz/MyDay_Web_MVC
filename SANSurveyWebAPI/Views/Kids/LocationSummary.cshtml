@@ -1,0 +1,155 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsLocationSummaryVM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutKids.cshtml";  }
+    ViewBag.Title = "Kids Survey: Time Spent";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("LocationSummary", "Kids", FormMethod.Post,
+                            new { name = "frmLocationSummary", id = "frmLocationSummary", @class = "nav-right" }))
+{   
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                Location Summary
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div id="wrapper" class="clearfix">
+                <div id="first">
+                    <h2></h2>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-responsive">
+                                    <table summary="funcationality" class="table table-bordered table-hover">
+                                        <caption class="text-center"><a href="#" target="_blank"></a></caption>
+                                        <thead style="border:0px;border-color:white;">
+                                            <tr>
+                                                <th style="width:10%; border:0px;"></th>
+                                                <th style="width:40%; border:0px;"></th>                                
+                                            </tr>
+                                        </thead>                                       
+                                        <tbody style="font-weight:bold;">
+                                            @if (Model.AllKidsLocationListObj.Count != 0)
+                                            {
+                                                foreach (var item in @Model.AllKidsLocationListObj)
+                                                {
+                                                    if (@item.LocationSequence % 2 != 0)
+                                                    {
+                                                        <tr>
+                                                            <td style="border-bottom-color:#f5f5f5;" class="active">
+                                                                <span style="float:right;">@item.StartedAt</span></td>
+                                                            <td style="border-bottom-color:#dff0d8;"class="success"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-bottom-color:#f5f5f5;" class="active"></td>
+                                                            <td style="border-bottom-color:#dff0d8;"class="success">
+                                                                <center>
+                                                                    <div>                                                                       
+                                                                        @if (@item.Location == "Other")
+                                                                        {<span>@item.OtherLocation</span><br />}
+                                                                        else
+                                                                        { <span>@item.Location</span>}
+                                                                    </div>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="active"><span style="float:right;">@item.EndedAt</span></td>
+                                                            <td class="success"></td>
+                                                        </tr>
+                                                       if (Model.AllKidsTravelListObj.Count != 0)
+                                                        {
+                                                            foreach (var k in Model.AllKidsTravelListObj)
+                                                            {
+                                                                <tr>
+                                                                    <td style="border-bottom-color:#f5f5f5;" class="active">&nbsp;</td>
+                                                                    <td style="border-bottom-color:#f2dede;"class="danger"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="border-bottom-color:#f5f5f5;" class="active"></td>
+                                                                    <td style="border-bottom-color:#f2dede;" class="danger">
+                                                                        <center>                                                                           
+                                                                            @if (@k.ModeOfTransport == "Other")
+                                                                            {<span>@k.OtherModeOfTransport</span><br />}
+                                                                            else { <span>@k.ModeOfTransport</span>}
+                                                                        </center>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="active">&nbsp;</td>
+                                                                    <td class="danger"></td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                    else if (@item.LocationSequence % 2 == 0)
+                                                    {
+                                                        <tr>
+                                                            <td style="border-bottom-color:#f5f5f5;" class="active"><span style="float:right;">@item.StartedAt</span></td>
+                                                            <td style="border-bottom-color:#d9edf7;" class="info"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border-bottom-color:#f5f5f5;" class="active"></td>
+                                                            <td style="border-bottom-color:#d9edf7;" class="info">
+                                                                <center>
+                                                                    @if (@item.Location == "Other")
+                                                                    {<span>@item.OtherLocation</span><br />}
+                                                                    else
+                                                                    { <span>@item.Location</span>}
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="active"><span style="float:right;">@item.EndedAt</span></td>
+                                                            <td class="info"></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+
+                                        @*<tfoot>
+                                            <tr>
+                                                <td class="text-center">Data retrieved from <a href="#" target="_blank">infoplease</a> and <a href="#" target="_blank">worldometers</a>.</td>
+                                            </tr>
+                                        </tfoot>*@
+                                    </table>
+                                </div><!--end of .table-responsive-->
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<p class="p">Demo by George Martsoukos. <a href="#" target="_blank">See article</a>.</p>*@
+
+                </div>
+                <div id="second">
+                    <p class="p">This is where you were between @Model.StartTime and @Model.EndTime on @Model.SurveyDate. 
+                    Now, we would like to find out what you were doing at these places.
+                    <br /><br />
+                        Click “next” to continue.<br />                        
+                    </p>                                
+                </div>
+            </div>            
+        </div>
+        <center>           
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>    
+    @Html.Partial("_FooterSurvey")
+}
+<link rel="stylesheet" href="~/Scripts/TimeL/timeL.css" />
+<link rel="stylesheet" href="~/Scripts/ResponsiveTable/RTable.css" />
+<script src="~/Scripts/StopBack/StopBackBrowserButton.js"></script>
+<script>
+    //For timeline
+    $('.member-title').click(function (e) {
+        console.log("Clicked");
+        $(this).next().slideToggle();
+        ////$(this).next().next().next().slideToggle();        
+    })
+</script>

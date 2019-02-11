@@ -1,0 +1,63 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterFeedbackViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Feedback";
+}
+
+
+@using (Html.BeginForm("Feedback", "Register", FormMethod.Post, new { name = "frmCompleted", id = "frmCompleted" }))
+{
+    <div class="container OtherPageContainer remodal-bg">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            <div class="panel panel-default" id="PanelComplete">
+                <div class="panel-heading">
+                    <h4>
+                        Thank you for taking part on the Baseline Survey.
+                    </h4>
+                </div>
+
+                @Html.HiddenFor(model => model.ProfileId)
+                @Html.HiddenFor(model => model.MaxStep)
+
+                <div class="panel-body">
+                    <h4>Is there anything else you would like to tell us?</h4>
+
+                    @*<textarea class="form-control" id="Comment" rows="8"></textarea>*@
+                    @Html.TextAreaFor(model => model.Comment, htmlAttributes: new { @class = "form-control", @rows = 8, @placeholder="Leave a message..." })
+
+
+
+                </div>
+                <center>
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg" id="btnNext" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Submit</button>
+                    </div>
+                </center>
+                @*<button class="btn btn-success btn-block btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>*@
+
+                @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>*@
+            </div>
+
+
+        </div>
+        @Html.Partial("_Footer")
+
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#btnNext').on("click", function (e) {
+               $('#frmCompleted').submit()
+        });
+
+
+    })
+</script>

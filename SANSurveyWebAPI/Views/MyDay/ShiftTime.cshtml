@@ -1,0 +1,182 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.Survey2ShiftTime1ViewModel
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutSurvey.cshtml"; }
+    ViewBag.Title = "Survey: Set Shift Time";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@*@using (Html.BeginForm("ShiftTime", "Survey3", FormMethod.Post,
+    new { name = "frmShiftTime", id = "frmShiftTime", @class = "nav-right" }))*@
+@using (Ajax.BeginForm("ShiftTime", "MyDay", new AjaxOptions {HttpMethod = "POST", Url = @Url.Action("ShiftTime", "MyDay"),
+                                                        OnSuccess = "OnSuccess", OnFailure = "OnFailure"}, 
+                                                        new { id = "frmShiftTime", @class = "nav-right" }) )
+{
+            @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+            @Html.HiddenFor(model => model.ShiftSpan)
+            @Html.HiddenFor(model => model.SurveySpan)
+            @Html.HiddenFor(model => model.SurveyStartTime)
+            @Html.HiddenFor(model => model.SurveyEndTime)
+            @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+            <div class="panel panel-default" id="Tasks">
+                <div class="panel-heading">
+                    <h3>
+                        @Model.PageQuestion <span>"</span>@Model.SurveyStartTime.ToString("dd MMM yyyy hh:mm tt") - @Model.SurveyEndTime.ToString("dd MMM yyyy hh:mm tt")<span>"</span>                        
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <br />
+                            <br />
+                            @Html.Label("Were you working during this time?", new { @class = "col-form-label" })
+                            <br />
+                            <div id="WasWorkingPanel" style="">                                                            
+                                @Html.RadioButtonFor(model => model.WasWorking, "Yes", new { @id = "WasWorkingRadio", @name = "WasWorkingYes", @style = "padding-bottom: 5px" })
+                                <label for="WasWorkingPYes" style="padding-right:10px">Yes</label>
+                                <br />                                                             
+                                @Html.RadioButtonFor(model => model.WasWorking, "No", new { @id = "WasWorkingRadio", @name = "WasWorkingNo", @style = "padding-bottom: 5px" })
+                                <label for="WasWorkingPNo" style="padding-right:10px">No</label>
+                                <br />
+                                <small id="WasWorking_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="divOnCallOrNot">                        
+                        <div class="col-md-10">
+                            <br />
+                            <br />
+                            @Html.Label("Were you on call during this period?", new { @class = "col-form-label" })
+                            <br />
+                            <div id="TaskTypePanel" style="">
+                                @Html.RadioButtonFor(model => model.IsOnCall, "Yes", new { @id = "IsOnCallRadio", @name = "IsOnCall1", @style = "padding-bottom: 5px" })
+                                <label for="TaskType1" style="padding-right:10px">Yes</label>
+                                <br />
+                                @Html.RadioButtonFor(model => model.IsOnCall, "No", new { @id = "IsOnCallRadio", @name = "IsOnCall2", @style = "padding-bottom: 5px" })
+                                <label for="TaskType2" style="padding-right:10px">No</label>
+                                <br />
+                                <small id="TaskType_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <center>
+                        <div style="padding:10px">                           
+                            <button class="btn btn-success btn-lg" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        @Html.Partial("_DialogShiftTime")
+        @Html.Partial("_FooterSurvey")
+}
+<script>
+    var inst = $("#_DialogShiftTime").remodal();
+    $(document).on('confirmation', '#_DialogShiftTime', function () {        
+        $('#frmShiftTime').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogShiftTime', function () {        
+    });
+
+    function AddCustomValidation() {
+        var allFilled = true;
+        if ($("input[name^='IsOnCall']:checked").length < 1) {
+            $('#TaskType_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#TaskType_Incomplete').hide();
+        }
+        return allFilled;
+    }
+
+    function RemoveCustomValidation() {
+        $('#TaskType_Incomplete').hide();
+    }   
+
+    $('#frmShiftTime input').on('change', function () {
+        if (this.id == "IsOnCallRadio") {
+            $('#TaskType_Incomplete').hide();
+        }
+    });
+    $("input[type='radio']").change(function () {
+        var wwValue = $("input[name^='WasWorking']:checked").val();        
+        if (wwValue == "Yes")
+        { $("#divOnCallOrNot").show(); }
+        else { $("#divOnCallOrNot").hide(); }        
+    });
+    $(document).ready(function () {
+        $("#divOnCallOrNot").hide();
+        $("#WasWorking_Incomplete").hide();
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            if (WasWorkingOrNot())
+            {
+                //alert("InWasWorking - True");
+                if ($("input[name^='WasWorking']:checked").val() == "Yes")
+                {
+                    $("#divOnCallOrNot").show();
+                    RemoveCustomValidation();
+                    $.ajaxSetup({ cache: false });
+                    $('#btnNext').on("click", function (e) {
+                        e.preventDefault();
+                        if (AddCustomValidation()) {
+                            //alert("InCustomValidation");
+                            $('#frmShiftTime').submit();
+                        }
+                        //else {
+                        //    //alert("NotInCustomValidation");
+                        //    $("#divOnCallOrNot").hide();
+                        //    inst.open();
+                        //}
+                    });
+                }
+                else { $("#divOnCallOrNot").hide(); }
+                $("#WasWorking_Incomplete").hide();
+            }
+            else {
+                //alert("InWasWorking - False");
+                $("#divOnCallOrNot").hide();
+                $("#WasWorking_Incomplete").show();
+                //inst.open();
+            }
+        });
+    });
+
+    $("input[id^='IsOnCallRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    $("input[id^='WasWorkingRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    function WasWorkingOrNot()
+    {
+        var allFilledVar = true; 
+        if($("input[name^='WasWorking']:checked").length == 1)
+        {
+            //alert("InWasWorking");
+            if ($("input[name^='WasWorking']:checked").val() == "Yes")
+            {
+                //alert("InWasWorking - Yes");
+                $("#divOnCallOrNot").show();
+            }
+            else
+            {
+                //alert("InWasWorking - No");
+                $("#divOnCallOrNot").hide();
+                inst.open();
+            }
+        }
+        else {
+            //alert("Else - Not InWasWorking");
+            $("#divOnCallOrNot").hide(); allFilledVar = false;
+        }
+        return allFilledVar;
+    }
+</script>

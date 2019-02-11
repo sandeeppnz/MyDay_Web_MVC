@@ -1,0 +1,71 @@
+﻿@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutExit.cshtml";
+    }
+    ViewBag.Title = "New Exit Survey";
+}
+@using (Html.BeginForm("NewSurvey", "ExitV2", new { id = "frmNewSurvey", @class = "nav-right" }))
+{
+    <div style="padding:20px; background-color:white;">
+        <div class="panel panel-default">
+            <div class="panel-body" style="background-color:#b2d8d8">
+
+                <center>
+                    <div style="padding-left:5px;padding-right:5px">
+
+
+                        <h1>
+                            Welcome to MyWorkplace Survey!
+                        </h1>
+
+                        <h3>
+                            A new survey is available.
+                        </h3>
+                        <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> &nbsp;
+                        <h4>
+                          
+
+
+                        </h4>
+
+                        <br />
+                        <br />
+
+                        @*<button name="button" value="Begin" class="btn btn-success btn-lg btn-block" type="submit">Get Started</button>*@
+                        <center>
+                            <div style="padding:10px">
+                                <button class="btn btn-success btn-lg" id="btnNext" type="submit">Get Started</button>
+                            </div>
+                        </center>
+
+                    </div>
+
+
+
+
+                </center>
+
+            </div>
+
+
+        </div>
+        @Html.Partial("_FooterSurvey")
+
+
+    </div>
+}
+<script>
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "Kids")";
+        }
+        else {
+            //$.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+</script>

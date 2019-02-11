@@ -1,0 +1,379 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyWAMTaskTimeVM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutSurvey.cshtml"; }
+    ViewBag.Title = "Survey: Set Task Time";
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+}
+@using (Ajax.BeginForm("WAMTaskTime", "Survey3", new AjaxOptions { HttpMethod = "POST", Url = @Url.Action("WAMTaskTime", "Survey3"),
+                                                OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, 
+                                                new { id = "frmWAMTaskTime1", @class = "nav-right" }))
+{
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+    @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+    @Html.HiddenFor(model => model.TaskId)
+    @Html.HiddenFor(model => model.TaskName)
+    <div class="panel panel-default" id="Tasks">
+        <div class="panel-heading">
+            <h3>
+                @Model.PageQuestion
+                <span class="SurveyTitle"> @Model.TaskName</span>
+                starting at @TaskStartTime?
+            </h3>
+        </div>  
+        <div class="panel-body">
+            <div style="text-align:left">
+                <i>Please enter the amount of time in hours and/or minutes</i>
+            </div>
+            <br /><br /><br />
+            <div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="row"></div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="row">
+                        <div class="input-group input-group-lg">
+                            <input id="spin_Hrs" type="text" value=@Model.TimeHours name="TimeHours" class="form-control input-lg">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1">
+                    <div class="row"></div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <div class="row">
+                        <div class="input-group input-group-lg">
+                            <input id="spin_Min" type="text" value=@Model.TimeMinutes name="TimeMinutes" class="form-control input-lg">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="row"></div>
+                </div>
+            </div>
+            <script>
+                $("input[id='spin_Hrs']").TouchSpin({
+                    postfix: "Hours&nbsp;&nbsp;&nbsp;",
+                    postfix_extraclass: "CustomSpinnerLabel",
+                    buttondown_class: "btn CustomSpinnerButtonPlus",
+                    buttonup_class: "btn CustomSpinnerButtonNeg",
+                    min: 0,
+                    max: 4,
+                    step: 1,
+                });
+                $("input[id='spin_Min']").TouchSpin({
+                    postfix: "Minutes",
+                    min: 0,
+                    max: 59,
+                    step: 1,
+                    postfix_extraclass: "CustomSpinnerLabel",
+                    buttondown_class: "btn CustomSpinnerButtonPlus",
+                    buttonup_class: "btn CustomSpinnerButtonNeg"
+                });
+            </script>
+            <br /><br /><br />
+            <br />
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">
+                    @Model.Question2
+                    <br />
+                    @Model.Question2Hint
+                </label>
+                <div class="col-sm-8" id="divWithWhom">
+
+                    @foreach (var yt in Model.OptionsList)
+                    {
+                        if (yt.ID >= 0 && yt.ID <= 7)
+                        {
+                            <input type="checkbox"
+                                   name="chkwithWHom" value="@yt.ID" id="@yt.ID" />
+                            <label for="@yt.ID">@yt.Name</label>
+                            <br />
+                        }
+                        @Html.HiddenFor(model => model.HiddenOptionIds, new { @id = "hiddOptionIds" })
+                    }
+                    <div id="divOtherOption" style="width:300px;">
+                        @Html.TextBoxFor(model => model.WithWHomOther, new {@id = "txtWithWhomOther", @class = "form-control",
+                                        @placeholder = "Please specify if selected Other", @style = "width:300px"})
+                    </div>
+                    <br />
+                    <small id="OptionIds_Incomplete" class="invalid pull-left">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        &nbsp;Please select at least one option
+                    </small>
+                </div>
+            </div>
+
+            <br /><br />           
+
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">
+                    @Model.Question3
+                    <br />
+                </label>
+                <div class="col-sm-8" id="divLocation">
+                    @{
+                        List<SelectListItem> location = new List<SelectListItem>();
+                        location.Add(new SelectListItem { Text = "At my desk", Value = "At my desk" });
+                        location.Add(new SelectListItem { Text = "Meeting room 1", Value = "Meeting room 1" });
+                        location.Add(new SelectListItem { Text = "Meeting room 2", Value = "Meeting room 2" });
+                        location.Add(new SelectListItem { Text = "Off site (away from the office)", Value = "Off site (away from the office)" });
+                        location.Add(new SelectListItem { Text = "Other", Value = "Other" });
+                    }
+                    <div>
+                        @(Html.Kendo().DropDownListFor(model => model.NearestLocation)
+                                              .Name("NearestLocation")
+                                              .Filter("contains")
+                                              .DataTextField("Text")
+                                              .DataValueField("Value")
+                                              .BindTo(location)
+                                              .OptionLabel("--------- Select nearest location---------")
+                                               .Events(e => { e.Change("ToggleLocation"); })
+                                              .HtmlAttributes(new { @style = "width:300px;", @class = "", @id = "drpLocation" }))
+                        <br />
+                        <div id="divOtherLocation" style="width:300px;">
+                            @Html.TextBoxFor(model => model.NearestOtherLocation, new {@id = "txtNearestOtherLocation", @class = "form-control",
+                                            @placeholder = "Please specify if selected Other", @style = "width:300px"})
+                        </div>
+                        <br />
+                        <small id="NearestLocation_Incomplete" class="invalid pull-left">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please select nearest location </small>
+                        <br />
+                    </div>
+                    <br />                   
+                </div>
+            </div>
+        </div>
+        <center>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>
+    @Html.Partial("_DialogTaskTime")
+    @Html.Partial("_DialogTaskTimeEmpty")
+    @Html.Partial("_FooterSurvey")
+    @Html.HiddenFor(m => m.remainingTimeHours, new { id = "rHrs" });
+    @Html.HiddenFor(m => m.remainingTimeMinutes, new { id = "rMins" });
+    @Html.Partial("_DialogTaskTimeLess", new SANSurveyWebAPI.ViewModels.Web.SurveyTaskTimeCheckViewModel() { remainingTimeHrs = @Model.remainingTimeHours, remainingTimeMins = @Model.remainingTimeMinutes })
+}
+
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    .glyphicon-remove:before {
+        content: '';
+    }
+
+    .glyphicon-ok:before {
+        content: '';
+    }
+</style>
+<script>
+    $(document).on('cancellation', '#DialogTaskTime', function () {
+    });
+    $(document).on('confirmation', '#DialogTaskTime', function () {
+    });
+    $(document).on('cancellation', '#DialogTaskTimeEmpty', function () {
+    });
+    $(document).on('confirmation', '#DialogTaskTimeEmpty', function () {
+    });
+    $(document).on('cancellation', '#DialogTaskTimeLess', function () {
+    });
+    $(document).on('confirmation', '#DialogTaskTimeLess', function () {
+    });
+
+    function IsValid() {
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+
+        if (hrs == 4 && min > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    function IsEmpty() {
+
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+
+        if (hrs == 0 && min == 0) {
+            return true;
+        }
+        return false;
+    }
+
+
+    function IsMore() {
+
+        var hrs = $("#spin_Hrs").val();
+        var min = $("#spin_Min").val();
+        var total = parseInt((parseInt(hrs) * 60)) + parseInt(min);
+        var totalInt = parseInt(total);
+
+        var rHrs = $("#rHrs").val();
+        var rMins = $("#rMins").val();
+        var totalR = parseInt((parseInt(rHrs) * 60)) + parseInt(rMins);
+        var totalRInt = parseInt(totalR);
+
+        if (totalInt > totalRInt) {
+            return true;
+        }
+        return false;
+    }
+
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "Survey3")";
+        }
+        else {
+            $.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+    //Important to add values of checkboxes
+
+    function updateTextArea() {
+        var allWithWHom = [];
+
+        $('#divWithWhom :checked').each(function () {
+            allWithWHom.push($(this).val());
+        });
+        $('#hiddOptionIds').val(allWithWHom);
+        //alert($('#hiddOptionIds').val());
+    }
+    $(function () {        
+        $('#divWithWhom input').click(updateTextArea);
+        updateTextArea();
+    });
+    function ToggleLocation() {
+        var val = $("#drpLocation").val();
+
+        if (val == 'Other') {
+            $('#txtNearestOtherLocation').show();
+        }
+        else {
+            $('#txtNearestOtherLocation').hide();
+        }
+    }
+    //end of checkbox values
+    function custvalidate()
+    {
+        var allFilled = true;
+        //alert($(':checkbox[name=chkwithWHom]:checked').length);
+        if (($(':checkbox[name=chkwithWHom]:checked').length >= 1) && ($('#drpSameEmployer').val() != "") ) {
+            $('#OptionIds_Incomplete').hide();
+            $('#NearestLocation_Incomplete').hide();
+        } 
+        else {
+            $('#OptionIds_Incomplete').show();
+            $('#NearestLocation_Incomplete').show();
+            allFilled = false;
+        }  
+       
+        return allFilled;
+    }
+    $(document).ready(function () {
+        //window.history.pushState("Survey", "Survey", "/App/Survey3/SID/" + $('#txtuid').val());
+        ToggleLocation();
+        var inst = $("#DialogTaskTime").remodal();
+        var instEmpty = $("#DialogTaskTimeEmpty").remodal();
+        var instLess = $("#DialogTaskTimeLess").remodal();
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) { 
+
+            if (IsEmpty()) {
+                e.preventDefault();
+                instEmpty.open();
+            }
+            else if (IsMore()) {
+                e.preventDefault();
+                instLess.open();
+            }
+            else if (!IsValid()) {
+                e.preventDefault();
+                inst.open();
+            }
+            else {
+                inst.destroy();
+                instEmpty.destroy();
+                instLess.destroy();
+                e.preventDefault();
+                if (custvalidate()) {
+                    $('#frmWAMTaskTime1').submit();
+                }
+            }
+        });
+
+        $('#frmWAMTaskTime1')
+         .formValidation({
+             framework: 'bootstrap',
+             excluded: ':disabled',
+             icon: {
+                 valid: 'glyphicon glyphicon-ok',
+                 invalid: 'glyphicon glyphicon-remove',
+                 validating: 'glyphicon glyphicon-refresh'
+             },
+             fields: {
+                 TimeHours: {
+                     validators: {
+                         between: {
+                             min: 0,
+                             max: 4,
+                             message: 'The hours must be between 0 and 4'
+                         }
+                     }
+                 },
+                 TimeMinutes: {
+                     validators: {
+                         between: {
+                             min: 0,
+                             max: 59,
+                             message: 'The minutes must be between 0 and 59'
+                         },
+                     }
+                 }
+
+             }
+         })
+         .find('[id="spin_Hrs"]')
+             .TouchSpin({
+                 min: 0,
+                 max: 4,
+                 decimals: 0
+             })
+             .on('change touchspin.on.min touchspin.on.max', function () {
+                 // Revaliate the field
+                 $('#frmWAMTaskTime1').formValidation('revalidateField', 'TimeHours');
+             })
+             .find('[id="spin_Min"]')
+             .TouchSpin({
+                 min: 0,
+                 max: 59,
+                 decimals: 0
+             })
+             .on('change touchspin.on.min touchspin.on.max', function () {
+                 // Revaliate the field
+                 $('#frmWAMTaskTime1').formValidation('revalidateField', 'TimeMinutes');
+             })
+             .end();
+    });
+</script>
+<style>
+    input[type=checkbox] {
+        /* Double-sized Checkboxes */
+        -ms-transform: scale(1.2); /* IE */
+        -moz-transform: scale(1.2); /* FF */
+        -webkit-transform: scale(1.2); /* Safari and Chrome */
+        -o-transform: scale(1.2); /* Opera */
+        padding: 6px;
+    }
+</style>

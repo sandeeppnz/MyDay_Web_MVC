@@ -1,0 +1,292 @@
+﻿<div id="DialogHelp" style="text-align:left" class="remodal" data-remodal-id="DialogHelp">
+    @{
+        var emailAddress = (string) Session["LoginEmailAddress"];
+    }
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <button data-remodal-action="close" class="remodal-close"></button>
+            <h4 class="panel-title" id="contactLabel">
+                <span class="glyphicon glyphicon-info-sign"></span>
+                Any questions? Feel free to contact us.
+            </h4>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <label>
+            Prefered method
+        </label>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
+            <input id="optionEmail" type="radio" class="form-check-input" name="optionsRadios" value="Email" checked>
+            Email
+            <div id="EmailTextboxDiv">
+                <input type="email" class="form-control" id="feedbackEmail" aria-describedby="emailHelp" placeholder="Enter email" value=@emailAddress>
+                <small id="emailHelp" class="form-text text-muted">Enter email address if different from login email</small>
+                <br />
+                <small id="Email_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
+            @*<input class="form-control" name="lastname" placeholder="Lastname" type="text" required />*@
+            <input id="optionPhone" type="radio" class="form-check-input" name="optionsRadios" value="Phone">
+            Phone
+            <div id="PhoneTextboxDiv">
+                <input type="text" class="form-control" id="feedbackPhone" placeholder="Enter contact number">
+                <small id="Phone_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label for="exampleSelect1">Prefered time</label>
+        <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+            <select class="form-control" id="feedbackPrefTime">
+                <option>Any time</option>
+                <option>Morning</option>
+                <option>Afternoon</option>
+                <option>Evening</option>
+            </select>
+        </div>
+    </div>
+
+    @*<div class="row">
+
+                <input class="form-control" name="email" placeholder="E-mail" type="text" required />
+
+
+            </div>
+        </div>*@
+    @*<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+                <input class="form-control" name="subject" placeholder="Subject" type="text" required />
+            </div>
+        </div>*@
+    <div class="row">
+        <label for="exampleTextarea">Comments</label>
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <textarea class="form-control" id="feedbackComments" rows="8"></textarea>
+            <small id="Comments_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+            @*<textarea style="resize:vertical;" class="form-control" placeholder="Message..." rows="6" name="comment" required></textarea>*@
+        </div>
+    </div>
+
+
+    <hr />
+    <div class="form-group">
+        <div class="pull-right">
+            <button data-remodal-action="confirm" class="remodal-confirm btn btn-success" type="button">
+                <i class='fa fa-paper-plane'></i>&nbsp;&nbsp;Send
+
+            </button>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    @*<div class="form-group" style="width:100%">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">*@
+    @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
+    @*</div>*@
+
+    @*<fieldset class="form-group">
+            <div class="form-check">
+                <label class="form-check-label">
+
+                </label>
+            </div>
+
+
+
+            <div class="form-check">
+                <label class="form-check-label">
+
+                </label>
+            </div>
+
+
+
+        </fieldset>*@
+
+
+
+
+
+    @*<a data-remodal-action="cancel" class="remodal-cancel" href="#">Cancel</a>*@
+    @*&nbsp;*@
+
+
+
+    @*<button type="submit" class="btn btn-primary">Submit</button>*@
+    @*</form>*@
+
+
+
+
+    @*<i class='fa fa-envelope-o fa-3x'></i>*@
+
+
+
+    @*<br /><br />Help!.*@
+    @*<br /><br />
+
+        <span class="pull-left" style="width:540px">
+            <div>
+                Comment(s)
+                <textarea rows="4" cols="50" placeholder=""></textarea>
+           </div>
+        </span>
+        <br />
+        <br />*@
+    @*<button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Share</button>*@
+</div>
+
+<script>
+
+    //$('#PhoneTextboxDiv').hide();
+    $("#feedbackPhone").attr("disabled", "disabled");
+
+    $('#Email_Incomplete').hide();
+    $('#Phone_Incomplete').hide();
+    $('#Comments_Incomplete').hide();
+
+
+
+    $(document).on('confirmation', '#DialogHelp', function () {
+
+        var isValid = true;
+
+        var emailAddress = $("#feedbackEmail").val();
+        var phoneNumber = $("#feedbackPhone").val();
+        var prefMethod = $('input:radio[type="radio"]:checked').val();;
+        var prefTime = $("#feedbackPrefTime option:selected").text()
+        var comments = $("#feedbackComments").val();
+
+        if (emailAddress.length <= 0 && prefMethod == "Email") {
+            isValid = false;
+            $('#Email_Incomplete').show();
+        }
+        else {
+            $('#Email_Incomplete').hide();
+
+        }
+        if (phoneNumber.length <= 0 && prefMethod == "Phone") {
+            isValid = false;
+            $('#Phone_Incomplete').show();
+        }
+        else {
+            $('#Phone_Incomplete').hide();
+
+        }
+        //if (prefMethod.length <= 0) {
+        //    isValid = false;
+        //}
+        //if (prefTime.length <= 0) {
+        //    isValid = false;
+        //}
+        if (comments.length <= 0) {
+            isValid = false;
+            $('#Comments_Incomplete').show();
+        }
+        else {
+            $('#Comments_Incomplete').hide();
+
+        }
+
+        if (isValid) {
+            var data = null;
+            var dataInt = {
+                "EmailAddress": emailAddress,
+                "PhoneNumber": phoneNumber,
+                "Message": comments,
+                "PreferedContact": prefMethod,
+                "PreferedTime": prefTime
+            };
+            data = dataInt;
+
+            $.ajax({
+                url: '@Url.Action("EmailFeedback", "Survey3")',
+                type: "POST",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (response) {
+
+                    if (response.Success) {
+                        DialogHelpComplete.open();
+                        setTimeout(function ()
+                        { DialogHelpComplete.close(); }, 2000);
+                      
+                    }
+                    //else {
+
+                    //    //if the returned false
+                    //    //alert("response.Success = " + response.Success);
+                    //    //debugger;
+                    //    inst.open();
+
+                    //}
+                },
+                error: function () {
+                    //console.log('Login Fail!!!');
+                    //alert('Error submitting, please try again');
+                }
+            });
+        }
+        else {
+            e.preventdefault()
+        }
+
+
+    
+
+
+    });
+
+    //$(document).on('cancellation', '#DialogHelp', function () {
+    //});
+
+
+
+    //$('#EmailTextboxDiv').hide();
+
+    $('input[type="radio"]').change(function () {
+
+        //debugger;
+
+        //var isCheckedEmail = $('#optionEmail').prop('checked', false);
+        //var isCheckedPhone = $('#optionPhone').prop('checked', false);
+
+        var isCheckedEmail = $('#optionEmail').is(':checked');
+        var isCheckedPhone = $('#optionPhone').is(':checked');
+
+
+        if (isCheckedEmail) {
+            //$('#EmailTextboxDiv').show();
+            //$('#PhoneTextboxDiv').hide();
+            $("#feedbackPhone").attr("disabled", "disabled");
+            $("#feedbackEmail").removeAttr("disabled");
+
+        }
+
+        if (isCheckedPhone) {
+            //$('#EmailTextboxDiv').hide();
+            //$('#PhoneTextboxDiv').show();
+            $("#feedbackEmail").attr("disabled", "disabled");
+            $("#feedbackPhone").removeAttr("disabled");
+        }
+
+    });
+
+
+</script>

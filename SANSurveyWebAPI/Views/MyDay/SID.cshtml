@@ -1,0 +1,52 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SidMV
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+    ViewBag.Title = "Survey Refresh";
+}
+@using (Html.BeginForm("SID", "MyDay", new { id = "frmSID", @class = "" }))
+{
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+    <div style="padding:20px;">
+        <div class="panel panel-default" >
+            <div class="panel-body">
+                <center>
+                    <div>
+                        <h1>
+                            <i class="fa fa-cog fa-2x" aria-hidden="true"></i>
+                        </h1>
+                        <h3>
+                            Oops, the survey was interrupted.
+                        </h3>
+                        <h4>
+                            You can still continue to complete this survey or re-start it from the beginning.
+                        </h4>
+                    </div>
+                    <br />
+                    <button name="button" value="Continue" class="btn btn-success btn-lg" type="submit">Yes, continue to the survey</button>
+                    <br />
+                    <br />
+                    <button name="button" value="Restart"  class="btn btn-default btn-lg" type="submit">No, I want to restart</button>
+                    </center>
+            </div>
+        </div>
+        @Html.Partial("_FooterSurvey")
+    </div>
+}
+
+<script>
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "MyDay")";
+        }
+        else {
+            $.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+</script>

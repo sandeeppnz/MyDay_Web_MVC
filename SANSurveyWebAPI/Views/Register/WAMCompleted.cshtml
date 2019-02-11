@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Thank You";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Thank You for participating in the survey]</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body class="loginBody">
+    <div class="container TextAlignCenter">
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8">
+            <div class="row loginbox">
+                <h1><span class="fa fa-exclamation-triangle" /></h1>
+                <h3>Thank you for participating in the WAM Survey. <br /></h3>
+                <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnOk">Please click @Html.ActionLink("New Survey","WAMDemo", "Register") :)</button>
+            </div>
+            @Html.Partial("_Footer")
+        </div>
+    </div>
+</body>
+</html>

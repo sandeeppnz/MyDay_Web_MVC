@@ -1,0 +1,240 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsSurveyTimelineVM
+<div class="remodal"
+     data-remodal-id="_DialogNewTask"
+     id="_DialogNewTask">
+    <button data-remodal-action="close" class="remodal-close"></button>
+    <i class='glyphicon glyphicon-edit'></i>
+    <h4>Add new task</h4>    
+    <div class="form-style-7">
+        <ul>
+            <li>
+                <label for="name">Task</label>
+                @*<input type="text" name="name" maxlength="100" value="@Model.TaskName">*@
+                @Html.TextBoxFor(model => model.TaskName, new {@id="txtTaskName", type = "text" })
+                <span>@Model.QuestionTask</span>
+            </li>
+            <li>
+                <label for="location">Location</label>
+                @*<input type="email" name="email" maxlength="100">*@
+                @Html.TextBoxFor(model => model.Venue, new { @id = "txtVenue", type = "text" })
+                <span>@Model.QuestionLocation</span>
+            </li>
+            <li>
+                <label for="where">Where</label>
+                @Html.TextBoxFor(model => model.InOutLocation, new { @id = "txtInOut", type = "text" })               
+                <span>@Model.QuestionInOut</span>
+            </li>
+            <li>
+                <label for="travel">Travel</label>
+                @*<input type="url" name="url" maxlength="100">*@
+                @Html.TextBoxFor(model => model.Travel, new { @id = "txtTravel", type = "text" })
+                <span>@Model.QuestionTravel</span>
+            </li>
+            <li id="chkPeople">
+                <label for="people">People</label><br />
+                @*@Html.TextBoxFor(model => model.People, new { @id = "txtPeople" })*@               
+                @foreach (var yt in Model.PeopleOptions)
+                {
+                    if (yt.ID >= 0 && yt.ID <= 7)
+                    {
+                        <input type="checkbox"
+                               name="chkwithWHom" value="@yt.Name" id="@yt.ID" />
+                            <br /><label class="lblCheck" for="@yt.ID">@yt.Name</label>
+                                <br />
+                    }
+                    @Html.HiddenFor(model => model.HiddenPeopleIds, new { @id = "hiddPeopleIds" })
+                }
+                <span>@Model.QuestionPeople</span>
+            </li>            
+            <li>
+                <label for="starttime">Start Time</label>
+                @Html.TextBoxFor(model => model.StartTime, new { @id = "txtStartTime" })
+                <span>@Model.QuestionStartTime</span>                
+            </li>
+            <li>
+                <label for="endtime">End Time</label>
+                @Html.TextBoxFor(model => model.EndTime, new { @id = "txtEndTime" })
+                <span>@Model.QuestionEndTime</span>                
+            </li>
+            <li style="display:none;">
+                <label for="url">Website</label>
+                <input type="url" name="url" maxlength="100">
+                <span>Your website address (eg: http://www.google.com)</span>
+            </li>
+            @*<li>
+                <label for="bio">About You</label>
+                <textarea name="bio" onkeyup="adjust_textarea(this)"></textarea>
+                <span>Say something about yourself</span>
+            </li>*@           
+        </ul>
+        <small id="InvalidTime" class="invalid" style="text-align:left">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            &nbsp; Invalid time
+        </small>
+        <small id="ValidErr" class="invalid" style="text-align:left">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            &nbsp; Invalid, please fill in the details correctly.
+        </small>
+    </div>
+    @*<input type="text" id="txttime" value="10:00 PM" />
+    <input type="button" id="btnConvert" value="Convert to 24 Hours" />*@
+    <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnNewTask">Add task</button>
+</div>
+<link rel="stylesheet" type="text/css" href="~/Scripts/TimeL/FormSeven.css" />
+<script>
+    //Push values in hidden field
+    function updateTextArea() {
+        var allpeople = [];
+        $('#chkPeople :checked').each(function () {
+            allpeople.push($(this).val());
+        });
+        $('#hiddPeopleIds').val(allpeople);
+    }
+    $(function () {
+        $('#chkPeople input').click(updateTextArea);
+        updateTextArea();
+    });//End of pushing values in hidden field
+
+    //For time picker
+    $(document).ready(function () {
+        $('#txtStartTime').mdtimepicker(); //Initializes the time picker
+        $('#txtEndTime').mdtimepicker();
+    });//End of time picker
+
+    //Binding the values of pop-up add new task to the model class and sending it to the controller
+    $('#btnNewTask').on("click", function (e) {
+
+        if (ValidateForm()) {
+            var taskName = $("#txtTaskName").val();
+            var venue = $("#txtVenue").val();
+            var inout = $("#txtInOut").val();
+            var travel = $("#txtTravel").val();
+            var people = $("#hiddPeopleIds").val();
+            var start = $("#txtStartTime").val();
+            var end = $("#txtEndTime").val();
+            if (CompareToTimeStrings(start, end)) {
+                $("#InvalidTime").hide();
+                var taskDetails = {
+                    TaskName: taskName, Venue: venue, Travel: travel, InOutLocation: inout, People: people, StartTime: start,
+                    EndTime: end
+                }
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddNewTask", "Kids")",
+                    data: JSON.stringify(taskDetails),
+                    dataType: 'json',
+                    contentType: "application/json",
+                    success: function (result) {
+                    }
+                });
+                location.reload();
+            }
+            else { e.preventDefault(); inst.open(); $("#InvalidTime").show(); $("#ValidErr").hide(); return false; }
+        }
+        else { e.preventDefault(); inst.open(); $("#ValidErr").show(); $("#InvalidTime").hide(); return false; }
+    });    //End of the binding process
+
+    //For comparing time strings
+    function ConvertTimeformat(format, str) {        
+        var hours = Number(str.match(/^(\d+)/)[1]); 
+        var minutes = Number(str.match(/:(\d+)/)[1]);
+        var AMPM = str.match(/\s?([AaPp][Mm]?)$/)[1];
+        var pm = ['P', 'p', 'PM', 'pM', 'pm', 'Pm'];
+        var am = ['A', 'a', 'AM', 'aM', 'am', 'Am'];
+        if (pm.indexOf(AMPM) >= 0 && hours < 12) hours = hours + 12;
+        if (am.indexOf(AMPM) >= 0 && hours == 12) hours = hours - 12;
+        var sHours = hours.toString();
+        var sMinutes = minutes.toString();
+        if (hours < 10) sHours = "0" + sHours;
+        if (minutes < 10) sMinutes = "0" + sMinutes;
+        if (format == '0000') {
+            return (sHours + sMinutes);
+        } else if (format == '00:00') {
+            return (sHours + ":" + sMinutes);
+        } else { return false; }
+    }
+
+    //$("#btnConvert").on("click", function () {
+    //    alert(ConvertTimeformat("00:00", $("#txttime").val()));
+    //});
+
+    function CompareToTimeStrings(start, end)
+    {
+        var timestring = true;
+        var start24HrMin = ConvertTimeformat("00:00", start);
+        var end24HrMin = ConvertTimeformat("00:00", end);        
+
+        if (start24HrMin == end24HrMin) //End time can't be same as start time
+        { $("#InvalidTime").show(); timestring = false; }
+        else if (Number(start24HrMin.match(/^(\d+)/)[1]) > Number(end24HrMin.match(/^(\d+)/)[1]))
+            //End time hours should be greater than start time hours
+        { $("#InvalidTime").show(); timestring = false; }
+        else if (Number(start24HrMin.match(/^(\d+)/)[1]) == Number(end24HrMin.match(/^(\d+)/)[1]))
+            //if end time hours equals start time hours then check for mins
+        {
+            if (Number(start24HrMin.match(/:(\d+)/)[1]) > Number(end24HrMin.match(/:(\d+)/)[1]))
+                //as end time hours quals start time hours so checking for end minutes to be greater than start minutes
+            { $("#InvalidTime").show(); timestring = false; }
+            else { $("#InvalidTime").hide(); }
+        }
+        else { $("#InvalidTime").hide(); }
+
+        return timestring;
+    }
+
+    $(document).ready(function () {
+        $("#InvalidTime").hide();
+        $("#ValidErr").hide();
+
+        //To allow entering just alphabets and spaces in the textboxes
+        $("#txtTaskName").keypress(function (event) {           
+            alphabetsAllowed(event);
+        });
+        $("#txtVenue").keypress(function (event) {
+            alphabetsAllowed(event);
+        });
+        $("#txtInOut").keypress(function (event) {
+            alphabetsAllowed(event);
+        });
+        $("#txtTravel").keypress(function (event) {
+            alphabetsAllowed(event);
+        });
+    });
+    function alphabetsAllowed(event)
+    {//To allow entering just alphabets and spaces in the textboxes
+        var inputValue = event.charCode;
+        if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+            event.preventDefault();
+        }
+    }
+
+    function ValidateForm()
+    {
+        var taskName = $("#txtTaskName").val();
+        var location = $("#txtVenue").val();
+        var where = $("#txtInOut").val();
+        var travel = $("#txtTravel").val();
+        var people = $("input[type=checkbox]:checked").length;
+        var start = $("#txtStartTime").val();
+        var end = $("#txtEndTime").val();
+        var validated = true;
+        
+        if (taskName == "" || location == "" || where == "" || travel == "" || start == "" || end == "" || Number(people) <= 0)
+        { validated = false; }
+        return validated;
+    }
+</script>
+<style>
+    #chkPeople input[type=checkbox],
+    #chkPeople input[type=radio] {
+        float:left;
+        margin-top:8px;
+    }
+   .lblCheck {
+        font-weight:normal;
+    }
+</style>
+
+

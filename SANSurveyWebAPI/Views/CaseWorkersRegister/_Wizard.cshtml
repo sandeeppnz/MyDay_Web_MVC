@@ -1,0 +1,201 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.WizardViewModel
+
+
+<div class="stepwizard">
+
+    <div class="stepwizard-row setup-panel">
+        <!-- Profile WellBeing -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 1)
+            {
+                if (Model.CurrStep == 1)
+                {<a type="button" id="WellBeingButton" class="btn btn-success btn-circle btnCustomProgressCurrent">1</a> }
+                else
+                { <a type="button" href="@Url.Action("WellBeing","CaseWorkersRegister")" id="WellBeingButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 1)
+            { <a type="button" href="@Url.Action("WellBeing","CaseWorkersRegister")" id="WellBeingButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">1</a>}
+            <h3><span class="fa fa-heart-o" /></h3>
+        </div>
+        <!-- Profile CurrentWorkplace -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 2)
+            {
+                if (Model.CurrStep == 2)
+                {<a type="button" id="CurrentWorkplaceButton" class="btn btn-success btn-circle btnCustomProgressCurrent">2</a> }
+                else
+                { <a type="button" href="@Url.Action("CurrentWorkplace","CaseWorkersRegister")" id="CurrentWorkplaceButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 2)
+            { <a type="button" href="@Url.Action("CurrentWorkplace","CaseWorkersRegister")" id="CurrentWorkplaceButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>}
+            <h3><span class="fa fa-list" /></h3>
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 3)
+            {
+                if (Model.CurrStep == 3)
+                {<a type="button" id="CaseLoadButton" class="btn btn-success btn-circle btnCustomProgressCurrent">3</a> }
+                else
+                { <a type="button" href="@Url.Action("CurrentWorkplaceContd","CaseWorkersRegister")" id="CaseLoadButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 3)
+            { <a type="button" href="@Url.Action("CurrentWorkplaceContd","CaseWorkersRegister")" id="CaseLoadButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>}
+            <h3><span class="fa fa-list" /></h3>
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 4)
+            {
+                if (Model.CurrStep == 4)
+                {<a type="button" id="TaskLoadButton" class="btn btn-success btn-circle btnCustomProgressCurrent">4</a> }
+                else
+                { <a type="button" href="@Url.Action("Task","CaseWorkersRegister")" id="TaskLoadButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 4)
+            { <a type="button" href="@Url.Action("Task","CaseWorkersRegister")" id="TaskLoadButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>}
+            <h3><span class="fa fa-clock-o" /></h3>
+        </div>
+        <!-- Profile CaseLoad -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 5)
+            {
+                if (Model.CurrStep == 5)
+                {<a type="button" id="CaseLoadButton" class="btn btn-success btn-circle btnCustomProgressCurrent">5</a> }
+                else
+                { <a type="button" href="@Url.Action("CaseLoad","CaseWorkersRegister")" id="CaseLoadButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 5)
+            { <a type="button" href="@Url.Action("CaseLoad","CaseWorkersRegister")" id="CaseLoadButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>}
+            <h3><span class="fa fa-hourglass" /></h3>
+        </div>
+        <!-- Profile TimeAllocation -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 6)
+            {
+                if (Model.CurrStep == 6)
+                {<a type="button" id="TimeAllocationButton" class="btn btn-success btn-circle btnCustomProgressCurrent">6</a> }
+                else
+                { <a type="button" href="@Url.Action("TimeAllocation","CaseWorkersRegister")" id="TimeAllocationButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 6)
+            { <a type="button" href="@Url.Action("TimeAllocation","CaseWorkersRegister")" id="TimeAllocationButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>}
+            <h3><span class="fa fa-pie-chart" /></h3>
+        </div>
+        <!-- Profile Demographics -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 7)
+            {
+                if (Model.CurrStep == 7)
+                {<a type="button" id="DemographicsButton" class="btn btn-success btn-circle btnCustomProgressCurrent">7</a> }
+                else
+                { <a type="button" href="@Url.Action("Demographics","CaseWorkersRegister")" id="DemographicsButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 7)
+            { <a type="button" href="@Url.Action("Demographics","CaseWorkersRegister")" id="DemographicsButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">7</a>}
+            <h3><span class="fa fa-address-card" /></h3>
+        </div>
+        <!-- Profile EducationBackground -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 8)
+            {
+                if (Model.CurrStep == 8)
+                {<a type="button" id="EducationBackgroundButton" class="btn btn-success btn-circle btnCustomProgressCurrent">8</a> }
+                else
+                { <a type="button" href="@Url.Action("EducationBackground","CaseWorkersRegister")" id="EducationBackgroundButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+
+            }
+            else if (Model.CurrStep > 8)
+            { <a type="button" href="@Url.Action("EducationBackground","CaseWorkersRegister")" id="EducationBackgroundButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">8</a>}
+            <h3><span class="fa fa-book" /></h3>
+        </div>
+        <!-- Profile JobIntentions -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 9)
+            {
+                if (Model.CurrStep == 9)
+                {<a type="button" id="JobIntentionsButton" class="btn btn-success btn-circle btnCustomProgressCurrent">9</a> }
+                else
+                { <a type="button" href="@Url.Action("JobIntentions","CaseWorkersRegister")" id="JobIntentionsButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+
+            }
+            else if (Model.CurrStep > 9)
+            { <a type="button" href="@Url.Action("JobIntentions","CaseWorkersRegister")" id="JobIntentionsButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">9</a>}
+            <h3><span class="fa fa-briefcase" /></h3>
+        </div>
+        <!-- Profile Roster -->
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 10)
+            {
+                if (Model.CurrStep == 10)
+                {<a type="button" id="RosterButton" class="btn btn-success btn-circle btnCustomProgressCurrent">10</a> }
+                else
+                { <a type="button" href="@Url.Action("Roster","CaseWorkersRegister")" id="RosterButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+
+            }
+            else if (Model.CurrStep > 10)
+            { <a type="button" href="@Url.Action("Roster","CaseWorkersRegister")" id="RosterButton" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">10</a>}
+            <h3><span class="fa fa-calendar" /></h3>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#WellBeingButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+
+    $('#CurrentWorkplaceButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+
+    $('#CaseLoadButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+
+    $('#TimeAllocationButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+
+    $('#DemographicsButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    
+    $('#EducationBackgroundButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    
+    $('#JobIntentionsButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    
+    $('#RosterButton').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+</script>

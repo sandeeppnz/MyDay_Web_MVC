@@ -1,0 +1,154 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.CurrentWorkplaceVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Current Workplace";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("CurrentWorkplace", "CaseWorkersRegister", FormMethod.Post,
+                            new { name = "frmCurrentWorkplace", id = "frmCurrentWorkplace" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxStep)
+
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+                { CurrStep = 2,  MaxStep = Model.MaxStep })
+
+            <div class="panel panel-default" id="divCurrentWorkplace">
+                <div class="panel-heading">
+                    <h4>
+                        @*Now, we would like to know what tasks you perform at work...*@
+                    </h4>
+                </div>              
+                  
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">
+                                What types of cases do you currently work on?
+                            </label>
+                            <div class="col-sm-8" id="divWorkHours">
+
+                                @foreach (var yt in Model.QptionsList)
+                                {
+                                    if (yt.ID >= 0 && yt.ID <= 7)
+                                    {
+                                        <input type="checkbox"
+                                               name="workHours" value="@yt.ID" id="@yt.ID" />
+                                        <label for="@yt.ID">@yt.Name</label>
+                                        <br />
+                                    }
+                                   @Html.HiddenFor(model => model.HiddenWorkHoursOptionIds, new { @id = "hiddWorkHoursOpt" })
+                                }
+
+                                <br />
+                                <small id="workHours_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;<i>Please select all that apply</i></small>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                        <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>               
+            
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_Dialog")
+}
+
+
+<script>
+    var inst = $("#_Dialog").remodal();
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmCurrentWorkplace').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {      
+        AddCustomValidationAllTasksSelected();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmCurrentWorkplace').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+    $('#frmCurrentWorkplace input').on('change', function () {       
+    });   
+
+    $(document).ready(function () {
+        //RemoveCustomValidation();
+
+        //$("label[name^='selectedTasksLabel']").kendoTouch({           
+        //    touchstart: function (e) {
+        //    },           
+        //    hold: function (e) {         
+        //        $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+        //    }
+        //});
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();  
+            $('#frmCurrentWorkplace').submit();
+            //if (AddCustomValidationAllTasksSelected())
+            //{
+            //        LoaderLocal();
+            //        $('#frmCurrentWorkplace').submit();
+            //    }
+            //    else {
+            //        inst.open();
+            //    }            
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("WellBeing", "CaseWorkersRegister")";            
+        });
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });
+    $(function () {
+        var myString = $('#hiddWorkHoursOpt').val();
+        var arr = myString.split(',');
+        $.each(arr, function (i, val) {
+            $(":checkbox[value=" + val + "]").attr("checked", "true");          
+        });
+    });
+    //Important to add values of checkboxes
+    function updateTextArea() {
+        var allWorkHours = [];
+
+        $('#divWorkHours :checked').each(function () {
+            allWorkHours.push($(this).val());
+        });
+        $('#hiddWorkHoursOpt').val(allWorkHours);
+        //alert($('#hiddWorkHoursOpt').val());
+    }
+    $(function () {
+        $('#divWorkHours input').click(updateTextArea);
+        updateTextArea();
+    });
+
+</script>
+
+
+
+
+

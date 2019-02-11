@@ -1,0 +1,186 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterWAMIntentionsVM
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Intention to remain in job";
+}
+
+@using (Html.BeginForm("WAMIntentions", "Register", FormMethod.Post, new { name = "frmWAMIntentions", id = "frmWAMIntentions", @class = "" }))
+{
+    <div class="container OtherPageContainer remodal-bg">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+       { CurrStep = 21, MaxStep = Model.MaxStep, SurveyType = 1 })
+
+            @Html.ValidationSummary(true, "Please check the form for errors.")
+            
+            <div class="panel panel-default" id="Placement">
+                <div class="panel-heading">
+                    <h4>
+                        Next, we would like to find out about your intention to remain in your current workplace and industry.
+                    </h4>
+                </div>
+                <br />
+                <div class="panel-body">
+                    
+                  
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">What is the probability that in five years’ time you will still be working at Warren and Mahoney?</label>
+                        
+                        <div class="col-sm-8">
+                            @{
+                                List<SelectListItem> percentages = new List<SelectListItem>();
+                                percentages.Add(new SelectListItem { Text = "0%", Value = "0" });
+                                percentages.Add(new SelectListItem { Text = "5%", Value = "5" });
+                                percentages.Add(new SelectListItem { Text = "10%", Value = "10" });
+                                percentages.Add(new SelectListItem { Text = "15%", Value = "15" });
+                                percentages.Add(new SelectListItem { Text = "20%", Value = "20" });
+                                percentages.Add(new SelectListItem { Text = "25%", Value = "25" });
+                                percentages.Add(new SelectListItem { Text = "30%", Value = "30" });
+                                percentages.Add(new SelectListItem { Text = "35%", Value = "35" });
+                                percentages.Add(new SelectListItem { Text = "40%", Value = "40" });
+                                percentages.Add(new SelectListItem { Text = "45%", Value = "45" });
+                                percentages.Add(new SelectListItem { Text = "50%", Value = "50" });
+                                percentages.Add(new SelectListItem { Text = "55%", Value = "55" });
+                                percentages.Add(new SelectListItem { Text = "60%", Value = "60" });
+                                percentages.Add(new SelectListItem { Text = "65%", Value = "65" });
+                                percentages.Add(new SelectListItem { Text = "70%", Value = "70" });
+                                percentages.Add(new SelectListItem { Text = "75%", Value = "75" });
+                                percentages.Add(new SelectListItem { Text = "80%", Value = "80" });
+                                percentages.Add(new SelectListItem { Text = "85%", Value = "85" });
+                                percentages.Add(new SelectListItem { Text = "90%", Value = "90" });
+                                percentages.Add(new SelectListItem { Text = "95%", Value = "95" });
+                                percentages.Add(new SelectListItem { Text = "100%", Value = "100" });
+                            }
+                            <div>
+                                @(Html.Kendo().DropDownListFor(model => model.SameEmployer)
+                                      .Name("SameEmployer")
+                                      .Filter("contains")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(percentages)
+                                      .OptionLabel("--------- Select ---------")
+                                      .HtmlAttributes(new { @style = "", @class = "", @id = "drpSameEmployer" }))
+                                <br />
+                                <small id="SameEmployer_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                <br />
+                                <div style="margin-top:10px;">
+                                    <i>
+                                        Please select a probability between 0 and 100%, where 0% means you definitely will not be working for the same employer and 100% means you definitely will.
+                                    </i>
+                                </div>
+                            </div>
+                            <br />                                                       
+                        </div>
+                    </div>                 
+                <br>
+                    <div id="sameIndustry">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">What is the probability that in five years’ time you will be working in the same industry you currently work in?</label>
+                            <div class="col-sm-8">
+                                @(Html.Kendo().DropDownListFor(model => model.SameIndustry)
+                                      .Name("sameIndustry")
+                                      .Filter("contains")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(percentages)
+                                      .OptionLabel("--------- Select ---------")
+                                      .HtmlAttributes(new { @style = "", @class = "", @id = "drpSameIndustry" })
+                                )
+                                <br />
+                                <small id="SameIndustry_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                <br />
+                                <div style="margin-top:10px;">
+                                    <i>
+                                        Please select a probability between 0 and 100%, where 0% means you definitely will not be working in the same industry and 100% means you definitely will.
+                                    </i>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding:10px">
+                            <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                            <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                        </div>
+
+                    </div>
+                </div> 
+            </div>
+
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogTaskTime")
+    @Html.Partial("_DialogTaskTimeProceed") }
+@Html.Partial("_DialogIntentions")
+
+<script>
+    var inst = $("#_DialogTaskTime").remodal();
+    var instProceed = $("#_DialogTaskTimeProceed").remodal();
+    var intentions = $("#_DialogIntentions").remodal();
+
+    $(document).on('cancellation', '#_DialogTaskTime', function () {
+        //AddCustomValidation();
+    });
+
+    var next = $(document).on('confirmation', '#_DialogTaskTimeProceed', function () {
+        LoaderLocal();
+        $('#frmWAMIntentions').submit();
+    });
+
+    var cancelNext = $(document).on('cancellation', '#_DialogTaskTimeProceed', function () {
+        
+    }); 
+
+    $(document).on('confirmation', '#_DialogIntentions', function () {
+        LoaderLocal();
+        $('#frmWAMIntentions').submit();
+    });
+    $('#frmWAMIntentions input').on('change', function () {
+        
+    });   
+
+    $(document).ready(function () {       
+        $('#SameEmployer_Incomplete').hide();
+        $('#SameIndustry_Incomplete').hide();
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            if (!AddCustomValidation()) { intentions.open(); }
+            else {
+                LoaderLocal();
+                $('#frmWAMIntentions').submit();
+            }
+        });
+        function AddCustomValidation() {
+            var allFilled = true;            
+
+            var drpEmployer = $('#drpSameEmployer').val();
+            var drpIndustry = $('#drpSameIndustry').val();
+            if (drpEmployer == "") {
+                $('#SameEmployer_Incomplete').show();
+                allFilled = false;
+            } else { $('#SameEmployer_Incomplete').hide(); }
+            if (drpIndustry == "") {
+                $('#SameIndustry_Incomplete').show();
+                allFilled = false;
+            } else { $('#SameIndustry_Incomplete').hide(); }
+            return allFilled;
+        }
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("WAMTasks", "Register")";
+        });
+    });
+</script>
+
+
+
+
+

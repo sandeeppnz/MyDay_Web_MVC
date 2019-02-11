@@ -1,0 +1,208 @@
+﻿@model IEnumerable<SANSurveyWebAPI.ViewModels.Web.RecurrentSurveyDetailsViewModel>
+
+@{
+    ViewBag.Title = "Roster Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+
+
+<h2>Recurrent Survey Details</h2>
+<div>
+    @Html.ActionLink("Create New", "CreateProfileRoster", new { id = @Session["SelectedProfileId"] })
+</div>
+
+
+<table class="table">
+    <tr>
+
+        <th>
+            ProfileRosterId
+        </th>
+
+        <th>
+            ProfileId
+        </th>
+
+        <th>
+            Working Hours
+            @*@Html.DisplayNameFor(model => model.Description)*@
+        </th>
+
+
+        @*<th>
+            Shift Start*@
+        @*@Html.DisplayNameFor(model => model.Start)*@
+        @*</th>*@
+
+        @*<th>
+            Shift End*@
+        @*@Html.DisplayNameFor(model => model.End)*@
+        @*</th>
+            <th>
+                Shift Start (UTC)*@
+        @*@Html.DisplayNameFor(model => model.StartUtc)*@
+        @*</th>
+            <th>
+                Shift End (UTC)*@
+        @*@Html.DisplayNameFor(model => model.EndUtc)*@
+        @*</th>*@
+
+        @*<th>
+                @Html.DisplayNameFor(model => model.ShiftReminderEmailJobId)
+            </th>*@
+        @*<th>
+                Shift Reminder Status
+            </th>*@
+
+        @*<th>
+                @Html.DisplayNameFor(model => model.CreateSurveyJobId)
+            </th>*@
+
+        @*<th>
+                Survey Create Status
+            </th>*@
+
+        <th>
+            Has a survey?
+        </th>
+
+        <th>
+            SurveyId
+        </th>
+
+        <th>
+            Survey Status
+        </th>
+
+        <th>
+            Survey Actions
+        </th>
+
+        <th>
+            Roster Actions
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileRosterItemId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProfileId)
+            </td>
+
+
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ProfileId)
+                </td>*@
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+
+
+            @*<td>
+                    @Html.DisplayFor(model => item.Start)
+                </td>*@
+            @*<td>
+                    @Html.DisplayFor(model => item.End)
+                </td>*@
+            @*<td>
+                    @Html.DisplayFor(model => item.StartUtc)
+                </td>*@
+
+            @*<td>
+                    @Html.DisplayFor(model => item.EndUtc)
+                </td>*@
+
+            @*<td>
+                    @Html.DisplayFor(model => item.ShiftReminderEmailJobId)
+                </td>*@
+
+            @*<td>
+                    @if (item.ShiftReminderStates != null)
+                    {
+                        foreach (var state in item.ShiftReminderStates)
+                        {
+                            @state.StateName <br />
+                            @state.Data <br />
+                            @state.JobArguments <br />
+                            @state.ReasonName <br />
+                            @state.CreatedAt.ToString() <br />
+                            @state.ExpireAt <br />
+                        }
+                    }
+                </td>*@
+
+
+            @*<td>
+                    @Html.DisplayFor(model => item.CreateSurveyJobId)
+                </td>*@
+
+            @*<td>
+                    @if (item.CreateSurveyStates != null)
+                    {
+                        foreach (var state in item.CreateSurveyStates)
+                        {
+
+                            @state.StateName <br />
+                            @state.Data <br />
+                            @state.JobArguments <br />
+                            @state.ReasonName <br />
+                            @state.CreatedAt.ToString() <br />
+                            @state.ExpireAt <br />
+                        }
+                    }
+                </td>*@
+
+            <td>
+                @Html.DisplayFor(modelItem => item.HasSurvey)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurveyStatus)
+            </td>
+
+            <td>
+                @{
+                    string space = " ";
+
+                    if (!item.HasSurvey)
+                    {
+                        @Html.ActionLink("Create", "CreateSurvey", new
+                        {
+                            id = item.ProfileRosterItemId
+                        })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("View ", "ViewSurvey", new { id = item.SurveyId })
+
+                       
+                        @Html.ActionLink("Delete", "DeleteSurvey", new { id = item.SurveyId })
+                    }
+                }
+            </td>
+
+            <td>
+                @*@Html.ActionLink("View", "ViewProfileRoster", new { id = item.ProfileRosterItemId }) |*@
+                @Html.ActionLink("Delete", "DeleteProfileRoster", new { id = item.ProfileRosterItemId })
+            </td>
+
+        </tr>
+                    }
+
+</table>
+
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

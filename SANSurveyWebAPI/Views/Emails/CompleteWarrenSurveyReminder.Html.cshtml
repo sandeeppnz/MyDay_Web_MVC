@@ -1,0 +1,108 @@
+﻿@model SANSurveyWebAPI.Models.CompleteWarrenSurveyReminderEmail
+    Content-Type: text/html; charset=utf-8
+
+<html>
+<body style="font-family:Arial, Helvetica, sans-serif;">
+    <table class="table-responsive" style="padding:10px;
+        background-color:#d5f2f2">
+        <tr>
+            <td style="background-color:rgb(47, 159, 173)">
+                @Html.EmbedImage("~/images/Email/WAM_header.png")
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="margin:0px;
+                background-color:white;padding-left:15px;
+                padding-right:10px;padding-top:10px;padding-bottom:10px;">
+                    <p>
+                        User ID: @Model.RecipientName
+                    </p>
+                    <h3 style="color:rgb(0, 0, 0)">
+                        Hi there,
+                    </h3>
+                    <center>
+                        @Html.EmbedImage("~/images/Email/completeReminder_72.png")
+                    </center>
+
+
+                    <p style="color:#008080;font-size:18px;">
+                        A friendly reminder that a MyDay survey is available to complete.  In this survey, we will ask you to think about your activities between @Model.SurveyWindowStartTime and @Model.SurveyWindowEndTime today, @Model.SurveyWindowStartDate.
+                        <br />
+                        @*@Html.EmbedImage("~/images/Email/SurveyTimePeriod_16.png")*@
+                        @Model.SurveyWindowStartTime - @Model.SurveyWindowEndTime (@Model.SurveyWindowStartDate)
+                        <br />
+                    </p>
+
+                    <center>
+                        <a href=@Model.Link style="background:azure;
+                            padding-bottom:20px;padding-top:20px;
+                            padding-left:40px; padding-right:40px;
+                            text-align:center; text-decoration: none;
+                            display: inline-block;font-size: 16px;
+                            border: solid;border-color:#008080;border-radius:5px;
+                            color:#008080;"
+                           class="button"><b>Click to Login</b></a>
+                    </center>
+
+                    <p style="color:#008080;font-size:18px;">
+                        Alternatively, please <a href="https://myday.aut.ac.nz/App/Account/Login">login</a> and access your survey via the home page.
+                    </p>
+
+                    <p style="color:#008080;font-size:18px;">
+                        We appreciate your participation in MyDay surveys and your opinion is valuable to us.
+                    </p>
+
+
+                    @*<p style="color:#008080;font-size:18px;">
+            Your MyWorkplace survey is also available now.
+            In this survey, we will ask about your place of work and supervision.
+            <a href="#">Click here</a> to access and complete the survey.
+        </p>*@
+                    <p style="color:#008080;font-size:18px;">
+                        Thank you for your continued participation.
+                        If you experience any difficulty,
+                        please do not hesitate to contact our help desk <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>.
+                    </p>
+                    @*<p style="color:#008080;font-size:18px;">
+            Your data is being processed in accordance with the Data Protection Act and
+            Health Education England Privacy policy.
+        </p>*@
+
+                    <p style="color:#008080;font-size:18px;">
+                        Thank you for your contribution to this research!
+                    </p>
+
+
+
+                    <p>
+                        <b style="color:black">
+                            Professor Rhema Vaithianathan
+                        </b>
+                        <br />
+                        Co-Director, Centre for Social Data Analytics
+                        <br />
+                        Auckland University of Technology, New Zealand
+
+                        <br />
+                        <br />
+
+                    </p>
+
+                    <p>
+                        IRB: 18/297
+                    </p>
+                </div>
+                <div style="background-color:white;text-align:right">
+                    @Html.EmbedImage("~/images/Email/warrenmahony_header.png")
+                </div>
+            </td>
+        </tr>
+
+
+
+
+    </table>
+</body>
+
+</html>

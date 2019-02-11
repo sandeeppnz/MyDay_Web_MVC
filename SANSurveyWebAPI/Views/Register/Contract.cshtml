@@ -1,0 +1,308 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterContractViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Contract";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Contract", "Register", FormMethod.Post, 
+    new { name = "frmContract", id = "frmContract" }))
+{ 
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 5, MaxStep = Model.MaxStep, SurveyType = 0 })
+
+            @*@Html.ValidationSummary(true, "Please correct the information", new { @class = "text-danger" })*@
+
+
+            <div class="panel panel-default" id="Placement">
+
+                <div class="panel-heading">
+                    <h3>
+                        We would like to gather information about your Contract...
+                    </h3>
+                </div>
+
+                <div class="panel-body">                
+
+
+
+                    @{
+                        List<SelectListItem> WorkingStatusList = new List<SelectListItem>();
+
+
+                        WorkingStatusList.Add(new SelectListItem
+                        {
+                            Text = "Full-time",
+                            Value = "Full-time"
+                        });
+
+
+                        WorkingStatusList.Add(new SelectListItem
+                        {
+                            Text = "Less than full-time",
+                            Value = "Less than full-time"
+                        });
+                    }
+
+
+                    <div class="form-group row">
+                        @Html.Label(" Which describes your current working status?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="WorkingStatusPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.WorkingStatus, "Full-time", new { @id = "WorkingStatusRadio", @name = "WorkingStatus1", @style = "padding-bottom: 10px" })
+                                <label for="WorkingStatus1">Full-time</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.WorkingStatus, "Less than full-time", new { @id = "WorkingStatusRadio", @name = "WorkingStatus2", @style = "padding-bottom: 10px" })
+                                <label for="WorkingStatus2">Less than full-time</label>
+                                <br />
+
+                                <small id="WorkingStatus_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>                   
+                   
+
+                    <div class="form-group row">
+                        @*@Html.Label("Roughly how many hours did you work in the month {Month}?", new { @class = "col-sm-4 col-form-label" })*@
+
+                        <label id="HoursWorkedLastMonthLabel" class="col-sm-4 col-form-label"></label>
+
+
+                        
+                        <div class="col-sm-8">
+                            <div id="HoursWorkedLastMonthPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.HoursWorkedLastMonth, "I did not work last month", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth1", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth1">I did not work last month</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.HoursWorkedLastMonth, "Less than 40 hours", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth2", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth2">Less than 40 hours</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.HoursWorkedLastMonth, "40-50 hours", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth3", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth3">40-50 hours</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.HoursWorkedLastMonth, "More than 50 hours per week", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth4", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth4">More than 50 hours per week</label>
+                                <br />
+
+                                <small id="HoursWorkedLastMonth_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>  
+
+                </div>              
+
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+
+
+            </div>
+        </div>
+      @Html.Partial("_Footer")
+
+
+    </div>
+
+    @Html.Partial("_DialogContract")
+
+
+
+                        }
+
+<script type="text/javascript">
+
+    function AddCustomValidation() {
+        var allFilled = true;        
+        if ($("input[name^='WorkingStatus']:checked").length < 1) {
+            $('#WorkingStatus_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#WorkingStatus_Incomplete').hide();
+        }
+        if ($("input[name^='HoursWorkedLastMonth']:checked").length < 1) {
+            $('#HoursWorkedLastMonth_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#HoursWorkedLastMonth_Incomplete').hide();
+        }
+
+
+        //var drpContractTypeText = $('#drpContractType').val();
+        //if (drpContractTypeText == "") {
+        //    $('[name="ContractType"]').parent().addClass("has-error");
+        //    $('#ContractType_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="ContractType"]').parent().removeClass("has-error");
+        //    $('#ContractType_Incomplete').hide();
+        //}
+
+        //var drpWorkingStatusText = $('#drpWorkingStatus').val();
+        //if (drpWorkingStatusText == "") {
+        //    $('[name="WorkingStatus"]').parent().addClass("has-error");
+        //    $('#WorkingStatus_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="WorkingStatus"]').parent().removeClass("has-error");
+        //    $('#WorkingStatus_Incomplete').hide();
+        //}
+
+
+        //var drpHoursWorkedLastMonthText = $('#drpHoursWorkedLastMonth').val();
+        //if (drpHoursWorkedLastMonthText == "") {
+        //    $('[name="HoursWorkedLastMonth"]').parent().addClass("has-error");
+        //    $('#HoursWorkedLastMonth_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="HoursWorkedLastMonth"]').parent().removeClass("has-error");
+        //    $('#HoursWorkedLastMonth_Incomplete').hide();
+        //}
+
+
+
+        return allFilled;
+    }
+
+
+    var inst = $("#_DialogContract").remodal();
+
+    $(document).on('confirmation', '#_DialogContract', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmContract').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogContract', function () {
+        AddCustomValidation();
+    });
+
+
+    $(document).ready(function () {
+
+        RemoveCustomValidation();
+        SetOnLoadHoursWorkedLabel();
+
+        $.ajaxSetup({ cache: false });
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            if (AddCustomValidation()) {
+                LoaderLocal();
+
+                $('#frmContract').submit();
+            }
+            else {
+                inst.open();
+            }
+
+
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("Placement", "Register")";
+            //if ($("input[name^='selectedProfileDefaultTasksList']:checked").length < 5) {
+            //    inst.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmTasks1').submit();
+            //}
+        });
+
+
+    })
+
+    function SetOnLoadHoursWorkedLabel()
+    {
+        var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+        ];
+
+        var d = new Date();
+        //document.write("The current month is " + monthNames[d.getMonth()]);
+        var s = "Roughly how many hours did you work per week in the month of " +
+            monthNames[d.getMonth()-1]
+            +" (including additional hours spent in training and hours taken as leave) ?"
+
+        $('#HoursWorkedLastMonthLabel').text(s);
+    }
+
+
+    function RemoveCustomValidation() {
+
+        $('[name="ContractType"]').parent().removeClass("has-error");
+        $('[name="WorkingStatus"]').parent().removeClass("has-error");
+        $('[name="HoursWorkedLastMonth"]').parent().removeClass("has-error");
+
+        //$('#ContractType_Incomplete').hide();
+        $('#WorkingStatus_Incomplete').hide();
+        $('#HoursWorkedLastMonth_Incomplete').hide();
+    }
+
+
+    $('#frmContract input').on('change', function () {
+        var x = this.id;
+
+        if (x == "HoursWorkedLastMonthRadio")
+        {
+            $('#HoursWorkedLastMonth_Incomplete').hide();
+        }
+        if (x == "WorkingStatusRadio") {
+            $('#WorkingStatus_Incomplete').hide();
+        }
+        if (x == "ContractTypeRadio") {
+           // $('#ContractType_Incomplete').hide();
+        }
+    });
+   
+
+
+
+    $("input[id^='ContractType']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    $("input[id^='WorkingStatus']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    $("input[id^='HoursWorkedLastMonth']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+
+
+</script>
+

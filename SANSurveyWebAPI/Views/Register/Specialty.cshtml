@@ -1,0 +1,235 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterSpecialtyViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Specialty";
+}
+
+
+@using (Html.BeginForm("Specialty", "Register", FormMethod.Post, new { name = "frmSpecialty", id = "frmSpecialty" }))
+{ <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 6, MaxStep = Model.MaxStep, SurveyType = 0 })
+
+            @*@Html.ValidationSummary(true, "Please correct the information", new { @class = "text-danger" })*@
+
+
+            <div class="panel panel-default" id="Placement">
+
+                <div class="panel-heading">
+                    <h3>
+                        We would like to gather information about your Specialty...
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="form-group row">
+                        @*@Html.Label("Medical Specialty", new { @class = "col-sm-4 col-form-label" })*@
+                        <label class="col-sm-4 col-form-label">
+                            What is your medical speciality?
+                            <br />
+                            <small>
+                                (If you have more than one, choose what you consider to be your main one).
+                            </small>
+                        </label>
+
+
+                        <div class="col-sm-8">
+                            @(Html.Kendo().DropDownListFor(model => model.SpecialityId)
+                              .Name("SpecialityId")
+                              .Filter("contains")
+                              .DataTextField("Text")
+                              .DataValueField("Value")
+                              .BindTo(Model.SpecialityTypeList)
+                              .OptionLabel("Select your current specialty")
+                              .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpSpecialityId" })
+                            )
+                            <small id="Speciality_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+
+                        <div id="OtherTextDiv" class="col-sm-8">
+                            @Html.TextBoxFor(model => model.OtherText
+                                        , new
+                                        {
+                                            @id = "txtOtherText",
+                                            @class = "form-control",
+                                            @placeholder = "Type your specialty"
+                                        })
+                            @*<small id="SpecialityOtherText_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>*@
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                <button class="btn btn-success btn-block btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>*@
+
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+
+
+            </div>
+            @*<div class="panel-footer">
+                </div>*@
+            @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Submit</button>*@
+
+
+        </div>
+      @Html.Partial("_Footer")
+
+
+    </div>
+
+    @Html.Partial("_DialogSpecialty")
+
+
+}
+
+<script type="text/javascript">
+
+    $('#frmSpecialty input').on('change', function () {
+        $('[name="SpecialityId"]').parent().removeClass("has-error");
+        $('#Speciality_Incomplete').hide();
+
+        var drpSpecialityIdText = $("#drpSpecialityId").data("kendoDropDownList").text();
+        var txtOtherText= $('#txtOtherText').val();
+        
+        if (drpSpecialityIdText == "Other" && txtOtherText == '')
+        {
+            $('#txtOtherText').val('');
+            $('#OtherTextDiv').show(); 
+            //$('#SpecialityOtherText_Incomplete').show();
+            
+        }
+ //Added Else-If statement for Other textbox to work correctly --by Bharati on 31/07/2017
+        else if (drpSpecialityIdText == "Other" && txtOtherText != '')
+        {
+            $('#OtherTextDiv').show(); 
+        }
+        else {
+            $('#OtherTextDiv').hide();
+            $('#SpecialityOtherText_Incomplete').hide();
+            $('#txtOtherText').val('');  //Added by Bharati on 31/07/2017
+        }
+
+
+    });
+
+    var inst = $("#_DialogSpecialty").remodal();
+
+
+    $(document).on('confirmation', '#_DialogSpecialty', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmSpecialty').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogSpecialty', function () {
+        AddCustomValidation();
+    });
+
+
+
+    $(document).ready(function () {
+       // $('#OtherTextDiv').hide();
+      
+        //$('#SpecialityOtherText_Incomplete').hide();
+
+        RemoveCustomValidation();
+
+
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            if (AddCustomValidation()) {
+                LoaderLocal();
+                $('#frmSpecialty').submit();
+            }
+            else {
+                inst.open();
+            }
+
+
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("Contract", "Register")";
+            //if ($("input[name^='selectedProfileDefaultTasksList']:checked").length < 5) {
+            //    inst.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmTasks1').submit();
+            //}
+        });
+        var drpSpecialityIdText = $("#drpSpecialityId").data("kendoDropDownList").text();
+        if (drpSpecialityIdText == "Other") {
+            $('#OtherTextDiv').show();
+            //$('#SpecialityOtherText_Incomplete').show();
+
+        }
+        else {
+            $('#OtherTextDiv').hide();
+            //$('#txtOtherText').val(''); //COOMENNT
+            $('#SpecialityOtherText_Incomplete').hide();
+        }
+
+
+    })
+
+
+    function RemoveCustomValidation() {
+        $('[name="SpecialityId"]').parent().removeClass("has-error");
+        $('#Speciality_Incomplete').hide();
+    }
+
+    function AddCustomValidation() {
+        var allFilled = true;
+
+        var drpSpecialityIdText = $('#drpSpecialityId').val();
+        if (drpSpecialityIdText == "") {
+            $('[name="SpecialityId"]').parent().addClass("has-error");
+            $('#Speciality_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="SpecialityId"]').parent().removeClass("has-error");
+            $('#Speciality_Incomplete').hide();
+        }
+
+        var drpSpecialityIdText = $("#drpSpecialityId").data("kendoDropDownList").text();
+        var txtOtherText= $('#txtOtherText').val();
+        
+        if (drpSpecialityIdText == "Other" && txtOtherText == '') {
+            $('#SpecialityOtherText_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#SpecialityOtherText_Incomplete').hide();
+
+        }
+
+        return allFilled;
+    }
+
+
+
+
+</script>
+

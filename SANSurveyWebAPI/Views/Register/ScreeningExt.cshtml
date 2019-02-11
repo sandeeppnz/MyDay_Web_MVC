@@ -1,0 +1,375 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterScreeningViewModel
+@{
+    //Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    Layout = null;
+    ViewBag.Title = "Baseline Screening";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - @SANSurveyWebAPI.Constants.AppHeader</title>
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+    @*<script src="http://kendo.cdn.telerik.com/2016.3.1118/js/kendo.all.min.js"></script>*@
+    <script src="https://da7xgjtj801h2.cloudfront.net/2016.3.1118/js/kendo.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/remodal/remodal.min.js"></script>
+    <link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+    <script src="~/Scripts/iCheck/icheck.min.js"></script>
+</head>
+
+
+
+
+<body class="loginBody">
+
+    @using (Html.BeginForm("ScreeningExt", "Register", FormMethod.Post,
+                                                    new
+                                                    {
+                                                        name = "frmScreeningExt",
+                                                        id = "frmScreeningExt",
+                                                        @class = ""
+                                                    }))
+    {
+
+        <div class="container">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="consentbox">
+                    <div id="">
+                        <h3>@ViewBag.Title</h3>
+                    </div>
+                    <div class="panel panel-default" id="Work">
+                        <div class="panel-heading">
+                            <h4>We would like to learn about your level of training and medical specialty ...</h4>
+                        </div>
+                        @*@Html.HiddenFor(model => model.ProfileId)
+                            @Html.HiddenFor(model => model.MaxStep)*@
+
+                        @Html.HiddenFor(model => model.Uid)
+                        @Html.HiddenFor(model => model.ProfileId)
+                        @Html.HiddenFor(model => model.MaxStep)
+
+
+
+                        <div class="panel-body">
+                            @{
+                                List<SelectListItem> CurrentLevelTraniningList = new List<SelectListItem>();
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Foundation Doctor Year 1 (FY1)",
+                                    Value = "Foundation Doctor Year 1 (FY1)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Foundation Doctor Year 2 (FY2)",
+                                    Value = "Foundation Doctor Year 2 (FY2)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Core Training Year 1 (CT1)",
+                                    Value = "Core Training Year 1 (CT1)"
+                                });
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Core Training 2 (CT2)",
+                                    Value = "Core Training 2 (CT2)"
+                                });
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Core Training 3 (CT3)",
+                                    Value = "Core Training 3 (CT3)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 1 (ST1)",
+                                    Value = "Specialty Training Year 1 (ST1)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 2 (ST2)",
+                                    Value = "Specialty Training Year 2 (ST2)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 3 (ST3)",
+                                    Value = "Specialty Training Year 3 (ST3)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 4 (ST4)",
+                                    Value = "Specialty Training Year 4 (ST4)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 5 (ST5)",
+                                    Value = "Specialty Training Year 5 (ST5)"
+                                });
+
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 6 (ST6)",
+                                    Value = "Specialty Training Year 6 (ST6)"
+                                });
+
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 7 (ST7)",
+                                    Value = "Specialty Training Year 7 (ST7)"
+                                });
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Specialty Training Year 8 (ST8)",
+                                    Value = "Specialty Training Year 8 (ST8)"
+                                });
+
+                                CurrentLevelTraniningList.Add(new SelectListItem
+                                {
+                                    Text = "Not in training",
+                                    Value = "Not in training"
+                                });
+                            }
+                            <div class="form-group row">
+                                @*@Html.LabelFor(model => model.CurrentLevelOfTraining, new { @class = "col-sm-4 col-form-label" })*@
+
+
+                                <label class="col-sm-4 col-form-label">
+                                    What level of medical training are you currently doing?
+                                    <br />
+                                    <small>
+                                        (If you are currently between levels, tell us the level you are about to finish)
+                                    </small>
+                                </label>
+
+                                <div class="col-sm-8">
+                                    @(Html.Kendo().DropDownListFor(model => model.CurrentLevelOfTraining)
+  .Name("CurrentLevelOfTraining")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(CurrentLevelTraniningList)
+  .OptionLabel("----- Select your current level of training -----")
+  .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpCurrentLevelTranining" })
+                                    )
+                                    <small id="CurrentLevelOfTraining_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Required</small>
+                                </div>
+                            </div>
+
+                            @*<style type="text/css">
+                                    #drpCurrentLevelTranining_listbox li:first-child {
+                                        background-color: Red !important;
+                                        color: Yellow !important;
+                                    }
+                                </style>*@
+
+
+                            @*@{
+                                    List<SelectListItem> CurrentPlacementList = new List<SelectListItem>();
+                                    CurrentPlacementList.Add(new SelectListItem
+                                    {
+                                        Text = "Yes",
+                                        Value = "Yes"
+                                    });
+
+                                    CurrentPlacementList.Add(new SelectListItem
+                                    {
+                                        Text = "No",
+                                        Value = "No"
+                                    });
+                                }*@
+
+                            @*<div class="form-group row">
+                                    @Html.LabelFor(model => model.IsCurrentPlacement, new { @class = "col-sm-4 col-form-label" })
+                                    <div class="col-sm-8">
+                                        @(Html.Kendo()
+                                    .DropDownListFor(model => model.IsCurrentPlacement)
+                                      .Name("IsCurrentPlacement")
+                                      .Filter("contains")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(CurrentPlacementList)
+                                      .OptionLabel("Select your current placement")
+                                      .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpIsCurrentPlacement" })
+                                        )
+                                        <small id="IsCurrentPlacement_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group row">
+                                @Html.Label("Are you currently in a placement?", new { @class = "col-sm-4 col-form-label" })
+                                <div class="col-sm-8">
+                                    <div id="IsCurrentPlacementPanel" style="width:300px">
+                                        @Html.RadioButtonFor(model => model.IsCurrentPlacement, "Yes", new { @id = "IsCurrentPlacement", @name = "IsCurrentPlacement1", @style = "padding-bottom: 5px" })
+                                        <label for="IsCurrentPlacement1" style="padding-right:10px">Yes</label>
+
+                                        @Html.RadioButtonFor(model => model.IsCurrentPlacement, "No", new { @id = "IsCurrentPlacement", @name = "IsCurrentPlacement2", @style = "padding-bottom: 5px" })
+                                        <label for="IsCurrentPlacement2" style="padding-right:10px">No</label>
+                                        <br />
+
+                                        <small id="IsCurrentPlacement_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Required</small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <div style="padding:10px">
+
+                                <button class="btn btn-success btn-lg pull-right" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+
+                            </div>
+
+                        </div>
+
+                   
+                    </div>
+
+
+                </div>
+
+                @Html.Partial("_Footer")
+
+
+            </div>
+
+
+        </div>
+
+        @Html.Partial("_DialogScreeningExt")
+                                }
+</body>
+</html>
+
+
+<script>
+    var inst = $("#_DialogScreeningExt").remodal();
+
+    $(document).on('cancellation', '#_DialogScreeningExt', function () {
+    });
+
+
+    function RemoveCustomValidation() {
+        $('[name="CurrentLevelOfTraining"]').parent().removeClass("has-error");
+        $('[name="CurrentPlacement"]').parent().removeClass("has-error");
+        $('#CurrentLevelOfTraining_Incomplete').hide();
+        $('#IsCurrentPlacement_Incomplete').hide();
+    }
+
+    function AddCustomValidation() {
+
+        var allFilled = true;
+
+        var drpCurrentLevelOfTrainingText = $('#drpCurrentLevelTranining').val();
+        if (drpCurrentLevelOfTrainingText == "") {
+            $('[name="CurrentLevelOfTraining"]').parent().addClass("has-error");
+            $('#CurrentLevelOfTraining_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="CurrentLevelOfTraining"]').parent().removeClass("has-error");
+            $('#CurrentLevelOfTraining_Incomplete').hide();
+        }
+
+
+        //var drpCurrentPlacementText = $('#drpIsCurrentPlacement').val();
+        //if (drpCurrentPlacementText == "") {
+        //    $('[name="IsCurrentPlacement"]').parent().addClass("has-error");
+        //    $('#IsCurrentPlacement_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="IsCurrentPlacement"]').parent().removeClass("has-error");
+        //    $('#IsCurrentPlacement_Incomplete').hide();
+        //}
+
+
+
+        if ($("input[name^='IsCurrentPlacement']:checked").length < 1) {
+            $('#IsCurrentPlacement_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsCurrentPlacement_Incomplete').hide();
+        }
+
+        return allFilled;
+    }
+
+    $(document).ready(function () {
+        RemoveCustomValidation();
+        //function AllFilled() {
+        //    var allFilled = true;
+
+
+        //    var drpWorkPlaceText = $('#drpWorkPlace').val();
+        //    if (drpWorkPlaceText == "") {
+        //        allFilled = false;
+        //    }
+
+
+        //    return allFilled;
+        //}
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            if (AddCustomValidation()) {
+                $('#frmScreeningExt').submit();
+            }
+            else {
+                inst.open();
+            }
+        });
+    });
+
+
+
+
+
+
+    $("input[id='IsCurrentPlacement']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

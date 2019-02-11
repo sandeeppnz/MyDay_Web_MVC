@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Registration Error";
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registration Error - @SANSurveyWebAPI.Constants.AppHeader</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+<body class="loginBody">
+    <div class="container TextAlignCenter">
+
+        <div class="col-lg-4 col-md-3 col-sm-2"></div>
+        <div class="col-lg-4 col-md-6 col-sm-8">
+            <div class="row loginbox">
+                <h1>
+                    <span class="fa fa-exclamation-triangle" />
+                </h1>
+                @*<h1><span class="glyphicon glyphicon-send" /></h1>*@
+                <h3> Sorry we are unable to proceed due to an error.</h3>
+                <h4> Please close this page and try again.</h4>
+                <h5> If you are still having trouble, please 
+                @Html.ActionLink("contact us", "Contact", "Home").
+                
+                </h5>
+            </div>
+            <br>
+            <br>
+            <footer class="footer">
+                <p>© @DateTime.Now.Year @SANSurveyWebAPI.Constants.AppFooter </p>
+            </footer> <!--footer Section ends-->
+
+
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-4 col-md-3 col-sm-2"></div>
+</body>
+</html>

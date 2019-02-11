@@ -1,0 +1,71 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsTaskTimeVM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutKids.cshtml";  }
+    ViewBag.Title = "Survey: Select Task Time";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("TaskTime", "Kids", FormMethod.Post, 
+    new { name = "frmTimeline", id = "frmTimeline", @class = "nav-right" }))
+{
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                @Model.PageQuestion               
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div style="text-align:left"><i>@Model.QuestionHint</i></div> <br /><br />  
+            <div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <td><label for="surveydate">Select the survey date</label></td>
+                            <td colspan="2">@Html.TextBoxFor(model => model.SurveyForDay, new { @id = "txtSurveyForDay" })
+                            <br /><span>Select the date of survey for which you would input further details</span></td>
+                            
+                        </tr>
+                        <tr>
+                            <td><label for="taskTime">Task Duration</label></td>
+                            <td>
+                                <label for="FromTime">From</label>                                                            
+                            </td>
+                            <td>
+                                <label for="ToTime">To</label>
+                            </td>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.TextBoxFor(model => model.FromTime, new { @id = "txtFromTime" })
+                                <br /><span>Select the date of survey for which you would input further details</span>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.ToTime, new { @id = "txtToTime" })
+                                <br /><span>Select the date of survey for which you would input further details</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>          
+            </div>    
+        </div>
+        <center>
+            <div>
+                <small id="SelectedTasks_Incomplete" class="invalid" style="text-align:left">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    &nbsp; @Model.ErrorMessage
+                </small>
+            </div>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>
+    @Html.Partial("_FooterSurvey")
+}
+<link rel="stylesheet" href="~/Scripts/TimeDropper/timedropper.css" />
+<script src="~/Scripts/TimeDropper/timedropper.js"></script>
+<script>
+    $("#txtFromTime").timeDropper();
+    $("#txtToTime").timeDropper();
+</script>

@@ -1,0 +1,302 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyTasks1ViewModel
+
+@{
+    ViewBag.Title = "Survey: Select Tasks";
+}
+
+
+@{
+
+    var rowsPerPage = 4;
+    int noPages = 0;
+    int currRow = 0;
+
+    if (Model.FullTaskList.Count % rowsPerPage != 0)
+    {
+        noPages = (Model.FullTaskList.Count / rowsPerPage) + 1;
+        currRow = 1;
+    }
+    else
+    {
+        noPages = (Model.FullTaskList.Count / rowsPerPage);
+        currRow = 1;
+    }
+
+}
+
+
+
+
+@using (Ajax.BeginForm("Tasks", "Survey",
+                                        new AjaxOptions
+                                        {
+                                            HttpMethod = "POST",
+                                            Url = @Url.Action("Tasks", "Survey"),
+                                            OnSuccess = "OnSuccess",
+                                            OnFailure = "OnFailure"
+                                        }, new { id = "frmTasks1", @class = "nav-right" }
+                                            )
+                                            )
+{
+
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+
+        #slidercarousel {
+            width: 98% !important;
+            /*margin: 50px auto;*/
+            /*bottom margin*/
+        }
+
+        .slick-prev {
+            /*left: -31px;*/
+        }
+
+        .panel-body {
+            padding-left: 20px;
+        }
+
+        .funkyradio label {
+            padding-left: 0px;
+            margin-bottom: 0px;
+        }
+
+        .funkyradio input[type="checkbox"]:empty ~ label:before {
+            top: 0px;
+            left: 0px;
+            /*bottom:0;*/
+        }
+    </style>
+
+
+    @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+
+
+    <div class="container OtherPageContainer" id="TaskPanel">
+
+        @Html.ValidationSummary(true, "Please check the form for errors.")
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>@Model.PageQuestionSurveyVariant @Session["SurveyPeriod"]</h3>
+            </div>
+
+            @*<div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: @Session["CurrProgressValue"]%">
+                    @Session["CurrProgressValue"]%
+                    <span class="sr-only">@Session["CurrProgressValue"]% Complete (success)</span>
+                </div>
+            </div>*@
+
+            @*<h1>@Model.CurrProgressValue% Complete (success)</h1>*@
+
+            <div class="panel-body">
+
+                <i>Please select the tasks that you did during this time.</i>
+
+                <div class="responsive slider" id="slidercarousel">
+                    @for (int page = 0; page < noPages; page++)
+                    {
+
+                        <div style="outline:none">
+
+                            @*<div class="funkyradio" style="padding:5px;">*@
+                            @while ((page * rowsPerPage) + currRow <= Model.FullTaskList.Count)
+                            {
+                                <div class="funkyradio funkyradio-default box">
+                                    @*<input type="checkbox" name=FullTaskList id=@("checkbox" + ((page*rowsPerPage) +currRow)) value=@Model.FullTaskList[((page * rowsPerPage) + currRow) -1].ID checked=@Model.FullTaskList[((page * rowsPerPage) + currRow) -1].IsChecked />*@
+                                    <input type="checkbox" name=selectedTasks id=@("checkbox" + ((page*rowsPerPage) +currRow)) value=@Model.FullTaskList[((page * rowsPerPage) + currRow)-1].ID checked=@Model.FullTaskList[((page * rowsPerPage) + currRow)-1].IsChecked />
+
+                                    <label id=@(((page*rowsPerPage) +currRow)) name="selectedTasksLabel" class="" for=@("checkbox" + ((page*rowsPerPage) + currRow ))>
+                                        @Model.FullTaskList[((page * rowsPerPage) + currRow) - 1].Display
+                                        <span id=@("tooltip_" + ((page*rowsPerPage) +currRow)) class="tooltipTask" title="@Model.FullTaskList[((page * rowsPerPage) + currRow) - 1].Description"></span>
+                                        <span class="tooltipTask" title="@Model.FullTaskList[((page * rowsPerPage) + currRow) - 1].Description"><sup>[?]</sup></span>
+                                    </label>
+                                </div>
+
+
+
+                                if (currRow % rowsPerPage == 0)
+                                {
+                                    break;
+                                }
+
+                                currRow++;
+                            }
+
+                            @{
+                                currRow = 1;
+                            }
+                        </div>
+                        @*</div>*@
+
+                                }
+                </div>
+
+
+                @*<div class="form-group row">
+                        @Html.Label("Select your default tasks", new { @class = "control-label" })
+                        <div class="checkbox">
+                            @foreach (var item in Model.FullTaskList)
+                            {
+                                <input type="checkbox" name="selectedProfileDefaultTasksList" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
+                                @Html.Label(item.Text, new { @class = "control-label" })
+                                <br />
+                                    <br />
+                            }
+                        </div>
+                    </div>*@
+
+            </div>
+            <div class="panel-footer" id="TaskFooterPanel">
+                <button class="btn btn-success btn-block btn-lg btnCustomNext" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    @Html.Partial("_DialogTask")
+
+                                }
+
+
+
+
+
+<script>
+    var inst = $(".remodal").remodal();
+
+    $(document).on('confirmation', '.remodal', function () {
+        $('#frmTasks1').submit();
+    });
+
+
+    function OnSuccess(response) {
+        //alert(response);
+        $('#MainContent').html(response);
+        //slideMenu.view.toggleClose();
+
+        //window.location.href = "@Url.Action("Login", "Account")";
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+
+   
+
+
+
+    $(document).ready(function () {
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            //enableSwipe: true,
+            touchstart: function (e) {
+                //$('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+
+                ////console.log("touch start " + );
+            },
+            //swipe: function (e) { console.log("swipe " + e.direction); },
+            //tap: function (e) { console.log("tap"); },
+            //doubletap: function (e) { console.log("double tap"); },
+            hold: function (e) {
+                //$('#my-tooltip').tooltipster('open');
+                //debugger;
+                //e.tooltipster('open');
+
+                $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+
+            }
+        });
+
+
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+
+
+            @*$.ajax({
+                datatype: "text/plain",
+                type: "POST",
+                url: "@(Url.Action("TaskTime", "Survey"))",
+                cache: false,
+                success: function (data) {
+                    $('#MainContent').html(data);
+                    slideMenu.view.toggleClose();
+
+                }
+            });*@
+
+            e.preventDefault();
+
+            if ($("input[name^='selectedTasks']:checked").length < 1) {
+                inst.open();
+            }
+            else {
+                $('#frmTasks1').submit();
+            }
+
+            //$('#frmTasks1').submit();
+
+           
+        });
+
+        $('.responsive').slick({
+            dots: true,
+            infinite: false,
+            speed: 300,
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            responsive: [
+              {
+                  breakpoint: 1024,
+                  settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 3,
+                      infinite: true,
+                      dots: true
+                  }
+              },
+              {
+                  breakpoint: 600,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1
+                  }
+              }
+              // You can unslick at a given breakpoint now by adding:
+              // settings: "unslick"
+              // instead of a settings object
+            ]
+        });
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+
+            //trigger: 'custom',
+            //triggerOpen: {
+            //    mouseenter: true,
+            //    //touchstart: true,
+            //    hold: true
+            //},
+            //triggerClose: {
+            //    mouseleave: true,
+            //    originClick: true,
+            //    touchleave: true
+            //}
+        });
+
+    });
+
+</script>

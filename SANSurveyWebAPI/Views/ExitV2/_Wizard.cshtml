@@ -1,0 +1,212 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.WizardViewModel
+<div class="stepwizard">
+    <div class="stepwizard-row setup-panel">
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 1)
+            {
+                if (Model.CurrStep == 1)
+                { <a type="button" id="WellBeing_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">1</a> }
+                else
+                { <a type="button" href="@Url.Action("WellBeing","ExitV2")" id="WellBeing_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 1)
+            {  <a type="button" href="@Url.Action("WellBeing","ExitV2")" id="WellBeing_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            {  <a type="button" class="btn btn-default btn-circle" disabled="disabled">1</a> }            
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 2)
+            {
+                if (Model.CurrStep == 2)
+                {  <a type="button" id="FirstJob_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">2</a> }
+                else
+                {  <a type="button" href="@Url.Action("FirstJob","ExitV2")" id="FirstJob_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 2)
+            { <a type="button" href="@Url.Action("FirstJob","ExitV2")" id="FirstJob_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            {  <a type="button" class="btn btn-default btn-circle" disabled="disabled">2</a> }            
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 3)
+            {
+                if (Model.CurrStep == 3)
+                { <a type="button" id="SecondJob_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">3</a> }
+                else
+                { <a type="button" href="@Url.Action("SecondJob","ExitV2")" id="SecondJob_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 3)
+            { <a type="button" href="@Url.Action("SecondJob","ExitV2")" id="SecondJob_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">3</a> }            
+        </div>        
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 4)
+            {
+                if (Model.CurrStep == 4)
+                { <a type="button" id="FirstWE_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">4</a> }
+                else
+                {  <a type="button" href="@Url.Action("FirstWorkEnvironment","ExitV2")" id="FirstWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 4)
+            { <a type="button" href="@Url.Action("FirstWorkEnvironment","ExitV2")" id="FirstWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">4</a> }
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 5)
+            {
+                if (Model.CurrStep == 5)
+                { <a type="button" id="SecondWE_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">5</a> }
+                else
+                { <a type="button" href="@Url.Action("SecondWorkEnvironment","ExitV2")" id="SecondWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 5)
+            { <a type="button" href="@Url.Action("SecondWorkEnvironment","ExitV2")" id="SecondWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">5</a> }            
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 6)
+            {
+                if (Model.CurrStep == 6)
+                { <a type="button" id="ThirdWE_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">6</a> }
+                else
+                { <a type="button" href="@Url.Action("ThirdWorkEnvironment","ExitV2")" id="ThirdWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 6)
+            { <a type="button" href="@Url.Action("ThirdWorkEnvironment","ExitV2")" id="ThirdWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">6</a> }
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 7)
+            {
+                if (Model.CurrStep == 7)
+                { <a type="button" id="FourthWE_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">7</a> }
+                else
+                {<a type="button" href="@Url.Action("FourthWorkEnvironment","ExitV2")" id="FourthWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 7)
+            { <a type="button" href="@Url.Action("FourthWorkEnvironment","ExitV2")" id="FourthWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">7</a> }            
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 8)
+            {
+                if (Model.CurrStep == 8)
+                { <a type="button" id="FifthWE_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">8</a> }
+                else
+                { <a type="button" href="@Url.Action("FifthWorkEnvironment","ExitV2")" id="FifthWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 8)
+            { <a type="button" href="@Url.Action("FifthWorkEnvironment","ExitV2")" id="FifthWE_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            {  <a type="button" class="btn btn-default btn-circle" disabled="disabled">8</a> }            
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 9)
+            {
+                if (Model.CurrStep == 9)
+                {  <a type="button" id="FirstT_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">9</a> }
+                else
+                { <a type="button" href="@Url.Action("FirstTraining","ExitV2")" id="FirstT_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 9)
+            {  <a type="button" href="@Url.Action("FirstTraining","ExitV2")" id="FirstT_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">9</a> }
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 10)
+            {
+                if (Model.CurrStep == 10)
+                {  <a type="button" id="SecondT_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">10</a> }
+                else
+                {  <a type="button" href="@Url.Action("SecondTraining","ExitV2")" id="SecondT_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 10)
+            {  <a type="button" href="@Url.Action("SecondTraining","ExitV2")" id="SecondT_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            {  <a type="button" class="btn btn-default btn-circle" disabled="disabled">10</a> }
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 11)
+            {
+                if (Model.CurrStep == 11)
+                { <a type="button" id="ThirdT_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">11</a> }
+                else
+                { <a type="button" href="@Url.Action("ThirdTraining","ExitV2")" id="ThirdT_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 11)
+            { <a type="button" href="@Url.Action("ThirdTraining","ExitV2")" id="ThirdT_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">11</a> }
+        </div>
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 12)
+            {
+                if (Model.CurrStep == 12)
+                {  <a type="button" id="AbtY_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">12</a>  }
+                else
+                { <a type="button" href="@Url.Action("AboutYou","ExitV2")" id="AbtY_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            }
+            else if (Model.CurrStep > 12)
+            { <a type="button" href="@Url.Action("AboutYou","ExitV2")" id="AbtY_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a> }
+            else
+            { <a type="button" class="btn btn-default btn-circle" disabled="disabled">12</a> }
+        </div>       
+    </div>
+    <br />
+</div>
+<script>
+    $('#WellBeing_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#FirstJob_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#SecondJob_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#FirstWE_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#SecondWE_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#ThirdWE_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#FourthWE_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#FifthWE_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#FirstT_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#SecondT_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#ThirdT_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+    $('#AbtY_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+</script>

@@ -1,0 +1,280 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MyDay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="~/Content/Root/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="~/Content/Root/css/style.css" rel="stylesheet">
+    <link href="~/Content/Root/color/default.css" rel="stylesheet">
+    <link rel="~/Content/Root/shortcut icon" href="img/favicon.ico">
+
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.blockUI.js"></script>*@
+
+</head>
+
+<body>
+    <!-- navbar -->
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- Responsive navbar -->
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+
+                    </a>
+
+                    <nav class="pull-right nav-collapse collapse"> 
+                        <ul id="menu-main" class="nav">
+
+                            <li><a title="About" href="@Url.Action("About","Root")#about">About</a></li>
+                            <li><a title="FAQ" href="@Url.Action("FAQs","Root")">FAQ</a></li>
+                            <li><a title="Contact" href="@Url.Action("Contact","Root")#contact">Contact</a></li> 
+                            @*<li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
+                                <ul class="dropdown-menu" style="padding: 15px">
+                                    <li>                                        
+                                        <div class="col-md-12">
+                                            @Html.AntiForgeryToken()
+                                            <form class="form" role="form" method="post" action=@Url.Action("Login","Root") accept-charset="UTF-8" id="login-nav">
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="userid">Email address</label>
+                                                    <input type="email" class="form-control" id="userid" name="email" placeholder="Email address" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="Password">Password</label>
+                                                    <input type="password" class="form-control" id="Password" name="password" placeholder="Password" required>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id="RememberMe"> Remember me
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                                                </div>
+                                            </form>
+                                            <div>
+                                                <label style="font-weight:100;font-size:14px;">If you have not received an email invitation to participate, please <a href="mailto:myday@aut.ac.nz" style="font-weight:bold;color:#008080;">let us know</a>.</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
+
+                        </ul>
+
+                        <br />
+                        <div class="pull-right" style="padding-right:10px">
+                            @Html.ValidationSummary(true, Constants.ErrorLoginMsgMainSite, new { @class = "text-danger", @style = "color:red" })
+                        </div>
+                    </nav>
+                    <a href="~/">
+                        <h1 class="brand" style="padding-top:25px">
+                            MyDay
+                            <p style="font-size:medium;color:#808080">
+                                Measuring wellbeing is the first step towards improving it
+                            </p>
+                        </h1>
+                    </a>
+                </div>
+            </div>
+            <div class="container">
+                <h1 class="brand"></h1>
+                <!-- navigation -->
+            </div>
+        </div>
+    </div>
+    <!-- Header area -->
+    <div id="header-wrapper" class="header-slider">
+        <header class="clearfix">
+            <div class="row"></div>
+
+            <div class="container">
+                <div class="row">                   
+                    <div>                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span12">
+                        <div id="main-flexslider" class="flexslider" style="padding-top:250px">
+                            <ul class="slides">
+                                <li>
+                                    <p class="home-slide-content">
+                                        <strong>MyDay</strong> surveys
+                                    </p>
+                                </li>
+                                <li>
+                                    <p class="home-slide-content">
+                                        <strong>MyDay</strong> surveys
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- end slider -->
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <section id="about" class="section">
+        <div class="container" style="padding-top:20px">
+            <h4>About</h4>
+            <div class="row">
+                <div class="span12 offset1">
+                    <div>
+                        <h2><strong>MyDay</strong> Experienced Wellbeing Surveys</h2>                        
+                        <p style="color:black">
+                            MyDay is an internet-based survey tool to study experiential 
+                            wellbeing during a working day. The primary goal of the surveys is 
+                            to ascertain what tasks are performed in a typical day and affect 
+                            while completing these tasks.
+                            <br /><br />
+                            MyDay is currently being used in Wessex, England to learn about the 
+                            experienced wellbeing of junior doctors in a study led by 
+                            Health Education England, Auckland University of Technology and Cass 
+                            Business School. 
+                            <br />
+                            <br />
+                            These surveys will give valuable insight into the working day of 
+                            junior doctors in order to guide future improvements 
+                            in their job satisfaction and wellbeing.
+                            <br />
+                            <br />
+                            <a href="@Url.Action("FAQs","Root")" style="color:teal;">Find out more about the junior doctors study</a>.                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- end section: team -->    
+    <!-- section: contact -->
+    <section id="contact" class="section orange">
+        <div class="container" style="padding-top:20px;color:black">
+            <h4>Contact Us</h4>
+            <p>
+                Do you have a question about the MyDay surveys?&nbsp;
+                If you have a question or need help with your surveys, 
+                leave a message below and someone from the MyDay team will be in touch.
+            </p>
+            <div class="blankdivider30">
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <div class="cform" id="contact-form">
+                        <div id="sendmessage">Your message has been sent. Thank you!</div>
+                        <div id="errormessage"></div>
+                        <form action="" method="post" role="form" class="contactForm" accept-charset="UTF-8">
+                            <div class="row">
+                                <div class="span6">
+                                    <div class="field your-name form-group">
+                                        <label for="name">Your Name</label>
+                                        <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                        <div class="validation"></div>
+                                    </div>
+                                    <div class="field form-group">
+                                        <label for="name">Preferred Contact</label>
+                                        <select name="preferredContact" class="form-control"
+                                                style="height: 50px" id="preferredContact" data-rule="required">
+                                            <option value="Email">Email</option>
+                                            <option value="Phone">Phone</option>
+                                        </select>                                        
+                                        <div class="validation"></div>
+                                    </div>
+                                    <div class="field your-name form-group">
+                                        <label for="name">Preferred Time</label>
+                                        <select name="preferredTime" class="form-control" 
+                                                style="height: 50px" id="preferredTime" data-rule="required">
+                                            <option selected>Anytime</option>
+                                            <option>Morning</option>
+                                            <option>Evening</option>
+                                        </select>
+                                        <div class="validation"></div>
+                                    </div>
+                                    <div class="field your-email form-group" id="divEmail">
+                                        <label for="email">Your Email</label>
+                                       
+                                        <input type="text" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                                        <div class="validation"></div>
+                                    </div>
+                                    <div class="field your-email form-group" id="divPhone">
+                                        <label for="phoneNumber">Your Phone Number</label>
+                                        @*<input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Your Phone Number" data-rule="required" />*@
+                                        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Your Phone Number" />
+                                        @*<div class="validation"></div>*@
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <div class="field message form-group">
+                                        <label for="message">Your Message</label>
+                                        <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                                        <div class="validation"></div>
+                                    </div>
+                                    @*<input type="submit" value="Send message" class="btn btn-success pull-left">*@
+                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- ./span12 -->
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="span6 offset3">
+                    <p class="copyright">
+                        &copy; 2017 MyDay. All rights reserved.
+                    </p>
+
+                    @*<img src="~/Images/footer.png" />*@
+
+                </div>
+            </div>
+        </div>
+        <!-- ./container -->
+    </footer>
+
+    <a style="z-index:9999" href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bgdark icon-2x"></i></a>
+
+
+    <script src="~/Scripts/Root/jquery.js"></script>
+    <script src="~/Scripts/Root/jquery.scrollTo.js"></script>
+    <script src="~/Scripts/Root/jquery.nav.js"></script>
+    <script src="~/Scripts/Root/jquery.localscroll-1.2.7-min.js"></script>
+    <script src="~/Scripts/Root/bootstrap.js"></script>
+    <script src="~/Scripts/Root/jquery.prettyPhoto.js"></script>
+    <script src="~/Scripts/Root/isotope.js"></script>
+    <script src="~/Scripts/Root/jquery.flexslider.js"></script>
+    <script src="~/Scripts/Root/inview.js"></script>
+    <script src="~/Scripts/Root/animate.js"></script>
+
+    <script type="text/javascript">
+        var surveyApp = surveyApp || {};
+        surveyApp.Urls = surveyApp.Urls || {};
+        surveyApp.Urls.SendMessageUrl = '@Url.Action("SendMessage","Root")';
+    </script>
+
+
+    <script src="~/Scripts/Root/validate.js"></script>
+    <script src="~/Scripts/Root/custom.js"></script>
+    
+</body>
+
+</html>
+

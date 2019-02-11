@@ -1,0 +1,128 @@
+﻿@model SANSurveyWebAPI.DTOs.TaskItemDto
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "TaskItems", FormMethod.Post, new { name = "frmTasksEdit", id = "frmTasksEdit", @class = "" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Task</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShortName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ShortName, new { htmlAttributes = new { @class = "form-control", @id = "ShortName" } })
+                @Html.ValidationMessageFor(model => model.ShortName, "", new { @class = "text-danger" })
+                <br />
+                <small id="ShortName_Incomplete" class="invalid emptyField"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Enter the short name for the task.</small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LongName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LongName, new { htmlAttributes = new { @class = "form-control", @id = "LongName" } })
+                @Html.ValidationMessageFor(model => model.LongName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    List<SelectListItem> TaskType = new List<SelectListItem>();
+                    TaskType.Add(new SelectListItem { Text = "Patient", Value = "Patient" });
+                    TaskType.Add(new SelectListItem { Text = "WAM", Value = "WAM" });
+                }
+                @(Html.Kendo().DropDownListFor(model => model.Type)
+                                      .Name("Type")
+                                      .Filter("contains")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(TaskType)
+                                      .OptionLabel("------Select------")
+                                      .HtmlAttributes(new { @style = "", @id = "TaskType" }))
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                <br />
+                <small id="TaskType_Incomplete" class="invalid emptyField"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Please select the task type.</small>
+            </div>
+        </div>       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Sequence, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Sequence, new { htmlAttributes = new { @class = "form-control", @id = "SequenceNo" } })
+                @Html.ValidationMessageFor(model => model.Sequence, "", new { @class = "text-danger" })
+                <br />
+                <small id="Sequence_Incomplete" class="invalid emptyField"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;The Sequence field is required.</small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" id="btnSubmit"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<style>
+    .emptyField {
+        color: #a94442;
+        font-size: 15px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('#ShortName_Incomplete').hide();
+        $('#TaskType_Incomplete').hide();
+        $('#Sequence_Incomplete').hide();
+
+        $('#btnSubmit').on("click", function (e) {
+            e.preventDefault();
+            if(CustomValidation())
+            { $('#frmTasksEdit').submit(); }
+        });
+    });
+
+    function CustomValidation() {
+        var allFilled = true;
+        var shortName = $("#ShortName").val();
+        var taskType = $("#TaskType").data("kendoDropDownList").value();
+        var sequenceNo = $("#SequenceNo").val();
+
+        if (shortName == "") {
+            $('#ShortName_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#ShortName_Incomplete').hide();
+        }
+        if (taskType == "") {
+            $('#TaskType_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#TaskType_Incomplete').hide();
+        }
+        if (sequenceNo == "") {
+            $('#Sequence_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#Sequence_Incomplete').hide();
+        }
+        return allFilled;
+    }
+</script>

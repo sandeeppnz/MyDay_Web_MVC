@@ -1,0 +1,256 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.IntroductionViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Introduction";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+
+</head>
+
+<body class="loginBody">   
+    @using (Html.BeginForm("Index", "Register", FormMethod.Post, new { name = "frmConsent", id = "frmConsent", @class = "form-horizontal", role = "form" }))
+    {
+
+        @Html.HiddenFor(m => m.Uid, new { @id = "uid" })
+
+
+        <div class="container">
+
+            <div class="consentbox" style="padding:20px;">
+
+                <center>
+                    <div style="background-color:#b2d8d8;padding:20px">
+                        <h1>
+                            Welcome to MyDay Baseline Survey!
+                        </h1>
+                        <h4>
+                            Measuring the Experiential Enjoyment of Junior Doctors Working Day Using the Day Reconstruction Method is being carried out in accordance with Health Education England’s commitment to manage the provision of training programmes and maintain patient safety.
+                        </h4>
+
+                        <div style="border: 1px solid #e5e5e5; height: 400px; text-align:left; background-color:#ffffff; overflow: auto; padding: 10px;">
+                            <div class="modal-body" style="background-color:#ffffff">
+                                <div class="pull-left">
+                                    <img src="~/Images/200_US.jpg" />
+                                </div>
+                                <div class="pull-right">
+                                    <img src="~/Images/200_NHS.jpg" />
+                                </div>
+
+                                <br />
+                                <br />
+                                <hr />
+
+                                <div>
+                                    <u><b>Participant Information Sheet</b></u>
+                                 <br /><br />
+                                    <b>Measuring the Experiential Enjoyment of Junior Doctors Working Day 
+                                        Using the Day Reconstruction Method</b>
+                                    <br /><b>Researchers:</b> 
+                                        Professor Rhema Vaithianathan of Auckland University of Technology, 
+                                    Professor Karen Morrison Dean of the medical school of the University of Southampton, 
+                                    Dr Peter Hockey, Postgraduate Dean of Health Education England working across Wessex 
+                                    and Dr Amanda Goodall, Senior Lecturer, Cass Business School, London.
+                                    <br />
+                                    <br /><b>ERGO number:</b> 30632
+
+                                    <br />
+                                    <br /><b>Please read this information carefully before deciding whether to 
+                                    take part in this research. 
+                                    If you are happy to participate you will be asked to sign a consent form.</b>
+
+                                    <br />
+                                    <br /><b>What is the research about?</b>
+                                    <br />We are conducting research into the experienced wellbeing of junior doctors 
+                                    during their working day. 
+                                    The objective of this study is to survey 2000 doctors in training from across all 
+                                    medical specialities in the Wessex Deanery to determine how they experience their 
+                                    working day using an internet-based tool called MyDay. 
+                                    From this research we hope to improve the workday experiences of junior doctor’s 
+                                    in the Wessex Deanery.
+                                    <br />
+                                    <br /><b>Why have I been chosen?</b>
+                                    <br />You have been selected for the study as a current trainee of Health Education England 
+                                    Working across Wessex.
+                                    <br />
+                                    <br /><b>What will happen to me if I take part?</b>
+                                    <br />As part of the study, we would like to ask questions:
+                                    <ul>
+                                        <li>About yourself and your work situation (initial survey)</li>
+                                        <li>On the tasks that you perform during your working day and how you feel about them (day reconstruction survey)</li>
+                                        <li>To further understand your work (exit survey).</li>
+                                    </ul>
+
+                                    <br />We estimate that the surveys will take the following amount of time:
+                                    <ul>
+                                        <li>Initial survey: 10-15 minutes</li>
+                                        <li>Three day reconstruction surveys over a week period: 8-10 minutes each </li>
+                                        <li>Exit survey: 10-15 minutes</li>
+                                        <li><b>Total Maximum Time: 60 minutes</b></li>
+                                    </ul>
+
+                                    <br /><b>Are there any benefits in my taking part?</b>
+                                    <br />You will be provided with feedback on experienced wellbeing 
+                                    of your own tasks as well as a comparison of those tasks with other 
+                                    junior doctors experienced wellbeing.
+                                    <br />As a thank you for taking part, you will be provided with a 
+                                    <b>£10 amazon voucher</b> after completion of the initial survey.
+
+                                    <br />
+                                    <br /><b>Are there any risks involved?</b>
+                                    <br />We do ask that you complete the MyDay surveys in your own spare time 
+                                    because we do not want the study to impact on your working commitments. 
+                                     If for any reason you feel that the surveys does impact on your work schedule, 
+                                    then we would be grateful if you would contact the research team at 
+                                     <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>
+
+                                    <br />
+                                    <br /><b>Will my participation be confidential?</b>
+                                    <br />Yes, any identifiable information provided by the participants 
+                                    will be kept confidential at all times. 
+                                    HEE Wessex and other external agencies will only receive aggregate 
+                                    summary data.
+
+                                    <br />
+                                    <br /><b>Will my responses be anonymous?</b>
+                                    <br />All data on personal information will be kept separate 
+                                    from your survey responses, however they will be linkable using a 
+                                    user ID which will only be accessible by technicians for trouble 
+                                    shooting purposes.  Researchers and organisations such as 
+                                    HEE Wessex will not be able to identify your individual responses.
+
+                                    <br />
+                                    <br /><b>
+                                        What happens if I change my mind?
+                                    </b>
+                                    <br />You may cease your participation of the survey at any time by emailing
+                                     <a href="mailto:dpa@hee.nhs.uk">dpa@hee.nhs.uk</a> 
+                                    stating your unique ID and that you wish to be excluded from the study.
+
+                                    <br />
+                                    <br /><b>
+                                        What happens if something goes wrong?
+                                    </b>
+                                    <br />We will have a “help” feature on the survey tool, 
+                                    which will allow you to contact us or request a call back during the 
+                                    survey period. In addition, you will be able to contact us regarding 
+                                    survey queries via email at  
+                                    <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>.
+                                    Alternatively, you may also contact the Research Governance Office, 
+                                    tel. 023 8059 5058, 
+                                    <a href="mailto:rgoinfo@soton.ac.uk">rgoinfo@soton.ac.uk</a>.
+
+                                    <br />
+                                    <br /><b>
+                                        Where can I get more information?
+                                    </b>
+                                    <br />All of the information regarding our study will be available on 
+                                    our website 
+                                    <a target="_blank" href="https://myday.aut.ac.nz">myday.aut.ac.nz</a>.  
+                                    If you are unable to find the information you are looking for you 
+                                    may contact our team at 
+                                    <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>.
+
+                                </div>
+
+                                <br />
+
+                                <div class="pull-left">
+                                    <img src="~/Images/100_AUT.jpg" />
+                                </div>
+                                <div class="pull-right">
+                                    <img src="~/Images/100_CASS.jpg" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <br />
+                        
+                        <center>
+                            <div style="padding:10px">
+                                <button name="button" value="Begin" class="btn btn-success btn-lg" type="submit">Click to Start</button>
+                            </div>
+                        </center>
+
+
+
+                        <h5>
+                            This baseline survey should take around 10-15 minutes to complete.
+                        </h5>
+                    </div>   
+                            <br />
+                            <h5>
+                                Your data is being managed in compliance with the regulations as set out in the Data Protection Act and Health Education England’s Privacy notice which can be found at
+                                <a target="_blank" href="https://heeoe.hee.nhs.uk/recruitment_privacy_data">
+                                    https://heeoe.hee.nhs.uk/recruitment_privacy_data
+                                </a>
+                            </h5>
+                        </center>
+                    </div>
+            @Html.Partial("_Footer")
+        </div>
+
+    }
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+@*<script src="http://kendo.cdn.telerik.com/2016.3.1118/js/kendo.all.min.js"></script>*@
+
+<script src="https://da7xgjtj801h2.cloudfront.net/2016.3.1118/js/kendo.all.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+<link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+<script src="~/Scripts/formValidation/formValidation.min.js"></script>
+<script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>
+
+<script src="~/Scripts/remodal/remodal.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<script type="text/javascript">
+
+    //$(document).ajaxStart(function () {
+    //    $.blockUI({
+    //        css: {
+    //            border: 'none',
+    //            //padding: '10px',
+    //            //backgroundColor: '#000',
+    //            backgroundColor: 'transparent',
+    //            //color: '#fff',
+    //            opacity: .9
+    //        },
+    //        message: '<img src="/Images/comment.svg" />'
+    //    });
+    //});
+
+    //$(document).ajaxComplete(function () {
+    //    $.unblockUI()
+    //});
+
+
+    $(document).ready(function () {
+        $('#btnNext').on("click", function (e) {
+            //LoaderLocal();
+            //var data = {
+            //    "Uid": $("#uid").val()
+            //};
+        });
+    });
+</script>

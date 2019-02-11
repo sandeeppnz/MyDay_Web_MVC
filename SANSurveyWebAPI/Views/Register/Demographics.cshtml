@@ -1,0 +1,957 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterDemographicsViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Demographics";
+}
+
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+
+
+
+@using (Html.BeginForm("Demographics", "Register", FormMethod.Post, new { name = "frmPersonal1", id = "frmPersonal1" }))
+{ <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+            @Html.HiddenFor(model => model.Email)
+            @Html.HiddenFor(model => model.MobileNumber)
+            @Html.HiddenFor(model => model.Name)
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 8, MaxStep = Model.MaxStep, SurveyType = 0 })
+
+            <div class="panel panel-default" id="Personal">
+
+                <div class="panel-heading"><h3>Finally, we would like to ask for some background information about you, for statistical purposes ... </h3></div>
+
+                <div class="panel-body">
+
+                  
+
+                    <div class="form-group row">
+                        @Html.Label("Did you receive a primary medical degree from a British University?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="britishUniPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.IsUniversityBritish, "Yes", new { @id = "IsUniversityBritish", @name = "IsUniversityBritish1", @style = "padding-bottom: 5px" })
+                                <label for="IsUniversityBritish1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.IsUniversityBritish, "No", new { @id = "IsUniversityBritish", @name = "IsUniversityBritish2", @style = "padding-bottom: 5px" })
+                                <label for="IsUniversityBritish2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="IsUniversityBritish_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div id="UniPanel">
+
+                        @{
+                            List<SelectListItem> UniversityAttendedList = new List<SelectListItem>();
+
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "University of Southampton",
+                                Value = "University of Southampton"
+                            });
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "University of Cambridge",
+                                Value = "University of Cambridge"
+                            });
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "University of Oxford",
+                                Value = "University of Oxford"
+                            });
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "King's College London",
+                                Value = "King's College London"
+                            });
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "University of Liverpool",
+                                Value = "University of Liverpool"
+                            });
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "Newcastle University",
+                                Value = "Newcastle University"
+                            });
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "Other (inside United Kingdom)",
+                                Value = "Other (inside United Kingdom)"
+                            });
+
+                            UniversityAttendedList.Add(new SelectListItem
+                            {
+                                Text = "Other (outside of United Kingdom)",
+                                Value = "Other (outside of United Kingdom)"
+                            });
+
+
+                        }
+
+                        @*<div class="form-group row">
+                                        <label for="UniversityAttended" class="col-sm-4 col-form-label">University Attended</label>
+                                        <div class="col-sm-8">
+                                            @(Html.Kendo().ComboBoxFor(model => model.UniversityAttended)
+            .Name("UniversityAttended")
+            .Filter("contains")
+            .Placeholder("Type or select university attended")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .BindTo(UniversityAttendedList)
+            .Suggest(true)
+            .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "cmbUniversityAttended" })
+                                            )
+                                            <small id="UniversityAttended_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                                        </div>
+                                    </div>*@
+
+
+                        <div class="form-group row">
+                            <label for="UniversityAttended" class="col-sm-4 col-form-label">University Attended</label>
+                            <div class="col-sm-8">
+                                @(Html.Kendo().DropDownListFor(model => model.UniversityAttended)
+                                  .Name("UniversityAttended")
+                                  .Filter("contains")
+                                  .DataTextField("Text")
+                                  .DataValueField("Value")
+                                  .BindTo(Model.MedicalUniversityTypeListDropDown)
+                                  .OptionLabel("----- Select university attended -----")
+                                  .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "cmbUniversityAttended" })
+                                )
+                                <small id="UniversityAttended_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                           
+                                <br />
+
+                                <div id="UniversityAttendedOtherTextDiv" >
+                                    @Html.TextBoxFor(model => model.UniversityAttendedOtherText
+                                        , new
+                                        {
+                                            @id = "txtUniversityAttendedOtherText",
+                                            @class = "form-control",
+                                            @placeholder = "Type the name of your university"
+                                        })
+
+                                </div>
+                            
+                             </div>
+
+
+                        
+
+
+
+                        </div>
+
+                    </div>
+
+
+                    @*<div class="form-group row">
+                            @Html.LabelFor(model => model.Email, new { @class = "col-sm-2 col-form-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @readonly = true })
+                                <small id="Email_Incomplete" class="invalid pull-left"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Required</small>
+                            </div>
+                        </div>*@
+
+
+                    @*<div class="form-group row">
+                            @Html.LabelFor(model => model.MobileNumber, new { @class = "col-sm-2 col-form-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.MobileNumber, new { @id = "txtMobileNumber", @class = "form-control" })
+                                <small id="MobileNumber_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>*@
+
+
+                    @*<div class="form-group row">
+                            <span>
+                                <label class="col-sm-2 col-form-label">
+                                    Name <br />
+                                </label>
+                            </span>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                <small id="Name_Incomplete" class="invalid pull-left"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Required</small>
+                            </div>
+                        </div>*@
+
+
+
+                    @{
+                        List<SelectListItem> listItemsBirthMonth = new List<SelectListItem>();
+
+
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Jan",
+                            Value = "Jan"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Feb",
+                            Value = "Feb"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Mar",
+                            Value = "Mar"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Apr",
+                            Value = "Apr"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "May",
+                            Value = "May"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Jun",
+                            Value = "Jun"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Jul",
+                            Value = "Jul"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Aug",
+                            Value = "Aug"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Sep",
+                            Value = "Sep"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Oct",
+                            Value = "Oct"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Nov",
+                            Value = "Nov"
+                        });
+                        listItemsBirthMonth.Add(new SelectListItem
+                        {
+                            Text = "Dec",
+                            Value = "Dec"
+                        });
+                    }
+
+
+
+                    @*<div class="form-group row">
+                            <div class="col-lg-2 col-md-2 col-xs-5" style="width:165px;">
+                            </div>
+                            <div class="col-lg-3 col-md-2 col-xs-5" style="padding-left:0px;">
+                            </div>
+                        </div>*@
+
+
+                    <div class="form-group row">
+                        @Html.Label("Gender", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="genderPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.Gender, "Male", new { @id = "GenderRadio", @name = "GenderRadio1", @style = "padding-right: 10px" })
+                                <label for="GenderRadio1" style="padding-right:10px">Male</label>
+
+
+                                @*@Html.Label("Male", new { @class = "AddPaddingLeft", @style = "padding-right: 20px" })*@
+                                @*<br />*@
+                                @Html.RadioButtonFor(model => model.Gender, "Female", new { @id = "GenderRadio", @name = "GenderRadio2", @style = "padding-right: 10px" })
+                                @*@Html.Label("Female", new { @class = "AddPaddingLeft", @style = "padding-right: 20px" })*@
+                                <label for="GenderRadio2" style="padding-right:10px">Female</label>
+                                @*<br />*@
+
+                                @Html.RadioButtonFor(model => model.Gender, "Other", new { @id = "GenderRadio", @name = "GenderRadio3", @style = "padding-right: 10px" })
+                                @*@Html.Label("Other", new { @class = "AddPaddingLeft", @style = "padding-right: 20px" })*@
+                                <label for="GenderRadio3" style="padding-right:10px">Other</label>
+                                <br />
+                                <small id="Gender_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        @Html.Label("What describes your maritial status?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="maritialStatusPanel" style="width:350px">
+                                @Html.RadioButtonFor(model => model.MaritialStatus, "Single", new { @id = "MaritialStatusRadio", @name = "MaritialStatus1", @style = "padding-bottom: 10px" })
+                                <label for="MaritialStatus1">Single</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.MaritialStatus, "Married or in a Marriage-like relationship", new { @id = "MaritialStatusRadio", @name = "MaritialStatus2", @style = "padding-bottom: 10px;" })
+                                <label for="MaritialStatus2">Married or in a Marriage-like relationship</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.MaritialStatus, "Divorced", new { @id = "MaritialStatusRadio", @name = "MaritialStatus3", @style = "padding-bottom: 10px" })
+                                <label for="MaritialStatus3">Divorced</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.MaritialStatus, "Widow", new { @id = "MaritialStatusRadio", @name = "MaritialStatus4", @style = "padding-bottom: 10px" })
+                                <label for="MaritialStatus4">Widow</label>
+
+                                <br />
+                                <small id="MaritialStatus_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:10px;">
+                            @Html.Label("Date of Birth", new { @class = "col-form-label" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-12 col-sm-8" style="padding-top:10px;">
+
+                            @*@(Html.Kendo().ComboBoxFor(model => model.BirthYear)
+                                      .Name("BirthYear")
+                                      .Filter("contains")
+                                      .Placeholder("Year")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(Model.BirthYearList)
+                                      .Suggest(true)
+                                      .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpBirthYear" })
+                                )*@
+
+                            @(Html.Kendo().DropDownListFor(model => model.BirthYear)
+  .Name("BirthYear")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(Model.BirthYearList)
+  .OptionLabel("----- Select year -----")
+  .HtmlAttributes(new { @style = "", @class = "", @id = "drpBirthYear" })
+                            )
+
+
+                            <small id="BirthYear_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+                    </div>
+
+
+
+
+                    @*<div class="form-group row">*@
+                        @*@Html.Label("Ethnicity", new { @class = "col-sm-4 col-form-label" })*@
+                        @*<div class="col-sm-8">*@
+                            @*<div id="ethinicityPanel">*@
+
+                                @*@(Html.Kendo().MultiSelectFor(m => m.SelectedEthinicities)*@
+                                  @*.Name("SelectedEthinicities")
+                                  .DataValueField("ID")
+                                  .DataTextField("Name")
+                                  .AutoClose(false)
+                                   .Events(e =>
+                                    {
+                                        e.Change("onChangeSelectedEthinicities")
+                                        ;
+                                    })
+                                  .Placeholder("----- Select ethnicities (Multi-selection is available) -----")
+                                  .BindTo(Model.EthinicityTypeListDropDown))*@
+
+
+                                @*<small id="Ethinicity_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>*@
+
+                            @*</div>*@
+
+                        @*</div>*@
+                    @*</div>*@
+
+
+
+                    <div class="form-group row">
+                        @Html.Label("Outside of work, do you have any care-giving responsibilities for a CHILD under 17 years of age?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="caregiverChildPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.IsCaregiverChild, "Yes", new { @id = "IsCaregiverChild", @name = "IsCaregiverChild1", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverChild1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.IsCaregiverChild, "No", new { @id = "IsCaregiverChild", @name = "IsCaregiverChild2", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverChild2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="IsCaregiverChild_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        @Html.Label("Outside of work, do you have any care-giving responsibilities for an ADULT with functional limitations such as an elderly parent or family member?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="caregiverAdultPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.IsCaregiverAdult, "Yes", new { @id = "IsCaregiverAdult", @name = "IsCaregiverAdult1", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverAdult1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.IsCaregiverAdult, "No", new { @id = "IsCaregiverAdult", @name = "IsCaregiverAdult2", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverAdult2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="IsCaregiverAdult_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.Label("Since you started your medical training have you particitipated in a leadership or management course?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="IsLeadershipPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.IsLeadership, "Yes", new { @id = "IsLeadership", @name = "IsLeadership1", @style = "padding-bottom: 5px" })
+                                <label for="IsLeadership1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.IsLeadership, "No", new { @id = "IsLeadership", @name = "IsLeadership2", @style = "padding-bottom: 5px" })
+                                <label for="IsLeadership2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="IsLeadership_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                  
+
+
+                
+
+
+                </div>
+                @*<div class="panel-footer">
+                    </div>*@
+
+                @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                <button class="btn btn-success btn-block btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>*@
+
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+
+
+            </div>
+
+        </div>
+        @Html.Partial("_Footer")
+
+
+    </div>
+                            }
+
+@Html.Partial("_DialogDemographics")
+@*@Html.Partial("_DialogPersonalRequired")*@
+
+<script type="text/javascript">
+
+    $('#frmPersonal1 input').on('change', function () {
+        $('[name="UniversityAttended"]').parent().removeClass("has-error");
+        //$('#Speciality_Incomplete').hide();
+
+        var drpSpecialityIdText = $("#cmbUniversityAttended").data("kendoDropDownList").text();
+        var txtOtherText = $('#txtUniversityAttendedOtherText').val();
+
+        //debugger;
+
+        if (drpSpecialityIdText.trim() == "Other" && txtOtherText == '') {
+            //if (drpSpecialityIdText.trim() == "Other") {
+                $('#UniversityAttendedOtherTextDiv').show();
+            //$('#SpecialityOtherText_Incomplete').show();
+        }
+        else {
+            $('#UniversityAttendedOtherTextDiv').hide();
+            //$('#txtUniversityAttendedOtherText').val('');
+            //$('#SpecialityOtherText_Incomplete').hide();
+        }
+        //debugger;
+
+
+    });
+
+    //$(".k-dropdown").on('mouseover', function () {
+    //    alert();
+    //    $('#UniversityAttended').data("kendoDropDownList").open();
+    //})
+
+    function onChangeSelectedEthinicities()
+    {
+        //if (x == "SelectedEthinicities_taglist") {
+            $('#Ethinicity_Incomplete').hide();
+       // }
+
+    }
+
+
+
+    $(document).ready(function () {
+
+        //$('#Name_Incomplete').hide();
+        //$('#Email_Incomplete').hide();
+        //$('#MobileNumber_Incomplete').hide();
+        //$('#BirthMonth_Incomplete').hide();
+        $('#Gender_Incomplete').hide();
+        $('#MaritialStatus_Incomplete').hide();
+        $('#BirthYear_Incomplete').hide();
+        //$('#Ethinicity_Incomplete').hide();
+
+
+        $('#IsCaregiverChild_Incomplete').hide();
+        $('#IsCaregiverAdult_Incomplete').hide();
+        $('#IsUniversityBritish_Incomplete').hide();
+        $('#UniversityAttended_Incomplete').hide();
+
+        $('#IsLeadership_Incomplete').hide();
+
+
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            //if (!AddRequiredValidation()) {
+            //    dialogReq.open();
+            //}
+            //else if (!AddCustomValidation()) {
+            //    dialog.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmPersonal1').submit();
+            //}
+
+
+            if (!AddCustomValidation()) {
+                dialog.open();
+            }
+            else {
+                LoaderLocal();
+                $('#frmPersonal1').submit();
+            }
+
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("Training", "Register")";
+            //if ($("input[name^='selectedProfileDefaultTasksList']:checked").length < 5) {
+            //    inst.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmTasks1').submit();
+            //}
+        });
+    
+
+        var drpSpecialityIdText = $("#cmbUniversityAttended").data("kendoDropDownList").text();
+
+        //debugger;
+
+        if (drpSpecialityIdText == "Other") {
+            $('#UniversityAttendedOtherTextDiv').show();
+            //$('#SpecialityOtherText_Incomplete').show();
+
+        }
+        else {
+            $('#UniversityAttendedOtherTextDiv').hide();
+            $('#txtUniversityAttendedOtherText').val('');
+            //$('#SpecialityOtherText_Incomplete').hide();
+        }
+
+
+
+    })
+
+
+
+    var dialog = $("#_DialogDemographics").remodal();
+
+    //var dialogReq = $("#_DialogPersonalRequired").remodal();
+
+    $(document).on('confirmation', '#_DialogDemographics', function () {
+        LoaderLocal();
+        $('#frmPersonal1').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogDemographics', function () {
+    });
+
+    //$(document).on('confirmation', '#_DialogPersonalRequired', function () {
+    //});
+
+    //$(document).on('cancellation', '#_DialogPersonalRequired', function () {
+    //});
+
+
+    //function AddRequiredValidation() {
+
+    //    var allFilled = true;
+
+    //    //var name = $('#Name').val();
+    //    //if (name == "") {
+    //    //    $('[name="Name"]').addClass("has-error");
+    //    //    $('#Name_Incomplete').show();
+    //    //    allFilled = false;
+    //    //}
+    //    //else {
+    //    //    $('[name="Name"]').removeClass("has-error");
+    //    //    $('#Name_Incomplete').hide();
+    //    //}
+
+
+    //    //var email = $('#Email').val();
+    //    //if (email == "") {
+    //    //    $('[name="Email"]').addClass("has-error");
+    //    //    $('#Email_Incomplete').show();
+    //    //    allFilled = false;
+    //    //}
+    //    //else {
+    //    //    $('[name="Email"]').removeClass("has-error");
+    //    //    $('#Email_Incomplete').hide();
+    //    //}
+
+    //    //var mobile = $('#txtMobileNumber').val();
+    //    //if (mobile.trim() == "") {
+    //    //    $('[name="MobileNumber"]').addClass("has-error");
+    //    //    $('#MobileNumber_Incomplete').show();
+    //    //    allFilled = false;
+    //    //}
+    //    //else {
+    //    //    $('[name="MobileNumber"]').removeClass("has-error");
+    //    //    $('#MobileNumber_Incomplete').hide();
+    //    //}
+
+
+    //    AddCustomValidation();
+
+    //    return allFilled;
+    //}
+
+
+
+    function AddCustomValidation() {
+
+        var allFilled = true;
+
+        //var name = $('#Name').val();
+        //if (name == "") {
+        //    $('[name="Name"]').addClass("has-error");
+        //    $('#Name_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="Name"]').removeClass("has-error");
+        //    $('#Name_Incomplete').hide();
+        //}
+
+        //var email = $('#Email').val();
+        //if (email == "") {
+        //    $('[name="Email"]').addClass("has-error");
+        //    $('#Email_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="Email"]').removeClass("has-error");
+        //    $('#Email_Incomplete').hide();
+        //}
+
+        //var mobile = $('#txtMobileNumber').val();
+        //if (mobile == "") {
+        //    $('[name="MobileNumber"]').addClass("has-error");
+        //    $('#MobileNumber_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="MobileNumber"]').removeClass("has-error");
+        //    $('#MobileNumber_Incomplete').hide();
+        //}
+
+        if ($("input[name^='Gender']:checked").length < 1) {
+            $('#Gender_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#Gender_Incomplete').hide();
+        }
+
+
+        if ($("input[name^='MaritialStatus']:checked").length < 1) {
+            $('#MaritialStatus_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#MaritialStatus_Incomplete').hide();
+        }
+
+
+
+        var drpBirthYearText = $('#drpBirthYear').val();
+        if (drpBirthYearText == "") {
+            $('[name="BirthYear_input"]').parent().parent().addClass("has-error");
+            $('#BirthYear_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="BirthYear_input"]').parent().parent().removeClass("has-error");
+            $('#BirthYear_Incomplete').hide();
+        }
+
+        var drpSelectedEthinicitiesText = $('#SelectedEthinicities').data('kendoMultiSelect');;
+
+
+        //debugger;
+
+        //if (drpSelectedEthinicitiesText.value().length < 1 ) {
+        //    $('[id="SelectedEthinicities_taglist"]').parent().parent().addClass("has-error");
+        //    $('#Ethinicity_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[id="SelectedEthinicities_taglist"]').parent().parent().removeClass("has-error");
+        //    $('#Ethinicity_Incomplete').hide();
+        //}
+
+
+        if ($("input[name^='IsCaregiverChild']:checked").length < 1) {
+            $('#IsCaregiverChild_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsCaregiverChild_Incomplete').hide();
+        }
+
+        if ($("input[name^='IsCaregiverAdult']:checked").length < 1) {
+            $('#IsCaregiverAdult_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsCaregiverAdult_Incomplete').hide();
+        }
+
+
+        if ($("input[name^='IsUniversityBritish']:checked").length < 1) {
+            $('#IsUniversityBritish_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsUniversityBritish_Incomplete').hide();
+        }
+
+
+        //var drpBirthMonthText = $('#drpBirthMonth').val();
+        //if (drpBirthMonthText == "") {
+        //    $('[name="BirthMonth_input"]').parent().parent().addClass("has-error");
+        //    $('#BirthMonth_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[name="BirthMonth_input"]').parent().parent().removeClass("has-error");
+        //    $('#BirthMonth_Incomplete').hide();
+
+        //}
+
+
+        //var drpBirthMonthText = $('#cmbUniversityAttended').val();
+        //if (drpBirthMonthText == "") {
+        //    $('[id="cmbUniversityAttended"]').parent().parent().addClass("has-error");
+        //    $('#UniversityAttended_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('[id="cmbUniversityAttended"]').parent().parent().removeClass("has-error");
+        //    $('#UniversityAttended_Incomplete').hide();
+
+        //}
+
+
+        var drpBirthYearText = $('#cmbUniversityAttended').val();
+        if (drpBirthYearText == "") {
+            $('[name="UniversityAttended_input"]').parent().parent().addClass("has-error");
+            $('#UniversityAttended_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="UniversityAttended_input"]').parent().parent().removeClass("has-error");
+            $('#UniversityAttended_Incomplete').hide();
+        }
+
+
+
+        if ($("input[name^='IsLeadership']:checked").length < 1) {
+            $('#IsLeadership_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsLeadership_Incomplete').hide();
+        }
+
+        //if ($("input[name^='EthinicityTypeList']:checked").length < 1) {
+        //    $('#Ethinicity_Incomplete').show();
+        //    allFilled = false;
+        //}
+        //else {
+        //    $('#Ethinicity_Incomplete').hide();
+        //}
+        return allFilled;
+    }
+
+
+    function RemoveCustomValidation() {
+        //$('[name="BirthMonth_input"]').parent().parent().removeClass("has-error");
+        $('[name="BirthYear_input"]').parent().parent().removeClass("has-error");
+        $('[name="UniversityAttended_input"]').parent().parent().removeClass("has-error");
+
+        //$('[id="Name"]').removeClass("has-error");
+        //$('[id="Email"]').removeClass("has-error");
+        //$('[id="txtMobileNumber"]').removeClass("has-error");
+
+
+        //$('#Name_Incomplete').hide();
+        //$('#Email_Incomplete').hide();
+        //$('#MobileNumber_Incomplete').hide();
+        //$('#BirthMonth_Incomplete').hide();
+        $('#Gender_Incomplete').hide();
+        $('#MaritialStatus_Incomplete').hide();
+        $('#BirthYear_Incomplete').hide();
+        //$('#Ethinicity_Incomplete').hide();
+
+
+        $('#IsCaregiverChild_Incomplete').hide();
+        $('#IsCaregiverAdult_Incomplete').hide();
+        $('#IsUniversityBritish_Incomplete').hide();
+        $('#UniversityAttended_Incomplete').hide();
+        $('#IsLeadership_Incomplete').hide();
+
+
+
+    }
+
+    $('#frmPersonal1 input').on('change', function () {
+
+        var x = this.id;
+
+        if (x == "GenderRadio") {
+            $('#Gender_Incomplete').hide();
+        }
+
+        if (x == "MaritialStatusRadio") {
+            $('#MaritialStatus_Incomplete').hide();
+        }
+
+        if (x == "drpBirthYear") {
+            $('#BirthYear_Incomplete').hide();
+        }
+
+        if (x == "IsCaregiverChild") {
+            $('#IsCaregiverChild_Incomplete').hide();
+        }
+
+        if (x == "IsCaregiverAdult") {
+            $('#IsCaregiverAdult_Incomplete').hide();
+        }
+
+        if (x == "IsUniversityBritish") {
+            $('#IsUniversityBritish_Incomplete').hide();
+        }
+
+        if (x == "cmbUniversityAttended") {
+            $('#UniversityAttended_Incomplete').hide();
+        }
+
+        if (x == "IsLeadership") {
+            $('#IsLeadership_Incomplete').hide();
+        }
+
+
+    });
+
+
+
+
+
+    //$("input[name^='EthinicityTypeList']").icheck({
+    //    labelHover: true,
+    //    tap: true,
+    //    checkboxClass: 'icheckbox_flat-green',
+    //    radioClass: 'icheckbox_flat-green'
+    //});
+
+    $("input[id='GenderRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id='MaritialStatusRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id='IsCaregiverChild']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    $("input[id='IsCaregiverAdult']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    $("input[id='IsUniversityBritish']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    $("input[id='IsLeadership']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+</script>

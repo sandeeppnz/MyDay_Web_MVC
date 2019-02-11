@@ -1,0 +1,47 @@
+﻿@model SANSurveyWebAPI.ViewModels.TaskCategoryViewVM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Task Categories</h2>
+@Html.ActionLink("Add Task Category", "Add")
+<hr />
+<div id="divWebGrid" class="divWebGrid">
+    @{
+        WebGrid objWebGrid = new WebGrid(Model.TaskCategoryObj,
+        rowsPerPage: 10, canPage: true);//allowing rowsperpage,paging allow or not
+    }
+    @objWebGrid.GetHtml(
+                              tableStyle: "table",
+                              headerStyle: "Grid-Header",
+                              alternatingRowStyle: "Grid-alt",
+                              selectedRowStyle: "Grid-selected",
+                              rowStyle: "Grid-rowstyle",
+                              footerStyle: "Grid-Footer",
+                              mode: WebGridPagerModes.All,
+                           columns:
+                              objWebGrid.Columns
+                              (
+                                  objWebGrid.Column(columnName: "Id", header: "Id"),
+                                  objWebGrid.Column(columnName: "Category", header: "Category"),
+                                  objWebGrid.Column(columnName: "TaskType", header: "Type"),
+                                  objWebGrid.Column(columnName: "IsDeleted", header: "IsDeleted"),
+                                  objWebGrid.Column(format:@<text><a href="" onclick="EditME('@item.Id')">Edit</a> | <a href="" onclick="DeleteME('@item.Id')">Delete</a></text>)                                  
+                              )
+                           )
+ </div>
+<script>
+    function EditME(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("Edit", "TaskCategory")",
+            data:{
+                id: id
+            }
+        });
+    }
+
+</script>

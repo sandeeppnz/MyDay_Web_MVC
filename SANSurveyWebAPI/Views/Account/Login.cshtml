@@ -1,0 +1,299 @@
+﻿@using SANSurveyWebAPI.ViewModels.Web
+@model LoginViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    <link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+    <script src="~/Scripts/iCheck/icheck.min.js"></script>
+    <link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+
+
+    <style>
+        .has-error {
+            border: none;
+        }
+    </style>
+</head>
+
+
+
+
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    #frmLogin .radio label, #frmLogin .checkbox label {
+                padding-left: 0;
+            }
+
+
+</style>
+
+
+
+
+
+<body class="loginBody">
+    @using (Html.BeginForm("Login", "Account",
+                new
+                {
+                    //ReturnUrl = ViewBag.ReturnUrl
+                    ReturnUrl = @Model.returnUrl
+                },
+                FormMethod.Post,
+                new
+                {
+                    @class = "form-horizontal",
+                    role = "form",
+                    @id = "frmLogin",
+
+                }))
+    {
+
+        @Html.HiddenFor(m => m.returnUrl)
+
+        <div class="container">
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="row loginbox" id="LoadingPanel">
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <div style="background-color:rgb(47, 159, 173)">
+                            <img class="logoImage" src="~/Images/SignupBanner.png" alt="Logo">
+                        </div>
+                        <div>
+                            <h4>Login Form</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                @*<input type="text" id="userid" name="email" class="form-control" placeholder="Email">*@
+
+                                @Html.TextBoxFor(m => m.Email,
+                               new
+                               {
+                                   @class = "form-control",
+                                   @placeholder = "Email address",
+                                   @id = "userid",
+                                   @name = "email",
+                                   @data_fv_notempty_message = "The email address is required",
+                                   @data_fv_notempty = "true",
+                                   @data_fv_emailaddress_message = "The input is not a valid email address",
+                                   @data_fv_emailaddress = "true",
+                               })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                @*<input type="password" class="form-control" id="password" name="password" placeholder="Password">*@
+                                @Html.PasswordFor(m => m.Password, new
+                           {
+                               @class = "form-control",
+                               @placeholder = "Password",
+                               @name = "password",
+                               @data_fv_notempty_message = "The password address is required",
+                               @data_fv_notempty = "true",
+                           })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*http://stackoverflow.com/questions/13867307/show-validationsummary-mvc3-as-alert-error-bootstrap*@
+                    @*http://stackoverflow.com/questions/5857851/custom-validationsummary-template-asp-net-mvc-3*@
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+                            {
+                                <div id="ErrorBubble" class="alert alert-danger">
+                                    <a class="close" data-dismiss="alert">&times;</a>
+                                    @*<span class="glyphicon glyphicon-warning-sign">*@
+                                    @*</span>*@
+                                    @*<span class="help-block">*@
+                                    <i class='glyphicon glyphicon-warning-sign'></i>
+                                    @Html.ValidationSummary(true, Constants.ErrorLoginMsg, new { @class = "text-danger" })
+                                    @*@Html.ValidationSummary()*@
+                                    @*</span>*@
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row" style="padding-left:0px;padding-bottom:20px;text-align:right">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                               
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                       
+                    </div>
+
+                    @*@Html.ValidationSummary(true, "Login Error", new { @class = "" })*@
+                    @*@Html.Partial("_ValidationSummary", ViewData.ModelState)*@
+
+
+
+                    @*<div class="">*@
+                    @*</div>*@
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @*<a href="#" class="btn submitButton">Login </a>*@
+                        @*<input id="LoginButton" type="submit" value="Login" class="btn submitButton" />*@
+
+                        <div class="form-group">
+                            <button class="btn btn-success btn-lg btn-block " type="submit" id="LoginButton">Login</button>
+                        </div>
+
+
+
+                        @*<button id="form-submit" type="submit" class="btn btn-primary ladda-button" data-style="expand-right" data-size="xs">
+                                <span class="ladda-label">Login</span>
+                            </button>*@
+                    </div>
+                </div>
+                <div class="row forGotPassword">
+                    @*<a href="#">Forgot Username / Password? </a>*@
+                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                </div>
+                @Html.Partial("_Footer")
+
+
+
+
+              
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-2"></div>
+
+
+        </div>
+
+    }
+
+</body>
+</html>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+<script src="~/Scripts/formValidation/formValidation.min.js"></script>
+<script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>
+
+
+<script>
+
+    //$('input').iCheck(
+    //   {
+    //       checkboxClass: 'icheckbox_square-green',
+    //       radioClass: 'iradio_square-green',
+    //       increaseArea: '20%'
+    //   }
+    //   );
+
+
+    function LoaderLocal() {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    }
+
+    $(".validation-summary-errors").removeClass("validation-summary-errors");
+    $(".input-validation-error").removeClass("input-validation-error").parent().addClass("has-error");
+
+
+    $(document).ready(function () {
+        $("#ErrorBubble").fadeTo(2000, 500).slideUp(1000, function () {
+            $("#ErrorBubble").slideUp(1000);
+        });
+        $('#LoginButton').click(function (e) {
+            LoaderLocal();
+        });
+
+        $('#frmLogin').formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email address is required'
+                        },
+                        emailAddress: {
+                            message: 'The input is not a valid email address'
+                        },
+                        blank: {}
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required'
+                        },
+                        //stringLength: {
+                        //    min: 3,
+                        //    max: 30,
+                        //    message: 'The password must be more than 6 and less than 30 characters long'
+                        //},
+                        //regexp: {
+                        //    regexp: /^[a-zA-Z0-9_]+$/,
+                        //    message: 'The username can only consist of alphabetical, number and underscore'
+                        //}
+                    }
+                }
+            }
+        })
+         .find('input[name="RememberMe"]')
+            //// Init icheck elements
+            .icheck({
+                tap: true,
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass: 'icheckbox_flat-green'
+            })
+            .end();
+
+    });
+</script>

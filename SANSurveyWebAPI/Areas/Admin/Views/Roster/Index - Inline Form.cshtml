@@ -1,0 +1,249 @@
+﻿@*@model SANSurveyWebAPI.ViewModels.Web.RosterItemViewModel*@
+
+@{
+    ViewBag.Title = "Manage your roster";
+}
+
+
+<script id="event-template" type="text/x-kendo-template">
+    <div>
+        <div style="padding:5px;">
+            #: kendo.toString(start, "hh:mm") # - #: kendo.toString(end, "hh:mm") # <br />
+            #: title #
+        </div>
+    </div>
+</script>
+
+<script id="editor-template" type="text/kendo-x-tmpl">
+
+    <div style="padding:20px;">
+        <label>
+            Title:
+            <input data-bind="value: title" readonly="readonly" />
+        </label>
+        <label>
+            Start:
+            <input data-role="datetimepicker" data-bind="value: start" />
+        </label>
+        <label>
+            End:
+            <input data-role="datetimepicker" data-bind="value: end" />
+        </label>
+        <button id="save" class="btn btn-success">Save</button>
+        <button id="cancel" class="btn btn-default">Cancel</button>
+    </div>
+</script>
+
+<script id="customEditorTemplate" type="text/x-kendo-template">
+    <div class="k-edit-label"><label for="title">Title</label></div>
+    <div data-container-for="title" class="k-edit-field">
+        @*<input type="text" class="k-input k-textbox" name="title" required="required" data-bind="value:title">*@
+        <input type="text" class="k-input k-textbox" name="title" data-bind="value:title">
+    </div>
+    <div class="k-edit-label">
+        <label for="start">Start</label>
+    </div>
+    <div data-container-for="start" class="k-edit-field">
+        <input type="text"
+               data-role="datetimepicker"
+               data-interval="15"
+               data-type="date"
+               data-bind="value:start,invisible:isAllDay"
+               name="start" />
+        <input type="text" data-type="date" data-role="datepicker" data-bind="value:start,visible:isAllDay" name="start" />
+        <span data-bind="text: startTimezone"></span>
+        <span data-for="start" class="k-invalid-msg" style="display: none;"></span>
+    </div>
+    <div class="k-edit-label"><label for="end">End</label></div>
+    <div data-container-for="end" class="k-edit-field">
+        <input type="text" data-type="date" data-role="datetimepicker" data-bind="value:end,invisible:isAllDay" name="end" data-datecompare-msg="End date should be greater than or equal to the start date" />
+        <input type="text" data-type="date" data-role="datepicker" data-bind="value:end,visible:isAllDay" name="end" data-datecompare-msg="End date should be greater than or equal to the start date" />
+        <span data-bind="text: endTimezone"></span>
+        <span data-bind="text: startTimezone, invisible: endTimezone"></span>
+        <span data-for="end" class="k-invalid-msg" style="display: none;"></span>
+    </div>
+    <div class="k-edit-label"><label for="isAllDay">All day event</label></div>
+    <div data-container-for="isAllDay" class="k-edit-field">
+        <input type="checkbox" name="isAllDay" data-type="boolean" data-bind="checked:isAllDay">
+    </div>
+    <div class="k-edit-label"><label for="recurrenceRule">Repeat</label></div>
+    <div data-container-for="recurrenceRule" class="k-edit-field">
+        <div data-bind="value:recurrenceRule" name="recurrenceRule" data-role="recurrenceeditor"></div>
+    </div>
+    <div class="k-edit-label"><label for="description">Description</label></div>
+    <div data-container-for="description" class="k-edit-field">
+        <textarea name="description" class="k-textbox" data-bind="value:description"></textarea>
+    </div>
+    @*<div class="k-edit-label"><label for="ownerId">Owner</label></div>*@
+    @*<div data-container-for="ownerId" class="k-edit-field">
+            <select id="ownerId" data-bind="value:ownerId" data-role="dropdownlist"
+                    data-value-field="value" data-text-field="text">
+                <option value="1">Alex</option>
+                <option value="2">Bob</option>
+                <option value="3">Charlie</option>
+            </select>
+        </div>*@
+</script>
+
+
+<div class="panel panel-default" id="Tasks">
+
+    <div class="panel-heading">
+        <h3>@ViewBag.Title</h3>
+    </div>
+
+    <div class="panel-body">
+        <div id="scheduler"></div>
+        @*<div id="editor"></div>*@
+
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $.ajaxSetup({ cache: false });
+
+        $("#scheduler").kendoScheduler({
+            date: new Date(),
+            startTime: new Date("2016/1/1 12:00 AM"),
+            height: 600,
+            views: [
+              "day",
+              { type: "week", selected: true },
+              "month"
+            ],
+            editable: {
+                confirmation: false
+                //template: $("#customEditorTemplate").html(),
+            },
+            eventTemplate: $("#event-template").html(),
+            edit: function (e) {
+                e.preventDefault(); //prevent popup editing
+                var dataSource = this.dataSource;
+                var event = e.event;
+
+                if (event.isNew()) {
+                    setTimeout(function () {
+                        dataSource.add(event);
+                        editEvent(event);
+                    });
+                } else {
+                    editEvent(event);
+                }
+            },
+            timezone: "Etc/UTC",
+            footer: {
+                command: false
+            },
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "@Url.Action("Read", "Roster")",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST"
+                    },
+                    update: {
+                        url: "@Url.Action("Update", "Roster")",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST"
+                    },
+                    create: {
+                        url: "@Url.Action("Create", "Roster")",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST"
+                    },
+                    destroy: {
+                        url: "@Url.Action("Destroy", "Roster")",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST"
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation === "read") {
+                            var scheduler = $("#scheduler").data("kendoScheduler");
+                            var result = {
+                                start: scheduler.view().startDate(),
+                                end: scheduler.view().endDate()
+                            }
+                            return kendo.stringify(result);
+                        }
+                        return kendo.stringify(options);
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "taskId",
+                        fields: {
+                            taskId: { from: "TaskID", type: "number" },
+                            title: { from: "Title" },
+                            start: { type: "date", from: "Start" },
+                            end: { type: "date", from: "End" },
+                            startTimezone: { from: "StartTimezone" },
+                            endTimezone: { from: "EndTimezone" },
+                            description: { from: "Description" },
+                            recurrenceId: { from: "RecurrenceID" },
+                            recurrenceRule: { from: "RecurrenceRule" },
+                            recurrenceException: { from: "RecurrenceException" },
+                            ownerId: { from: "OwnerID" },
+                            isAllDay: { type: "boolean", from: "IsAllDay" }
+                        }
+                    }
+                },
+            },
+        });
+
+        var editor = $("#editor");
+        var template = kendo.template($("#editor-template").html());
+        var scheduler = $("#scheduler").data("kendoScheduler");
+
+        function destroyEditor() {
+            kendo.destroy(editor);
+            editor.find("button").off();
+            editor.html("");
+        }
+
+        var currentEvent;
+
+        function editEvent(event) {
+            destroyEditor();
+
+            editor.html(template({}));
+            kendo.bind(editor, event); //Bind the editor container (uses MVVM)
+
+            editor.find("#save").click(function () {
+                scheduler.dataSource.sync();
+                destroyEditor();
+            });
+
+            editor.find("#cancel").click(function () {
+                scheduler.dataSource.cancelChanges(currentEvent);
+                destroyEditor();
+            });
+        }
+
+        //$("#BackButton").bind("click", function (e) {
+
+        //    var button = $(this);
+        //    bootbox.confirm("Are you sure to go back?", function (result) {
+        //        if (result) {
+        //            window.location.href = "http://localhost:62247/Register/Personal1"
+        //        }
+        //    });
+        //});
+    });
+
+</script>
+
+
+
+

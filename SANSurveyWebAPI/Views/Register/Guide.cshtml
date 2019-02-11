@@ -1,0 +1,244 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.IntroductionViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Introduction";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+
+</head>
+
+<body class="loginBody">   
+    @using (Html.BeginForm("Guide", "Register", FormMethod.Post, new { name = "frmGuide", id = "frmGuide", @class = "form-horizontal", role = "form" }))
+    {
+        @Html.HiddenFor(m => m.Uid, new { @id = "uid" })
+        <div class="container">
+            <div class="consentbox" style="padding:20px;">
+                <center>
+                    <div style="background-color:#b2d8d8;padding:20px">
+                        <h1>
+                            Welcome to MyDay Baseline Survey!
+                        </h1>                       
+
+                        <div style="border: 1px solid #e5e5e5; height: 400px; text-align:left; background-color:#ffffff; overflow: auto; padding: 10px;">
+                            <div class="modal-body" style="background-color:#ffffff">
+                                <div class="pull-left">
+                                    <img src="~/Images/warrenmahony_header.png" />
+                                </div>
+                                <div class="pull-right">
+                                    <img src="~/Images/100_AUT.jpg" />
+                                </div>
+
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+                                <hr />
+
+                                <div>
+                                    <u><b>Participant Information Sheet</b></u>
+                                    <br /><br />
+
+                                    <b>Date Information Sheet Produced:</b>
+                                    <br />
+                                    27 August 2018
+                                    <br />
+                                    <br />
+
+                                    <b>Project Title</b>
+                                    <br />
+                                    Measuring the experienced wellbeing of employees: A study of time and space use
+                                    <br />
+                                    <br />
+
+                                    <b>An Invitation</b>
+                                    <br />
+                                    We invite you to participate in a study conducted by researchers from Auckland University of Technology about the experienced wellbeing of Warren and Mahoney employees while they are at work.                                     <br />
+                                    <br />
+
+                                    <b>What is the purpose of this research?</b>
+                                    <br />
+                                    This work is a pilot study to explore the feasibility of combining a survey on workplace wellbeing with indoor positioning data to understand the impact of “space” on wellbeing at work.
+                                    <br /><br />
+                                    The first aim of this study is to measure the daily experience of Warren and Mahoney staff in terms of the tasks that they do and how they feel while doing those tasks. A second aim of this study is to quantify the impact of the workspace on employee wellbeing.
+                                    <br /><br />
+                                    Auckland University of Technology have collaborated with Warren and Mahoney on this study to discover whether this is a tool that can add value in Warren and Mahoney workspace design projects.
+                                    <br />
+                                    <br />
+
+                                    <b>How was I identified and why am I being invited to participate in this research?</b>
+                                    <br />
+                                    All employees of the Warren and Mahoney Auckland office have been invited to participate in this study. We would like to learn about your work day.                                     <br />
+                                    <br />
+
+                                    <b>How do I agree to participate in this research?</b>
+                                    <br />
+                                    Your participation in this research is voluntary (it is your choice) and whether or not you choose to participate will neither advantage nor disadvantage you. You are able to withdraw from the study at any time. If you choose to withdraw from the study, then you will be offered the choice between having any data that is identifiable as belonging to you removed or allowing it to continue to be used. However, once the findings have been produced, removal of your data may not be possible.
+
+                                    <br /><br />
+
+                                    You will be asked to complete an electronic consent form regarding the MyDay surveys at the beginning of the baseline survey, which can be accessed via your email invitation. At the end of the baseline survey you will also be invited to download a mobile application, which will help us record your location while you are at work.  Further details about the location tracking can be found below.
+                                    <br /><br />
+
+                                    <b>What will happen in this research?</b>
+                                    <br />
+                                    The first part of this study is a 10 minute survey gathering basic demographic data and information about your work schedule, tasks and general satisfaction. In three subsequent 8-10 minute surveys you will be asked to think about a specific 4-hour period that occurred during your last work day and record a) what tasks you did, b) how long you did those for, c) who you were with, d) where you were, and e) how you felt while doing each task.
+                                    <br /><br />
+                                    The study will use indoor location positioning technology in which small beacons throughout the office space connect with a mobile application and Bluetooth on your device to capture what part of the space you are in e.g. meeting rooms, open plan office space. This data will be stored separately to survey response and personal data.
+
+                                    <br />
+                                    <br />
+                                    This data will be linked with your survey response during analysis to measure the impact of the workspace on your daily experience.  Exact location data will not be shared with Warren and Mahoney. Rather, the researcher will share visualisations of space usage at an aggregate level and average emotional affect in the space.
+                                    <br />
+                                    <br />
+
+
+
+
+                                    <b>What are the discomforts and risks?</b>
+                                    <br />
+                                    We do not anticipate any risks to participants of this study. The surveys are confidential and no identifiable data will be accessible to the researchers. Warren and Mahoney management will only receive aggregate level findings.                                  
+                                    <br />
+                                    <br />
+
+
+
+                                    <b>How will these discomforts and risks be alleviated?</b>
+                                    <br />
+                                    A help desk at AUT will be able to provide assistance if you have questions or experience any difficulty completing the surveys.
+                                    <br /><br />
+                                    We do ask that you complete the MyDay surveys in your own spare time because we do not want the study to impact on your working commitments.  If for any reason you feel that the surveys do impact on your work schedule, then we would be grateful if you would contact the research team at
+
+                                    <a href="mailto:myday@aut.ac.nz">myday@aut.ac.nz</a>.
+                                    <br />
+                                    <br />
+
+                                    <b>What are the benefits?</b>
+                                    <br />The study could potentially benefit you in two ways:
+                                    <ul>
+                                        <li>
+                                            Insights from the study could be used by management to improve your experience at work
+                                        </li>
+                                        <li>
+                                            If the pilot proves the tool is a valid measure of experienced wellbeing and the impact of space, we will explore the possibility of using the method in Warren and Mahoney work with external clients.
+                                        </li>
+                                    </ul>
+
+
+                                    @*<b>What compensation is available for injury or negligence?</b>
+        <br />
+        In the unlikely event of a physical injury as a result of your participation in this study, rehabilitation and compensation for injury by accident may be available from the Accident Compensation Corporation, providing the incident details satisfy the requirements of the law and the Corporation's regulations.
+        <br />
+        <br />*@
+
+
+                                    @*<b>How will my privacy be protected?</b>
+        <br />
+        To maintain confidentiality, Warren and Mahoney will upload email contact details directly to an encrypted database. These contact details will only become visible to administrative logins when the consent form has been completed. No identifiable information will be shared with researchers.
+        <br /><br />
+        The survey response data will be stored separately to personal data in a database on a secure server hosted by Auckland University of Technology. They will be linkable using a user ID – but the linkage key will only be available to the Programmers for trouble-shooting
+        <br />
+        <br />*@
+
+                                    <b>What are the costs of participating in this research?</b>
+                                    <br />
+                                    We estimate that participating in this research will require approximately one hour of your time spread over a couple of weeks.
+                                    <br />
+                                    <br />
+
+                                    <b>What opportunity do I have to consider this invitation?</b>
+                                    <br />
+                                    You are able to sign up to the survey as soon as you receive the first email invitation. We will send a reminder one week later.
+                                    <br />
+                                    <br />
+
+                                    <b>Will I receive feedback on the results of this research?</b>
+                                    <br />
+                                    Yes. Aggregate results of the study will be shared at an information evening at the Warren and Mahoney Auckland office at the conclusion of the study.
+                                    <br />
+                                    <br />
+
+                                    <b>What do I do if I have concerns about this research?</b>
+                                    <br />
+                                    Any concerns regarding the nature of this project should be notified in the first instance to the
+                                    Project Supervisor, Rhema Vaithianathan, <a href="mailto:rvaithia@aut.ac.nz">rvaithia@aut.ac.nz</a>, 921 9999 x8064.
+                                    <br /><br />
+                                    Concerns regarding the conduct of the research should be notified to the Executive Secretary of AUTEC, Kate O’Connor, <a href="mailto:ethics@aut.ac.nz">ethics@aut.ac.nz</a>, 921 9999 ext 6038.
+                                    <br />
+                                    <br />
+
+                                    <b>Whom do I contact for further information about this research?</b>
+                                    <br />
+                                    Please keep this Information Sheet and a copy of the Consent Form for your future reference. You are also able to contact the research team as follows:
+
+                                    <br /><br />
+                                    <i>
+                                        <b>Researcher Contact Details:</b>
+                                        <br />
+                                        Larissa Lorimer, <a href="mailto:larissa.lorimer@aut.ac.nz">larissa.lorimer@aut.ac.nz</a>, 921 9999 x8544
+
+                                        <br /><br />
+                                        <b>Project Supervisor Contact Details:</b>
+                                        <br />Rhema Vaithianathan, <a href="mailto:rvaithia@aut.ac.nz">rvaithia@aut.ac.nz</a>, 921 9999 x8064
+                                    </i>
+                                    <br />
+                                    <br />
+
+                                    <p style="font-weight:900;font-size:12px;">
+                                        Approved by the Auckland University of Technology Ethics Committee on 3 September 2018, AUTEC Reference number 18/297.
+                                    </p>
+                                </div>
+                                <br />   
+                            </div>
+                        </div>
+                        <br />                        
+                        <center>
+                            <div style="padding:10px">
+                                <button name="button" value="Begin" class="btn btn-success btn-lg" type="submit">Click to Start</button>
+                            </div>
+                        </center>
+                        <h5>
+                            This baseline survey should take around 10-15 minutes to complete.
+                        </h5>
+                    </div>   
+                            <br />
+                            @*<h5>
+                                Your data is being managed in compliance with the regulations as set out in the Data Protection Act and Health Education England’s Privacy notice which can be found at
+                                <a target="_blank" href="https://heeoe.hee.nhs.uk/recruitment_privacy_data">
+                                    https://heeoe.hee.nhs.uk/recruitment_privacy_data
+                                </a>
+                            </h5>*@
+                        </center>
+                    </div>
+            @Html.Partial("_Footer")
+        </div>
+
+    }
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="https://da7xgjtj801h2.cloudfront.net/2016.3.1118/js/kendo.all.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+<link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+<script src="~/Scripts/formValidation/formValidation.min.js"></script>
+<script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>
+
+<script src="~/Scripts/remodal/remodal.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>

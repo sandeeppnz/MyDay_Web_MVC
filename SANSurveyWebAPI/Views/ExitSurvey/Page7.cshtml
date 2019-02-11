@@ -1,0 +1,242 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.Page7_ExitSurveyVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "MyDay Exit Survey – Your Work Environment 4";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Page7", "ExitSurvey", FormMethod.Post, new { name = "frmExitSurveyPage7", id = "frmExitSurveyPage7" }))
+{
+
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+       {
+           CurrStep = 8,
+           MaxStep = Model.MaxStepExitSurvey
+       })
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStepExitSurvey)
+
+            <div class="panel panel-default" id="Tasks">
+
+                <div class="panel-heading">
+                    <h4>
+                        @*Please evaluate the following statements in terms of how frequently your immediate senior <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> engages in the behavior described*@
+                        Still thinking about your immediate senior, please evaluate the following statements in terms of how frequently they engage in the behaviour described
+                    </h4>
+                </div>
+
+                <div class="panel-body">
+
+                    <div>
+                        <i>
+                            The term "IMMEDIATE SENIOR" refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?
+                        </i>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div id="tables">
+
+                            <table id="PatientTable" class="table table-hover">
+
+                                <thead>
+                                <th></th>
+                                <th colspan="2" style="text-align:left">Rarely<br /> or never</th>
+                                <th></th>
+                                <th></th>
+                                <th>Very frequently, <br />if not always</th>
+                                </thead>
+
+                                <thead>
+                                    <tr>
+                                        <th>My immediate senior <span class="tooltipTask" title="1The term 'IMMEDIATE SENIOR' refers to e.g. senior house officer, registrar, or consultant. If you are not sure who your immediate senior is: Who did you report to on your last working shift?"><sup>[?]</sup></span> …</th>
+                                        <th style="text-align:center">1</th>
+                                        <th style="text-align:center">2</th>
+                                        <th style="text-align:center">3</th>
+                                        <th style="text-align:center">4</th>
+                                        <th style="text-align:left">5</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int i = 0;
+                                        foreach (var r in Model.QnsList)
+                                        {
+                                            <tr id=@string.Concat(r.ID)>
+                                                @*<td>@Html.Label(r.ID.ToString())</td>*@
+
+                                                @Html.HiddenFor(model => model.QnsList[i].ID)
+                                                @Html.HiddenFor(model => model.QnsList[i].Name)
+
+
+                                                @*@Html.HiddenFor(model => model.FullTaskList[i].Name)*@
+                                                <td>
+                                                    @Html.Label(r.Name)
+
+                                                    @{
+                                                        if (Model.QnsList[i].LongName != null)
+                                                        {
+                                                            <span class="tooltipTask" title="@Model.QnsList[i].LongName"><sup>[?]</sup></span>
+                                                        }
+
+                                                    }
+
+                                                </td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Rarely or never", new { @id = "Radio_" + r.ID, @style = "text-align:left" })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "1", new { @id = "Radio_" + r.ID, @style = "text-align:center" })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "2", new { @id = "Radio_" + r.ID, @style = "text-align:center" })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "3", new { @id = "Radio_" + r.ID, @style = "text-align:center" })</td>
+                                                <td> @Html.RadioButtonFor(model => model.QnsList[i].Ans, "Very frequently, if not always", new { @id = "Radio_" + r.ID, @style = "text-align:left" })</td>
+                                            </tr>
+                                                            i++;
+                                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    <button class="btn btn-success btn-block btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>*@
+
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+
+
+    </div>
+    @Html.Partial("_DialogTask")
+                                                        @Html.Partial("_DialogTaskSelection")
+                                                        }
+
+
+<script>
+    //Validation of all radio box present in Patient table added on 11th August 2017 ---- by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        var tb = document.getElementById('PatientTable');
+        var trs = tb.getElementsByTagName('tr');
+
+        for (var i = 1 ; i < trs.length - 1; i++) {
+            var allRadiochecked = $("input:radio[id=Radio_" + i + "]").is(':checked');
+            if (allRadiochecked != true) { $('#TaskType_Incomplete').show(); allFilled = false; break; }
+            else { $('#TaskType_Incomplete').hide(); }
+        }
+        return allFilled;
+    }
+    //End of validation of all radio box check
+
+    var inst = $("#_DialogTask").remodal();
+    var instTasks = $("#_DialogTaskSelection").remodal();
+
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmExitSurveyPage7').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {
+        AddCustomValidation();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmExitSurveyPage7').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+
+
+    $('#frmExitSurveyPage7 input').on('change', function () {
+        if (this.id == "TaskTypeRadio") {
+            ToggleTaskPanels();
+            $('#TaskType_Incomplete').hide();
+        }
+    });
+
+    function RemoveCustomValidation() {
+        $('#TaskType_Incomplete').hide();
+    }
+    
+    $(document).ready(function () {
+
+        RemoveCustomValidation();
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            touchstart: function (e) {},
+            hold: function (e) {$('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+
+            }
+        });
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            
+            //For validation of radiobuttons checked Added on 11th August 2017 --by Bharati             
+            //$('#frmExitSurveyPage7').submit();
+            if (AddCustomValidation()) {
+                LoaderLocal();
+                $('#frmExitSurveyPage7').submit();
+            }
+            else {
+                inst.open();
+            }
+            //End of validation of radiobuttons
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("Page6", "ExitSurvey")";
+        });
+
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });
+
+
+
+    $("input[id^='Radio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id^='TaskTypeRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+
+
+
+</script>
+
+
+
+
+

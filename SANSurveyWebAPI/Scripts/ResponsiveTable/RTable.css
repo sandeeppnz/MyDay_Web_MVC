@@ -1,0 +1,67 @@
+﻿
+/*For responsive table*/
+.table {
+    width: 50%;
+    max-width: 50%;
+    margin-bottom: 20px;
+}
+h2 {
+  text-align: center;
+}
+
+table caption {
+	padding: .5em 0;
+}
+
+@media screen and (max-width: 767px) {
+  table caption {
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.p {
+  text-align: center;
+  padding-top: 181px;
+  font-size: 14px;
+}
+
+
+/*For placing two divs next to each other*/
+  .divBox {
+    width: 300px;
+    border: 2px solid teal;
+    padding: 25px;
+    margin: 25px;
+}
+ .clearfix:after {
+   content: " "; 
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+
+#first, #second{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+#wrapper {
+    width: 100%; /*500px;*/
+    border: 0px;/*1px solid black; */
+}
+#first {
+    border: 0px;/*1px solid red;*/
+    float:left;
+    width:57%;
+}
+#second {
+    border: 0px;/*1px solid green;*/
+    float:left;
+    width:43%;
+}
+
+.td {
+height:24px;
+}

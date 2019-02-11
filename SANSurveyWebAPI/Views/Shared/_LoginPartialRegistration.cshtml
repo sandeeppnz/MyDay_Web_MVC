@@ -1,0 +1,94 @@
+﻿
+@using Microsoft.AspNet.Identity
+
+@{
+    Session["LoginEmailAddress"] = User.Identity.GetUserName();
+}
+
+
+
+@{
+            try
+            {
+        <div id="DesktopLayout" class="hidden">
+            <h3>
+                <span class="pull-right" style="font-size:small;color:white">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small;color:white">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Help & Feedback</a>
+                    @*<img src="~/Images/help_org.png" style="width:72px;" />*@
+                </span>
+                <br />
+            </h3>
+        </div>
+
+        <div id="MobileLayout" class="hidden" style="padding-left:5px;">
+            <h3>
+                <span title="Your username" class="" style="font-size:small;color:white">
+                    <i class="fa fa-user-o" aria-hidden="true"></i> @User.Identity.GetUserName()
+                </span>
+                <br />
+                <span class="pull-right" style="font-size:small;color:white">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <a href="javascript:Help()" id="linkHelp">Feedback&nbsp;</a>
+                    @*<img src="~/Images/help_org.png" style="width:72px;" />*@
+                </span>
+                <br />
+            </h3>
+        </div>
+        @Html.Partial("_DialogHelp")
+        @Html.Partial("_DialogHelpComplete")
+
+    }
+    catch (Exception)
+    {
+
+    }
+}
+
+<style>
+    a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover 
+{
+     color:gray; 
+     text-decoration:none; 
+     cursor:pointer;  
+}
+</style>
+
+<script>
+
+    var DialogHelp = $("#DialogHelp").remodal();
+    var DialogHelpComplete = $("#DialogHelpComplete").remodal();
+
+    function Help() {
+        DialogHelp.open();
+    }
+
+
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+</script>

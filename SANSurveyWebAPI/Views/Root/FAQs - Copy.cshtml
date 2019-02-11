@@ -1,0 +1,302 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MyDay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="~/Content/Root/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="~/Content/Root/css/style.css" rel="stylesheet">
+    <link href="~/Content/Root/color/default.css" rel="stylesheet">
+    <link rel="~/Content/Root/shortcut icon" href="img/favicon.ico">
+
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/jquery.blockUI.js"></script>*@
+
+</head>
+
+<body>
+    <!-- navbar -->
+    <div class="navbar-wrapper">
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- Responsive navbar -->
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+
+                    </a>
+
+                    <nav class="pull-right nav-collapse collapse"> 
+                        <ul id="menu-main" class="nav">
+
+                            <li><a title="About" href="@Url.Action("Index","Root")#about">About</a></li>
+                            <li><a title="FAQ" href="@Url.Action("FAQs","Root")">FAQ</a></li>
+                            <li><a title="Contact" href="@Url.Action("Contact","Root")#contact">Contact</a></li> 
+                            @*<li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
+                                <ul class="dropdown-menu" style="padding: 15px">
+                                    <li>                                      
+                                        <div class="col-md-12">
+                                            @Html.AntiForgeryToken()
+                                            <form class="form" role="form" method="post" action=@Url.Action("Login","Root") accept-charset="UTF-8" id="login-nav">
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="userid">Email address</label>
+                                                    <input type="email" class="form-control" id="userid" name="email" placeholder="Email address" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="Password">Password</label>
+                                                    <input type="password" class="form-control" id="Password" name="password" placeholder="Password" required>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" id="RememberMe"> Remember me
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-success btn-block">Submit</button>
+                                                </div>
+                                            </form>
+                                            <div>
+                                                <label style="font-weight:100;font-size:14px;">If you have not received an email invitation to participate, please <a href="mailto:myday@aut.ac.nz" style="font-weight:bold;color:#008080;">let us know</a>.</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>*@
+
+                        </ul>
+
+                        <br />
+                        <div class="pull-right" style="padding-right:10px">
+                            @Html.ValidationSummary(true, Constants.ErrorLoginMsgMainSite, new { @class = "text-danger", @style = "color:red" })
+                        </div>
+                    </nav>
+                    <a href="~/">
+                        <h1 class="brand" style="padding-top:25px">
+                            MyDay
+                            <p style="font-size:medium;color:#808080">
+                                Measuring wellbeing is the first step towards improving it
+                            </p>
+                        </h1>
+                    </a>
+                </div>
+            </div>
+            <div class="container">
+                <h1 class="brand"></h1>
+                <!-- navigation -->
+            </div>
+        </div>
+    </div>   
+    <section id="faq" class="section orange">
+        <div class="container" style="padding-top:20px">
+            <h4>MyDay for Junior Doctors</h4>
+            <!-- start: Accordion -->
+            <div class="accordion" id="accordion2">
+
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                            <i class="icon-plus"></i>  What is MyDay?
+                        </a>
+                    </div>
+                    <div id="collapseTwo" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            MyDay surveys are part of a short-term research study of a representative cohort of Junior Doctors. The primary goal
+                            is to ascertain what tasks junior doctors do in a typical day and their feelings while completing these tasks.These
+                            surveys will give valuable insight into the working day of a junior doctor, which will provide future direction to
+                            improve the wellbeing and satisfaction of personnel in these roles.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                            <i class="icon-plus"></i> Who sponsors/funds this study?
+                        </a>
+                    </div>
+                    <div id="collapseThree" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            This study is funded by Health Education England - Working across Wessex and Auckland University of Technology. The
+                            team also includes researchers from the University of Southampton, Cass Business School, and the University of Zurich.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse4">
+                            <i class="icon-plus"></i> Who can participate in this study?
+                        </a>
+                    </div>
+                    <div id="collapse4" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            Our current study includes a sample of 1800 junior doctors training in Wessex, England.
+                        </div>
+                    </div>
+                </div>
+                @*<div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse5">
+                            <i class="icon-plus"></i> Can my friends, colleagues or other family members join the study?
+
+                        </a>
+                    </div>
+                    <div id="collapse5" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            At this stage, we are restricting responses to a randomly selected cohort of junior doctors.
+
+                        </div>
+                    </div>
+                </div>*@
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse6">
+                            <i class="icon-plus"></i> Will my information be secure?
+                        </a>
+                    </div>
+                    <div id="collapse6" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            Protecting your privacy is important to us. Personal data and survey responses will be kept in secure servers at Auckland University of Technology. Personal information will be stored separate to survey responses.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse7">
+                            <i class="icon-plus"></i> Who will see my responses?
+                        </a>
+                    </div>
+                    <div id="collapse7" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            Only de-identified and masked data will be shared with researchers and used only for research purposes. The Wessex Deanery and other external agencies will only receive aggregate summary data.                        
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse8">
+                            <i class="icon-plus"></i> What kinds of questions are you going to ask?
+                        </a>
+                    </div>
+                    <div id="collapse8" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            As part of the study, we would like to ask questions:
+                            <br />
+                            - About yourself and your work situation
+                            <br />
+                            - On the tasks that you perform during your working day and how you feel about them
+                            <br />
+                            - About your training and your workplace
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse9">
+                            <i class="icon-plus"></i> Is it compulsory for me to participate?
+                        </a>
+                    </div>
+                    <div id="collapse9" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            Participation is not compulsory. You may cease your participation of the survey at any time by emailing myday@aut.ac.nz and stating that you wish to be excluded from the study. If you withdraw from the study then you will be offered the choice between having any data that is identifiable as belonging to you removed or allowing it to continue to be used. However, once the findings have been produced, removal of your data may not be possible.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse10">
+                            <i class="icon-plus"></i> How do I complete the survey?
+                        </a>
+                    </div>
+                    <div id="collapse10" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            Selected junior doctors will receive an invitation to take part in online surveys.
+                            If you accidentally deleted this link or have lost the email, you will receive a follow-up message within the next week.
+                            For the best user experience, we recommend completing the surveys on desktop or notebook.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse11">
+                            <i class="icon-plus"></i> The link does not work – what should I do?
+                        </a>
+                    </div>
+                    <div id="collapse11" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            If your link does not work when you click on it, try copying and pasting the URL into your browser. If an error message is displayed, try opening the link in a different browser, such as Safari or Google Chrome. Sometimes the server might be temporarily overloaded if many people are completing the questionnaire. If this happens, try again later. If you still experience problems with your link, please contact us.
+                        </div>
+                    </div>
+                </div>
+                @*<div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse13">
+                            <i class="icon-plus"></i> I forgot my password, how do I obtain a new password?
+                        </a>
+                    </div>
+                    <div id="collapse13" class="accordion-body collapse">
+                        <div class="accordion-inner">
+                            You can request a new password on the MyDay homepage. If you would like to change your password, you can do so in your account settings.
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+            <!--end: Accordion -->
+            <p>
+                If you have another question that hasn’t been answered above, 
+                please <a title="Contact" style="color:aliceblue;" href="@Url.Action("Index","Root")#contact">contact us</a>.
+            </p>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="span6 offset3">
+                    <p class="copyright">
+                        &copy; 2017 MyDay. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- ./container -->
+    </footer>
+
+    <a style="z-index:9999" href="#" class="scrollup"><i class="icon-angle-up icon-square icon-bgdark icon-2x"></i></a>
+
+
+    <script src="~/Scripts/Root/jquery.js"></script>
+    <script src="~/Scripts/Root/jquery.scrollTo.js"></script>
+    <script src="~/Scripts/Root/jquery.nav.js"></script>
+    <script src="~/Scripts/Root/jquery.localscroll-1.2.7-min.js"></script>
+    <script src="~/Scripts/Root/bootstrap.js"></script>
+    <script src="~/Scripts/Root/jquery.prettyPhoto.js"></script>
+    <script src="~/Scripts/Root/isotope.js"></script>
+    <script src="~/Scripts/Root/jquery.flexslider.js"></script>
+    <script src="~/Scripts/Root/inview.js"></script>
+    <script src="~/Scripts/Root/animate.js"></script>
+
+    <script type="text/javascript">
+        var surveyApp = surveyApp || {};
+        surveyApp.Urls = surveyApp.Urls || {};
+        surveyApp.Urls.SendMessageUrl = '@Url.Action("SendMessage","Root")';
+    </script>
+
+
+    <script src="~/Scripts/Root/validate.js"></script>
+    <script src="~/Scripts/Root/custom.js"></script>
+    
+</body>
+
+</html>
+

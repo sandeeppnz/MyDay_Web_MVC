@@ -1,0 +1,42 @@
+﻿<div class="remodal" data-remodal-id="DialogTaskDetails"
+     id="DialogTaskDetails">
+    <button data-remodal-action="close" class="remodal-close"></button>
+
+    <i class='fa fa-hourglass-half fa-3x'></i>
+    <div>
+        <br /><br />@Model.DisplayPara1 <br /><br />
+        @Model.DisplayPara2 <label style="color:teal;">"@Model.NextTaskName"</label><br />
+        <br /><br />
+        <button data-remodal-action="cancel" class="remodal-confirm btn btn-success" type="button" id="btnOk">OK</button>
+        <br /><br />
+    </div>
+</div>
+<script>
+    var taskType = '@Session["taskType"]';
+    //alert("taskType: " + taskType);
+
+    $('#btnOk').on("click", function (e) {
+        e.preventDefault();       
+        //$('#frmAffectStage2').submit();
+        $('#divWebGrid tr').each(function (row, tr) {
+            var rowCount = $('#divWebGrid tr').length; //alert("rowCount: "+ rowCount); alert("row: " +row);
+            if (row != 0) {
+                
+                webGridStr += "T "+$(tr).find('td:eq(0)').text()+ "I"+ ";" + "D "+ $(this).find('input').val() + " M";
+                if (row != (rowCount - 1))
+                {
+                    webGridStr = webGridStr + ",";
+                }
+            } 
+        });
+        $.trim(webGridStr); 
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("addDuration", "Survey3")",                        
+            data: { TableData: webGridStr }, 
+        success: function (result) {
+            $("#frmTaskView").submit();
+        }
+    });
+    });
+</script>

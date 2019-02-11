@@ -1,0 +1,287 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyResults1ViewModel
+
+@{
+    ViewBag.Title = "Survey: Rate Task";
+}
+
+
+@using (Html.BeginForm("Results", "Survey", FormMethod.Post, new { name = "frmResults", id = "frmResults" }))
+{
+    <style type="text/css">
+        html, body {
+            /*margin: 0;
+            padding: 0;*/
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #slidercarousel {
+            width: 100% !important;
+            /*margin: 50px auto;*/
+            /*bottom margin*/
+        }
+
+        .slick-slide {
+            margin: 0px 10px;
+        }
+
+            .slick-slide img {
+                width: 100%;
+            }
+
+        .slick-prev:before,
+        .slick-next:before {
+            color: black;
+        }
+    </style>
+
+
+    <div class="container OtherPageContainer">
+
+        @Html.ValidationSummary(true, "Please check the form for errors.")
+
+        @*<h3>
+               Survey Progress
+            </h3>*@
+
+
+
+        <div class="panel panel-default" id="Tasks">
+
+
+
+            <div class="panel-heading">
+
+
+
+                <h3>
+                    Summary
+                </h3>
+
+
+            </div>
+            @*<div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success CustomProgressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: @Session["CurrProgressValue"]%">
+                    <span class="sr-only">@Session["CurrProgressValue"]% Complete (success)</span>
+                </div>
+            </div>*@
+            <div class="panel-body">
+
+                <div class="center slider" id="slidercarousel">
+
+
+                    @foreach (var kv in @Model.FullResponseList)
+                    {
+                        <div style="outline:none">
+
+                            <h2> @kv.Key </h2>
+
+                            <table class="table table-striped">
+                                @foreach (var row in kv)
+                                {
+
+                                    <tr>
+                                        <td>@row.Question</td>
+                                        <td>@row.Answer</td>
+                                    </tr>
+                                }
+                            </table>
+
+                        </div>
+
+                    }
+                </div>
+
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-success btn-block btn-lg btnCustomNext" id="btnNext" type="button">Finish</button>
+            </div>
+
+
+        </div>
+    </div>
+
+}
+
+<script>
+    $(document).ready(function () {
+
+        var countClick = 0;
+
+
+        $('.responsive').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            responsive: [
+              {
+                  breakpoint: 1024,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      infinite: true,
+                      dots: true
+                  }
+              },
+              {
+                  breakpoint: 600,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      infinite: true,
+                      dots: true
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
+                      infinite: true,
+                      dots: true
+                  }
+              }
+              // You can unslick at a given breakpoint now by adding:
+              // settings: "unslick"
+              // instead of a settings object
+            ]
+        });
+
+
+
+        $('.center').slick({
+            dots: true,
+            infinite: true,
+            centerMode: true,
+            centerPadding: '60px',
+            slidesToShow: 2,
+            responsive: [
+              {
+                  breakpoint: 768,
+                  settings: {
+                      arrows: true,
+                      centerMode: true,
+                      centerPadding: '40px',
+                      slidesToShow: 1
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      arrows: true,
+                      centerMode: true,
+                      centerPadding: '10px',
+                      slidesToShow: 1
+                  }
+              }
+            ]
+        });
+
+
+        //function GetText5ScaleRatingJS(value) {
+        //    switch (value) {
+        //        case 1:
+        //            return "Not at all"
+        //        case 2:
+        //            return "Slightly"
+        //        case 3:
+        //            return "Somewhat"
+        //        case 4:
+        //            return "Moderately"
+        //        case 5:
+        //            return "Strongly"
+        //        case 6:
+        //            return "Very Strongly"
+        //        case 7:
+        //            return "Extremely"
+        //        case 8:
+        //            return "N/A"
+        //        default:
+        //            return "N/A"
+        //    }
+        //}
+
+
+
+        var topSlider = $('#CustomeSliderRound').slider({
+            //tooltip: 'hide',
+            //value: 7
+            ////formatter: function (value) {
+            ////    return GetText5ScaleRatingJS(value);
+            ////}
+        });
+
+        //topSlider.addClass("CustomSliderTop");
+
+
+        $('#Q5Ans').slider({
+            tooltip: 'show',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+
+
+        $('#Q4Ans').slider({
+            tooltip: 'show',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+        $('#Q3Ans').slider({
+            tooltip: 'show',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+
+
+        $('#Q2Ans').slider({
+            tooltip: 'show',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+
+        $('#Q1Ans').slider({
+            tooltip: 'show',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+
+
+        //$('[data-toggle="popover"]').popover();
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+
+            $('#frmResults').submit();
+
+            //bootbox.dialog({
+            //    message: "Your answers are valuable to us. There are some empty fields. <br /><br /> Do you want to continue without filling them? ", title: "Incomplete Information",
+            //    buttons: {
+            //        main: { label: "Cancel", className: "btn btn-default", callback: function () { return true; } },
+            //        success: { label: "Next", className: "btn btn-success", callback: function () { $('#frmTaskRating1').submit(); } }
+            //    }
+            //});
+        });
+
+    });
+
+</script>
+
+
+

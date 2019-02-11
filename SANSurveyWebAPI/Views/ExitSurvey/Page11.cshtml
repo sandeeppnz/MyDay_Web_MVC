@@ -1,0 +1,260 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.Page11_ExitSurveyVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "MyDay Exit Survey – Your Training 1";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Page11", "ExitSurvey", FormMethod.Post,
+                new { name = "frmExitSurveyPage11", id = "frmExitSurveyPage11" }))
+{
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+       {
+           CurrStep = 12,
+           MaxStep = Model.MaxStepExitSurvey
+       })
+            
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStepExitSurvey)          
+
+            <div class="panel panel-default" id="Placement">
+
+                <div class="panel-heading">
+                    <h3>
+                        We would like to gather information about your job preferences...
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-group row">
+                        <label class = "col-sm-4 col-form-label">
+                            Please select the three most important items to “your training”.                          </label>
+                        <div class="col-sm-8" id="divTraining">
+                                                                               
+                            @foreach (var yt in Model.QptionsList)
+                            {
+                                if (yt.ID >= 0 && yt.ID <= 7)
+                                {
+                                    <input type="checkbox"
+                                           name="yourtraining" value="@yt.ID" id="@yt.ID" />
+                                        <label for="@yt.ID">@yt.Name</label>
+                                        <br />
+                                }
+                                @Html.HiddenFor(model => model.HiddenTrainingOptionIds, new { @id = "hiddTrainingOpt" })                                
+                            }
+                            <div id="OtherTextQ1Div" style="width:300px;">
+                                @Html.TextBoxFor(model => model.TrainingOther
+                  , new
+                  {
+                      @id = "txtTrainingOther",
+                      @class = "form-control",
+                      @placeholder = "Please specify if selected Other",
+                      @style = "width:300px"
+                  })
+                                
+                            </div>
+                                <br />
+
+                                <small id="yourtraining_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please select three options</small>
+                            @*</div>*@
+                            
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        @*@Html.Label("Please mark the appropriate answer: My immediate senior is ", new { @class = "col-sm-4 col-form-label" })*@
+                        
+                        <label class="col-sm-4 col-form-label">
+                            Please select the three most important items to “feeling a valued member of your team”.                        </label>
+                        
+                        <div class="col-sm-8" id="divValued">
+                            @{
+                                foreach (var yt in Model.QptionsList)
+                                {                                   
+                                    if (yt.ID >= 8 && yt.ID <= 14)
+                                    {
+                                        <input type="checkbox"
+                                               name="feelingvalued" value="@yt.ID" id="@yt.ID" />
+                                            <label for="@yt.ID">@yt.Name</label>
+                                            <br />
+                                    }
+                                    @Html.HiddenFor(model => model.HiddenValuedOptionIds, new { @id = "hiddValuedOpt" })
+                                }
+                            }
+                                <div id="OtherTextQ2Div" style="width:300px;">
+                                    @Html.TextBoxFor(model => model.ValuedOther
+                                                , new
+                                                {
+                                                    @id = "txtValuedOther",
+                                                    @class = "form-control",
+                                                    @placeholder = "Please specify if selected Other",  
+                                                    @style="width:300px"                                                  
+                                                })
+
+                                </div>
+                                <br />
+
+                                <small id="feelingvalued_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please select three options</small>
+                           
+
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogPage3")
+}
+
+<script type="text/javascript">
+    $(function () {      
+        var myString = $('#hiddValuedOpt').val() + $('#hiddTrainingOpt').val();
+        var arr = myString.split(',');       
+        $.each(arr, function (i, val) {            
+            $(":checkbox[value=" + val + "]").attr("checked", "true");
+            //$(":checkbox[value=" + val + "]").icheck({
+            //    labelHover: true,
+            //    tap: true,
+            //    checkboxClass: 'icheckbox_flat-green',
+            //    radioClass: 'icheckbox_flat-green'
+            //});
+        });
+    });
+
+    //Important to add values of checkboxes
+
+    function updateTextArea() {
+        var allTrainingVals = [];
+        var allValuedVals = [];
+
+        $('#divTraining :checked').each(function () {
+            allTrainingVals.push($(this).val());
+        });
+        $('#hiddTrainingOpt').val(allTrainingVals);
+
+        $('#divValued :checked').each(function () {
+            allValuedVals.push($(this).val());
+        });
+        $('#hiddValuedOpt').val(allValuedVals);
+    }
+    $(function () {
+        $('#divTraining input').click(updateTextArea);
+        $('#divValued input').click(updateTextArea);
+        updateTextArea();
+    });
+    //end of checkbox values
+
+    var instProceed = $("#_DialogTaskTimeProceed").remodal();
+    //I. Setting global variables for Radiobuttonfor
+    var option = "";
+    var option_selected = null;
+    //II. Assigning values to global values by change event on Radiobuttonfor
+    $('#frmExitSurveyPage11 input').on('change', function () {
+        var x = this.id;
+        var y = this.value;
+        var allfilled = true;
+        option = x; option_selected = y;
+
+    });
+    //Modified the AddCustomValidation function on 15/11/2017 --by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        var Q1 = $(':checkbox[name=yourtraining]:checked').length;
+        var Q2 = $(':checkbox[name=feelingvalued]:checked').length;
+        
+        if ($("input[type=checkbox]:checked").length <= 6) {
+            if (Q1 == 3) { $('#yourtraining_Incomplete').hide(); }
+            else { $('#yourtraining_Incomplete').show(); allFilled = false; }
+
+            if (Q2 == 3) { $('#feelingvalued_Incomplete').hide(); }
+            else { $('#feelingvalued_Incomplete').show(); allFilled = false; }
+        }
+        return allFilled;
+    }
+    var inst = $("#_DialogPage3").remodal();
+
+        $(document).on('confirmation', '#_DialogPage3', function () {
+            RemoveCustomValidation();
+            LoaderLocal();
+           $('#frmExitSurveyPage11').submit();
+
+        });
+
+        $(document).on('cancellation', '#_DialogPage3', function () {
+            AddCustomValidation();
+        });
+
+
+        $(document).ready(function () {
+            RemoveCustomValidation();
+            $.ajaxSetup({ cache: false });
+            $('#btnNext').on("click", function (e) {
+                e.preventDefault();
+
+                if (AddCustomValidation()) {
+                    LoaderLocal();
+                    $('#frmExitSurveyPage11').submit();
+                }
+                else {
+                    //inst.open();
+                    instProceed.open();
+                }
+            });
+
+            $('#btnPrev').on("click", function (e) {
+                e.preventDefault();
+                window.location.href = "@Url.Action("Page10", "ExitSurvey")";
+            });
+        })
+
+
+        function RemoveCustomValidation() {
+            $('[name="yourtraining"]').parent().removeClass("has-error");
+            $('[name="feelingvalued"]').parent().removeClass("has-error");
+            $('#yourtraining_Incomplete').hide();
+            $('#feelingvalued_Incomplete').hide();
+        }
+
+        //$("input[name^='yourtraining']").icheck({
+        //    labelHover: true,
+        //    tap: true,
+        //    checkboxClass: 'icheckbox_flat-green',
+        //    radioClass: 'icheckbox_flat-green'
+        //});
+
+        //$("input[name^='feelingvalued']").icheck({
+        //    labelHover: true,
+        //    tap: true,
+        //    checkboxClass: 'icheckbox_flat-green',
+        //    radioClass: 'icheckbox_flat-green'
+        //});
+
+
+
+</script>
+<style>
+    input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(1.2); /* IE */
+  -moz-transform: scale(1.2); /* FF */
+  -webkit-transform: scale(1.2); /* Safari and Chrome */
+  -o-transform: scale(1.2); /* Opera */
+  padding: 6px;
+}
+</style>
+

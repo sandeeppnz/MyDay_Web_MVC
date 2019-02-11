@@ -1,0 +1,391 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.FirstTraining2VM
+@{
+    Layout = "~/Views/Shared/_LayoutExit.cshtml";
+    ViewBag.Title = "MyWorkplace Survey";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<link href="~/Scripts/StyleUp/styleUp.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("FirstTraining", "ExitV2", FormMethod.Post, new { name = "frmFirstTraining", id = "frmFirstTraining" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxExitV2Step)
+   
+    <div class="container">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>  
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+            {
+                CurrStep = 9,
+                MaxStep = Model.MaxExitV2Step
+            }) 
+
+            <div class="panel panel-default" id="ExitSurveyPage1">
+                <div class="remove-TealBox" style="padding-bottom:7px;">
+                    We would like to gather information about your job preferences...
+                </div>               
+                <div class="panel-body">
+                    <div class="form-group row" style="padding-left:12px;">
+                        <label class="col-form-label">
+                            Please select the three most important items to “your training”.
+                        </label>
+                    </div>
+
+                    <div class="form-group" style="padding-left:12px;">
+                        <div id="tables">
+                            <table id="YourTraining" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int i = 0;
+                                        //for (i = 0; i <= 7; i++)
+                                        {                                            
+                                            foreach (var r in Model.QnsYourTraining)
+                                            {
+                                            <tr id=@string.Concat(r.ID) class="trYourTraining">
+                                                @Html.HiddenFor(model => model.QnsYourTraining[i].ID)
+                                                @Html.HiddenFor(model => model.QnsYourTraining[i].Name)
+                                                @Html.HiddenFor(model => model.QnsYourTraining[i].ForGridID)
+                                                <td style="width:70%;">
+                                                    @Html.Label(r.Name, new { @style = "font-weight:normal;" })
+
+                                                    @{
+                                                        if (r.ID == 7)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.QnsYourTraining[i].OtherOptionString, new { @id = "txtYourTraining",
+                                                                                             @class = "form-control",
+                                                                                             @placeholder = "Please specify if selected Other",
+                                                                                             @style = "width:300px" })
+                                                            <small id="yourTraining_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please specify if selected Other</small>
+                                                        }
+
+                                                        if (Model.QnsYourTraining[i].LongName != null)
+                                                        {
+                                                            <span class="tooltipTask" title="@Model.QnsYourTraining[i].LongName"><sup>[?]</sup></span>
+                                                        }
+                                                    }
+
+                                                </td>
+                                                <td class="tdOne"> @Html.RadioButtonFor(model => model.QnsYourTraining[i].Ans, "1", new { @id = "Radio_" + r.ID, data_col = "1", @class= "yourTrainingRd1" })</td>
+                                                <td class="tdTwo"> @Html.RadioButtonFor(model => model.QnsYourTraining[i].Ans, "2", new { @id = "Radio_" + r.ID, data_col = "2", @class = "yourTrainingRd2" })</td>
+                                                <td class="tdThree"> @Html.RadioButtonFor(model => model.QnsYourTraining[i].Ans, "3", new { @id = "Radio_" + r.ID, data_col = "3", @class = "yourTrainingRd3" })</td>
+                                            </tr>
+                                                                i++;
+                                                                    }
+                                                                }
+                                                            }                                          
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row" style="padding-left:12px;">
+                        <label class="col-form-label">
+                            Please select the three most important items to “feeling a valued member of your team”.
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <div id="tables">
+                            <table id="FeelingValued" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>1</th>
+                                        <th>2</th>
+                                        <th>3</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        int j = 0;
+                                        //for (i = 8; i <= 14; i++)
+                                        {
+                                            foreach (var r in Model.QnsFeelingValued)
+                                            {
+                                            <tr id=@string.Concat(r.ID) class="trFeelingValued">
+                                                @Html.HiddenFor(model => model.QnsFeelingValued[j].ID)
+                                                @Html.HiddenFor(model => model.QnsFeelingValued[j].Name)
+                                                @Html.HiddenFor(model => model.QnsFeelingValued[j].ForGridID)
+                                                <td style="width:70%;">
+                                                    @Html.Label(r.Name, new { @style = "font-weight:normal;" })
+
+                                                    @{
+                                                        if (r.ID == 6)
+                                                        {
+                                                            @Html.TextBoxFor(model => model.QnsFeelingValued[j].OtherOptionString, new { @id = "txtFeelingValued",
+                                                                                             @class = "form-control",
+                                                                                             @placeholder = "Please specify if selected Other",
+                                                                                             @style = "width:300px" })
+                                                    <small id="feelingValued_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please specify if selected Other</small>
+                                                        }
+
+                                                        if (Model.QnsFeelingValued[j].LongName != null)
+                                                        {
+                                                            <span class="tooltipTask" title="@Model.QnsFeelingValued[j].LongName"><sup>[?]</sup></span>
+                                                        }
+                                                    }
+
+                                                </td>
+                                                <td class="tdOne"> @Html.RadioButtonFor(model => model.QnsFeelingValued[j].Ans, "1", new { @id = "Radio_" + r.ID, data_col="1", @class = "feelingValued1"})</td>
+                                                <td class="tdTwo"> @Html.RadioButtonFor(model => model.QnsFeelingValued[j].Ans, "2", new { @id = "Radio_" + r.ID, data_col = "2", @class = "feelingValued2" })</td>
+                                                <td class="tdThree"> @Html.RadioButtonFor(model => model.QnsFeelingValued[j].Ans, "3", new { @id = "Radio_" + r.ID, data_col = "3", @class = "feelingValued3" })</td>
+                                            </tr>
+                                                                j++;                                                                
+                                                            }
+                                                        }
+                                     }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                        <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogTask")
+    @Html.Partial("_DialogTaskSelection")
+}
+
+<style>
+    #Q0Panel {
+        pointer-events: none;
+    }
+    input[type="radio"] {
+        width: 1.5em;
+        height: 1.5em;        
+    }
+        /*input[type='radio']:checked:after {
+            width: 1.5em;
+            height: 1.5em;
+            border-radius: 1.5em;
+            top: -2px;
+            left: -1px;
+            position: relative;
+            background-color: teal; /*#ffa500;*/
+            /*content: '';
+            display: inline-block;
+            visibility: visible;
+            border: 1px solid teal;
+        }*/
+
+    input[type='radio'] {
+        -webkit-appearance: none;
+        /*width: 20px;
+        height: 20px;*/
+        border-radius: 50%;
+        outline: none;
+        border: 1px solid gray;
+    }
+
+        input[type='radio']:before {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 60%;
+            margin: 20% auto;
+            border-radius: 50%;
+        }
+
+        input[type="radio"]:checked:before {
+            background: teal;
+        }
+
+        input[type="radio"]:checked {
+            border-color: teal;
+        }
+
+</style>
+
+<script> 
+    //for allow only three radiobutton selection for two grids
+    //on for "your training" and other for "feeling valued"
+    $(".yourTrainingRd1").on("change", function (ev) {        
+        var clicked = $(ev.target);
+        var dataCol = clicked.data("col");
+        var thisId = this.id;       
+        $('.yourTrainingRd1').prop("checked", false);        
+        $(this).prop("checked", true);          
+    });
+    $(".yourTrainingRd2").on("change", function (ev) {
+        var clicked = $(ev.target);
+        var dataCol = clicked.data("col");
+        var thisId = this.id; 
+        $('.yourTrainingRd2').prop("checked", false);
+        $(this).prop("checked", true);
+    });
+    $(".yourTrainingRd3").on("change", function (ev) {
+        var clicked = $(ev.target);
+        var dataCol = clicked.data("col");
+        var thisId = this.id;
+        $('.yourTrainingRd3').prop("checked", false);
+        $(this).prop("checked", true);
+    });
+
+    $(".feelingValued1").on("change", function (ev) {
+        var clicked = $(ev.target);
+        var dataCol = clicked.data("col");
+        var thisId = this.id;
+        $('.feelingValued1').prop("checked", false);
+        $(this).prop("checked", true);
+    });
+    $(".feelingValued2").on("change", function (ev) {
+        var clicked = $(ev.target);
+        var dataCol = clicked.data("col");
+        var thisId = this.id;
+        $('.feelingValued2').prop("checked", false);
+        $(this).prop("checked", true);
+    });
+    $(".feelingValued3").on("change", function (ev) {
+        var clicked = $(ev.target);
+        var dataCol = clicked.data("col");
+        var thisId = this.id;
+        $('.feelingValued3').prop("checked", false);
+        $(this).prop("checked", true);
+    });
+    //end of radiobutton selection   
+
+    var inst = $("#_DialogTask").remodal();
+    var instTasks = $("#_DialogTaskSelection").remodal();
+    var instProceed = $("#_DialogTaskTimeProceed").remodal();
+
+    //Validation for checking Other text field filled or empty if the radiobutton for Other is selected
+    function AddCustomValidation() {        
+        //var tbyt = document.getElementById('YourTraining');
+        //var trsyt = tbyt.getElementsByTagName('tr');
+
+        //var tbfv = document.getElementById('FeelingValued');
+       //var trsfv = tbfv.getElementsByTagName('tr');
+
+        //alert($('#Radio_7').prop('checked'));       
+        //alert($("input[id='Radio_7']:checked").attr('class'));
+
+        var allFilled = true;
+        var ytTxt = $("#txtYourTraining").val(); 
+        var fvTxt = $("#txtFeelingValued").val();
+        var rdLen = $("input[type=radio]:checked").length;
+               
+        if (rdLen != 6) {
+            $("#yourTraining_Incomplete").show();
+            $("#feelingValued_Incomplete").show();
+            allFilled = false; 
+        }
+        else
+        {                
+                if ($("#YourTraining td.tdOne input[id^='Radio_7']").prop("checked")
+                        || $("#YourTraining td.tdTwo input[id^='Radio_7']").prop("checked")
+                        || $("#YourTraining td.tdThree input[id^='Radio_7']").prop("checked"))
+                {
+                   
+                    if ($("#YourTraining td.tdOne input[id^='Radio_7']").attr('class') == "yourTrainingRd1"
+                        || $("#YourTraining td.tdTwo input[id^='Radio_7']").attr('class') == "yourTrainingRd2"
+                        || $("#YourTraining td.tdThree input[id^='Radio_7']").attr('class') == "yourTrainingRd3")
+                    {                      
+                            if (ytTxt == "") {                          
+                                $("#yourTraining_Incomplete").show();
+                                allFilled = false;
+                            }
+                            else {   $("#yourTraining_Incomplete").hide(); }
+                        }
+                }
+
+                if ($("#FeelingValued td.tdOne input[id^='Radio_6']").prop("checked")
+                    || $("#FeelingValued td.tdTwo input[id^='Radio_6']").prop("checked")
+                    || $("#FeelingValued td.tdThree input[id^='Radio_6']").prop("checked"))
+                {                    
+                    if ($("#FeelingValued td.tdOne input[id^='Radio_6']").attr('class') == "feelingValued1"
+                        || $("#FeelingValued td.tdTwo input[id^='Radio_6']").attr('class') == "feelingValued2"
+                        || $("#FeelingValued td.tdThree input[id^='Radio_6']").attr('class') == "feelingValued3")
+                    {
+                            if (fvTxt == "") {
+                                $("#feelingValued_Incomplete").show();
+                                allFilled = false;
+                            }
+                            else { $("#feelingValued_Incomplete").hide(); }
+                    }
+               }                                 
+        }
+        return allFilled;
+    }
+    //End of validation for Other text field for both the grids   
+
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmFirstTraining').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {
+        AddCustomValidation();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmFirstTraining').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+    function RemoveCustomValidation() {
+        $("#yourTraining_Incomplete").hide();
+        $("#feelingValued_Incomplete").hide();
+    }
+
+    $(document).ready(function () {
+        RemoveCustomValidation();
+
+        $("label[name^='selectedTasksLabel']").kendoTouch({
+            touchstart: function (e) {},
+            hold: function (e) { $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open'); }
+        });
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+           
+            if (AddCustomValidation()) {
+                LoaderLocal();
+                $('#frmFirstTraining').submit();
+            }
+            else {
+                //inst.open();
+                instProceed.open();
+            }
+            //End of validation of radiobuttons
+
+        });  
+        $('#btnPrev').on("click", function (e) {
+                e.preventDefault();
+                window.location.href = "@Url.Action("FifthWorkEnvironment", "ExitV2")";
+            });
+
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });   
+
+</script>
+
+
+

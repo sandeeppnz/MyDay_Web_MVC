@@ -1,0 +1,212 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.Page3_ExitSurveyVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "MyDay Exit Survey – Your Job 2";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Page3", "ExitSurvey", FormMethod.Post,
+                new { name = "frmExitSurveyPage3", id = "frmExitSurveyPage3" }))
+{
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStepExitSurvey)
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 3, MaxStep = Model.MaxStepExitSurvey })
+
+            @*@Html.ValidationSummary(true, "Please correct the information", new { @class = "text-danger" })*@
+
+
+            <div class="panel panel-default" id="Placement">
+
+                <div class="panel-heading">
+                    <h3>
+                        Thinking about your profession, please answer the following questions…                        
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <div>
+                        <i>
+                            We would like to gather information about your job preferences.
+                        </i>
+                    </div>
+                    <br /><br />
+                    <div class="form-group row">
+                        @Html.Label("Have you ever considered leaving medical practice?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="ContractTypePanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.Q1, "Yes, in the last month", new { @id = "ContractTypeRadio", @name = "ContractType1", @style = "padding-bottom: 10px" })
+                                <label for="ContractType1">Yes, in the last month</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "Yes, in the last 6 months", new { @id = "ContractTypeRadio", @name = "ContractType2", @style = "padding-bottom: 10px" })
+                                <label for="ContractType2">Yes, in the last 6 months</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "Yes, in the last year", new { @id = "ContractTypeRadio", @name = "ContractType3", @style = "padding-bottom: 10px" })
+                                <label for="ContractType3">Yes, in the last year</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "Yes, but not for a long time", new { @id = "ContractTypeRadio", @name = "ContractType4", @style = "padding-bottom: 10px" })
+                                <label for="ContractType4">Yes, but not for a long time</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q1, "No", new { @id = "ContractTypeRadio", @name = "ContractType5", @style = "padding-bottom: 10px" })
+                                <label for="ContractType5">No</label>
+                                <br />
+
+                                <small id="ContractType_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        @Html.Label("Have you considered working in another country?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="HoursWorkedLastMonthPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.Q2, "Yes, in the last month", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth1", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth1">Yes, in the last month</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q2, "Yes, in the last 6 months", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth2", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth2">Yes, in the last 6 months</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q2, "Yes, in the last year", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth3", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth3">Yes, in the last year</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q2, "Yes, but not for a long time", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth4", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth4">Yes, but not for a long time</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.Q2, "No", new { @id = "HoursWorkedLastMonthRadio", @name = "HoursWorkedLastMonth5", @style = "padding-bottom: 10px" })
+                                <label for="HoursWorkedLastMonth5">No</label>
+                                <br />
+
+
+                                <small id="HoursWorkedLastMonth_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_DialogPage3")
+}
+
+<script type="text/javascript">
+    //Modified AddCustomValidation Function on 3/08/2017 --by Bharati
+    function AddCustomValidation() {
+        var allFilled = true;
+        
+        if ($("input[type=radio]:checked").length < 2) {
+            if ($("input:radio[id=ContractTypeRadio]").is(':checked')) { $('#ContractType_Incomplete').hide(); }
+            else { $('#ContractType_Incomplete').show(); allFilled = false; }
+
+            if ($("input:radio[id=HoursWorkedLastMonthRadio]").is(':checked')) { $('#HoursWorkedLastMonth_Incomplete').hide(); }
+            else { $('#HoursWorkedLastMonth_Incomplete').show(); allFilled = false; }
+        }     
+        return allFilled;
+    }
+
+    var inst = $("#_DialogPage3").remodal();
+    
+    $(document).on('confirmation', '#_DialogPage3', function () {
+        RemoveCustomValidation();
+        LoaderLocal(); 
+        $('#frmExitSurveyPage3').submit();
+    }); 
+
+    //Called on Yes, I would like to complete
+    $(document).on('cancellation', '#_DialogPage3', function () {
+        AddCustomValidation(); 
+    });
+
+    $(document).ready(function () {
+
+        RemoveCustomValidation();
+
+        $.ajaxSetup({ cache: false });
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            
+            if (AddCustomValidation()) {
+                LoaderLocal();
+
+                $('#frmExitSurveyPage3').submit();
+            }
+            else {
+                inst.open();
+            }
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("Page2", "ExitSurvey")";
+        });
+    })
+
+  //This function is called to remove the Incomplete error message 
+    function RemoveCustomValidation() {
+        
+        $('[name="ContractType"]').parent().removeClass("has-error");
+        $('[name="HoursWorkedLastMonth"]').parent().removeClass("has-error");
+      
+        $('#ContractType_Incomplete').hide();
+        $('#HoursWorkedLastMonth_Incomplete').hide();
+    }
+
+
+    $('#frmExitSurveyPage3 input').on('change', function () {
+        var x = this.id;
+       
+        if (x == "HoursWorkedLastMonthRadio") {
+            $('#HoursWorkedLastMonth_Incomplete').hide();
+        }
+   
+        if (x == "ContractTypeRadio") {
+            $('#ContractType_Incomplete').hide();
+        }
+    });
+
+
+
+
+    $("input[id^='ContractType']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+  
+    $("input[id^='HoursWorkedLastMonth']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+
+
+</script>
+

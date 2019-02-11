@@ -1,0 +1,24 @@
+﻿@model SANSurveyWebAPI.Models.StayAliveNotification
+Content-Type: text/plain; charset=utf-8
+
+@*Dear Admin,
+@Model.ServerLink is pinged and is alive!*@
+
+<html>
+@*<body style="background-color:#f2f2f2; font-family:Arial, Helvetica, sans-serif">*@
+<body style="font-family:Arial, Helvetica, sans-serif;width:730px">
+    @*<img src= @Model.Heading height='42' width='42'/>*@
+
+    @*<br />
+        <br />*@
+
+    @*</div>
+        <div style="padding:20px;padding-top:0px;background-color:#ffffff">*@
+
+    <div>
+        Dear Admin,
+        @Model.ServerLink is pinged and alive.
+    </div>
+
+</body>
+</html>

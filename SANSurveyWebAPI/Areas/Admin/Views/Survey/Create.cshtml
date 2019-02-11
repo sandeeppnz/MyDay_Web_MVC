@@ -1,0 +1,127 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.ProfileAdminCreateVM
+
+@{
+    ViewBag.Title = "Create New";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+@*<script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+@*<link href="~/Content/kendo/2016.3.1118/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.3.1118/Custom/kendo.custom3.css" rel="stylesheet" />*@
+
+@*<script src="~/Scripts/kendo/2016.3.1118/kendo.all.min.js"></script>
+    <script src="~/Scripts/kendo/2016.3.1118/kendo.aspnetmvc.min.js"></script>*@
+@*<script src="~/Scripts/kendo/2016.3.1118/Custom/kendo.custom.min.js"></script>*@
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    
+
+<div class="form-horizontal">
+    <h4>Survey</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.IsScheduled, new { @id = "IsScheduled" })
+    <div class="form-group">
+        @Html.Label("Profile", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @(Html.Kendo().DropDownListFor(model => model.Profile)
+                                           .Name("Profile")
+                                           .HtmlAttributes(new { style = "width:100%", @class = "", @id = "Profile" })
+                                           .OptionLabel("Select profile...")
+                                           .DataTextField("ProfileName")
+                                           .DataValueField("Id")
+                                           .DataSource(source =>
+                                           {
+                                               source.Read(read =>
+                                               {
+                                                   read.Action("GetCascadeProfiles", "Survey");
+                                               });
+                                           })
+            )
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Roster Shift", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @(Html.Kendo().DropDownListFor(model => model.Shift)
+                                            .Name("Shift")
+                                            .HtmlAttributes(new { style = "width:100%", @class = "", @id = "Shift" })
+                                            .OptionLabel("Select shift...")
+                                            .DataTextField("Description")
+                                            .DataValueField("Id")
+                                            .DataSource(source =>
+                                            {
+                                                source.Read(read =>
+                                                {
+                                                    read.Action("GetCascadeShifts", "Survey")
+                                                    .Data("filterShifts");
+                                                })
+                                                .ServerFiltering(true);
+                                            })
+                                            .Enable(false)
+                                            .AutoBind(false)
+                                            .CascadeFrom("Profile")
+            )
+            <script>
+                function filterShifts() {
+                    return {
+                        Profile: $("#Profile").val()
+                    };
+                }
+            </script>
+
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" id="btnNext" />
+        </div>
+    </div>
+    @*<div id="scheduler" style="display:none;">
+            <p style="font-weight: bold; color: red; font-size: 27px;">
+                Emails are already scheduled for the current roster.
+            </p>
+        </div>*@
+   
+    <div id="scheduler"></div>
+    
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    var scheduler = $("#IsScheduled").val();
+    //    alert(scheduler);
+    //    if (scheduler == "False") {
+    //        $("#scheduler").hide();
+    //    }
+    //});
+        $("#btnNext").click(function () {
+            var scheduler = $("#IsScheduled").val();
+            //alert(scheduler);
+            if (scheduler == "True") {            
+              
+                $("#scheduler").html('Emails are already scheduled for the current roster.');
+            }
+            else { $("#scheduler").hide() }
+        });
+   
+
+</script>

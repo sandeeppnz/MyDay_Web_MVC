@@ -1,0 +1,822 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterPlacementViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    /*ViewBag.Title = "Rotation";*/
+    //Title Changes made on 26th July 2017 -- by Bharati
+    ViewBag.Title = "Placement";
+    //End of change in the title
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Placement", "Register", FormMethod.Post, new { name = "frmPlacement", id = "frmPlacement" }))
+{ 
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 4, MaxStep = Model.MaxStep, SurveyType = 0 })
+
+            @*@Html.ValidationSummary(true, "Please correct the information", new { @class = "text-danger" })*@
+
+
+            <div class="panel panel-default" id="Placement">
+
+                <div class="panel-heading">
+                    <h3>
+                        We would like to gather information about your rotation...
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    @{
+                        List<SelectListItem> PlacementMonthList = new List<SelectListItem>();
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Jan",
+                            Value = "Jan"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Feb",
+                            Value = "Feb"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Mar",
+                            Value = "Mar"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Apr",
+                            Value = "Apr"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "May",
+                            Value = "May"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Jun",
+                            Value = "Jun"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Jul",
+                            Value = "Jul"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Aug",
+                            Value = "Aug"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Sep",
+                            Value = "Sep"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Oct",
+                            Value = "Oct"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Nov",
+                            Value = "Nov"
+                        });
+                        PlacementMonthList.Add(new SelectListItem
+                        {
+                            Text = "Dec",
+                            Value = "Dec"
+                        });
+                    }
+
+
+
+                    @{
+                        List<SelectListItem> PlacementYearList = new List<SelectListItem>();
+
+
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2010",
+                            Value = "2010"
+                        });
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2011",
+                            Value = "2011"
+                        });
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2012",
+                            Value = "2012"
+                        });
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2013",
+                            Value = "2013"
+                        });
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2014",
+                            Value = "2014"
+                        });
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2015",
+                            Value = "2015"
+                        });
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2016",
+                            Value = "2016"
+                        });
+                        PlacementYearList.Add(new SelectListItem
+                        {
+                            Text = "2017",
+                            Value = "2017"
+                        });
+                    }
+
+
+
+                        
+
+                    <div class="form-group row">
+                        @Html.Label("Are you currently placed in a hospital?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="IsCurrentPlacementPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.PlacementIsInHospital, "Yes", new { @id = "PlacementIsInHospital", @name = "PlacementIsInHospital1", @style = "padding-bottom: 5px" })
+                                <label for="PlacementIsInHospital1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.PlacementIsInHospital, "No", new { @id = "PlacementIsInHospital", @name = "PlacementIsInHospital2", @style = "padding-bottom: 5px" })
+                                <label for="PlacementIsInHospital2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="PlacementIsInHospital_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    @{
+                        List<SelectListItem> PlacementHospitalNameList = new List<SelectListItem>();
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Andover War Memorial Hospital",
+                            Value = "Andover War Memorial Hospital"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Basingstoke and North Hampshire Hospital",
+                            Value = "Basingstoke and North Hampshire Hospital"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Christchurch Hospital",
+                            Value = "Christchurch Hospital"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Countess Mountbatten House",
+                            Value = "Countess Mountbatten House"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Dorset County Hospital",
+                            Value = "Dorset County Hospital"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Jersey General Hospital",
+                            Value = "Jersey General Hospital"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Poole Hospital",
+                            Value = "Poole Hospital"
+                        });
+
+
+
+                        //PlacementHospitalNameList.Add(new SelectListItem
+                        //{
+                        //    Text = "Princess Anne Hospital",
+                        //    Value = "Princess Anne Hospital"
+                        //});
+
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Queen Alexandra Hospital",
+                            Value = "Queen Alexandra Hospital"
+                        });
+
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Royal Hampshire County Hospital",
+                            Value = "Royal Hampshire County Hospital"
+                        });
+
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "The Royal Bournemouth Hospital",
+                            Value = "The Royal Bournemouth Hospital"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Royal South Hants",
+                            Value = "Royal South Hants"
+                        });
+
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Salisbury District Hospital",
+                            Value = "Salisbury District Hospital"
+                        });
+
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "St Mary’s Hospital Isle of Wight",
+                            Value = "St Mary’s Hospital Isle of Wight"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "University Hospital Southampton",
+                            Value = "University Hospital Southampton"
+                        });
+
+                        PlacementHospitalNameList.Add(new SelectListItem
+                        {
+                            Text = "Other",
+                            Value = "Other"
+                        });
+
+                    }
+
+
+
+                    @{
+                        List<SelectListItem> PlacementHospitalStartYearList = new List<SelectListItem>();
+
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2010",
+                            Value = "2010"
+                        });
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2011",
+                            Value = "2011"
+                        });
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2012",
+                            Value = "2012"
+                        });
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2013",
+                            Value = "2013"
+                        });
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2014",
+                            Value = "2014"
+                        });
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2015",
+                            Value = "2015"
+                        });
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2016",
+                            Value = "2016"
+                        });
+                        PlacementHospitalStartYearList.Add(new SelectListItem
+                        {
+                            Text = "2017",
+                            Value = "2017"
+                        });
+                    }
+
+
+                    <div id="PlacedInHospitalPanel">
+
+                        <div class="form-group row">
+                            @*@Html.LabelFor(model => model.PlacementHospitalName, new { @class = "col-sm-4 col-form-label" })*@
+                            <label class="col-sm-4 col-form-label">
+                                Which hospital(s) are you currently placed?
+                                <br />
+                                <small>
+                                    (If you work at more than one, please select the one you spend most of your time at)
+                                </small>
+                            </label>
+
+
+                            <div class="col-sm-8">
+                                @(Html.Kendo()
+                                .DropDownListFor(model => model.PlacementHospitalName)
+                                  .Name("PlacementHospitalName")
+                                  .Filter("contains")
+                                  //.Placeholder("Select your speciality")
+                                  .DataTextField("Text")
+                                  .DataValueField("Value")
+                                  .BindTo(PlacementHospitalNameList)
+                                  .OptionLabel("Select your current hospital")
+                                   .Events(e =>
+                                   {
+                                       e.Change("OnChangeHospitalName");
+                                    })
+                                  .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpPlacementHospitalName" })
+                                )
+
+                                <br />
+                                <small id="PlacementHospitalName_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                                <br />
+
+                                <div id="PlacedInHospitalOtherTxtPanel">
+                                    @Html.TextBoxFor(model => model.PlacementHospitalNameOther
+                                        , new { @id = "txtOtherHospitalName", @class = "form-control",
+                                        @placeholder ="Type your hospital name"})
+                                </div>
+
+
+                                <small id="PlacementHospitalNameOther_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+
+
+                        @{
+                            List<SelectListItem> PlacementHospitalStartMonthList = new List<SelectListItem>();
+
+
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Jan",
+                                Value = "Jan"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Feb",
+                                Value = "Feb"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Mar",
+                                Value = "Mar"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Apr",
+                                Value = "Apr"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "May",
+                                Value = "May"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Jun",
+                                Value = "Jun"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Jul",
+                                Value = "Jul"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Aug",
+                                Value = "Aug"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Sep",
+                                Value = "Sep"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Oct",
+                                Value = "Oct"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Nov",
+                                Value = "Nov"
+                            });
+                            PlacementHospitalStartMonthList.Add(new SelectListItem
+                            {
+                                Text = "Dec",
+                                Value = "Dec"
+                            });
+                        }
+
+
+
+                        <div class="form-group row">
+                            @*<label class="col-sm-4 col-form-label">
+                                When did you start your most recent stint at {hospital name}?
+                            </label>*@
+
+
+                            <label id="HospitalStartLabel" class="col-sm-4 col-form-label">When did you start your most recent rotation</label>
+
+                            @*@Html.Label("", new { @class = "col-sm-4 col-form-label" , @id = "HospitalStartLabel" })*@
+                            @*@Html.Label("When did you start your most recent stint at {hospital name}?", new { @class = "col-sm-4 col-form-label", @id = "HospitalStartLabel" })*@
+
+
+                            <div class="col-lg-2 col-md-12 col-sm-6" style="padding-top:10px;">
+                                @(Html.Kendo().DropDownListFor(model => model.PlacementHospitalStartMonth)
+  .Name("PlacementHospitalStartMonth")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(PlacementHospitalStartMonthList)
+  .OptionLabel("----- Select month -----")
+  .HtmlAttributes(new { @style = "", @class = "", @id = "drpPlacementHospitalStartMonth" })
+                                )
+                                <small id="PlacementHospitalStartMonth_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+
+
+
+                            <div class="col-lg-2 col-md-12 col-sm-6" style="padding-top:10px;">
+                                @(Html.Kendo().DropDownListFor(model => model.PlacementHospitalStartYear)
+  .Name("PlacementHospitalStartYear")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(PlacementHospitalStartYearList)
+  .OptionLabel("----- Select year -----")
+  .HtmlAttributes(new { @style = "", @class = "", @id = "drpPlacementHospitalStartYear" })
+                                )
+                                <small id="PlacementHospitalStartYear_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="NotPlacedInHospitalPanel">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">
+                                In which month did you begin your current rotation?
+                            </label>
+                            <div class="col-lg-2 col-md-12 col-sm-6" style="padding-top:10px;">
+                                @(Html.Kendo().DropDownListFor(model => model.PlacementStartMonth)
+  .Name("PlacementStartMonth")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(PlacementMonthList)
+  .OptionLabel("----- Select month -----")
+  .HtmlAttributes(new { @style = "", @class = "", @id = "drpPlacementStartMonth" })
+                                )
+                                <small id="PlacementStartMonth_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+
+
+
+                            <div class="col-lg-2 col-md-12 col-sm-6" style="padding-top:10px;">
+
+                                @(Html.Kendo().DropDownListFor(model => model.PlacementStartYear)
+  .Name("PlacementStartYear")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(PlacementYearList)
+  .OptionLabel("----- Select year -----")
+  .HtmlAttributes(new { @style = "", @class = "", @id = "drpPlacementStartYear" })
+                                )
+                                <small id="PlacementStartYear_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                <button class="btn btn-success btn-block btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>*@
+
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+
+            </div>
+            @*<div class="panel-footer">
+                </div>*@
+            @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Submit</button>*@
+
+
+
+        </div>
+      @Html.Partial("_Footer")
+
+
+    </div>
+
+
+    @Html.Partial("_DialogPlacement")
+
+                            }
+
+<script type="text/javascript">
+
+    var inst = $("#_DialogPlacement").remodal();
+
+    $(document).on('confirmation', '#_DialogPlacement', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmPlacement').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogPlacement', function () {
+        AddCustomValidation();
+    });
+
+
+
+    $('#frmPlacement input').on('change', function () {
+        var x = this.id;
+        if (x == "drpPlacementStartMonth") {
+            $('#PlacementStartMonth_Incomplete').hide();
+        }
+        if (x == "drpPlacementStartYear") {
+            $('#PlacementStartYear_Incomplete').hide();
+        }
+
+        if (x == "PlacementIsInHospital") {
+            $('#PlacementIsInHospital_Incomplete').hide();
+        }
+
+
+        if (x == "drpPlacementHospitalName") {
+            $('#PlacementHospitalName_Incomplete').hide();
+        }
+
+
+        if (x == "txtOtherHospitalName") {
+            $('#PlacementHospitalNameOther_Incomplete').hide();
+        }
+
+
+        if (x == "drpPlacementHospitalStartMonth") {
+            $('#PlacementHospitalStartMonth_Incomplete').hide();
+        }
+
+        if (x == "drpPlacementHospitalStartYear") {
+            $('#PlacementHospitalStartYear_Incomplete').hide();
+        }
+
+    });
+
+    $('#frmPlacement input').on('change', function () {
+        ToggleHospitalPanel();
+    });
+
+    function ToggleHospitalPanel() {
+        var val = $('input[name=PlacementIsInHospital]:checked', '#frmPlacement').val()
+        
+        if (val == 'Yes') {
+            $('#PlacedInHospitalPanel').show();
+            $('#NotPlacedInHospitalPanel').hide();
+        }
+        else if (val == "No"){
+            $('#PlacedInHospitalPanel').hide();
+            $('#NotPlacedInHospitalPanel').show();
+        }
+    }
+
+
+    function ToggleOtherHospitalNamePanel() {
+
+        var val = $("#drpPlacementHospitalName").data("kendoDropDownList").value();
+
+        if (val == 'Other') {
+            $('#PlacedInHospitalOtherTxtPanel').show();
+        }
+        else {
+            $('#PlacedInHospitalOtherTxtPanel').hide();
+        }
+    }
+
+
+    function SetOnLoadHospitalName() {
+        var name = $("#drpPlacementHospitalName").data("kendoDropDownList").value();
+        var nameOther = $("#txtOtherHospitalName").val();
+
+        if (name != 'Other') {
+            var s = "When did you start your most recent rotation at " + name + "?";
+            $('#HospitalStartLabel').text(s);
+        }
+        else {
+            var s = "When did you start your most recent rotation at " + nameOther + "?";
+            $('#HospitalStartLabel').text(s);
+        }
+
+
+    }
+
+
+    function OnChangeHospitalName() {
+        SetOnLoadHospitalName();
+        ToggleOtherHospitalNamePanel();
+    }
+
+
+    $('#txtOtherHospitalName').on('change', function () {
+        //alert();
+        var s = "When did you start your most recent stint at " + this.value + "?";
+        $('#HospitalStartLabel').text(s);
+    });
+
+
+    $(document).ready(function () {
+
+        $('#PlacedInHospitalPanel').hide();
+        $('#NotPlacedInHospitalPanel').hide();
+
+        RemoveCustomValidation();
+        ToggleHospitalPanel();
+        SetOnLoadHospitalName();
+        ToggleOtherHospitalNamePanel();
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            if (AddCustomValidation()) {
+                LoaderLocal();
+
+                $('#frmPlacement').submit();
+            }
+            else {
+                inst.open();
+            }
+
+
+        });
+
+
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("TaskTime", "Register")";
+            //if ($("input[name^='selectedProfileDefaultTasksList']:checked").length < 5) {
+            //    inst.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmTasks1').submit();
+            //}
+        });
+
+    })
+
+
+    function RemoveCustomValidation() {
+        $('[name="PlacementStartMonth"]').parent().removeClass("has-error");
+        $('[name="PlacementStartYear_Incomplete"]').parent().removeClass("has-error");
+
+        $('[name="PlacementIsInHospital"]').parent().removeClass("has-error");
+        $('[name="PlacementHospitalName"]').parent().removeClass("has-error");
+
+        $('[name="PlacementHospitalStartMonth"]').parent().removeClass("has-error");
+        $('[name="PlacementHospitalStartYear"]').parent().removeClass("has-error");
+
+
+        $('#PlacementStartMonth_Incomplete').hide();
+        $('#PlacementStartYear_Incomplete').hide();
+
+        $('#PlacementIsInHospital_Incomplete').hide();
+        $('#PlacementHospitalName_Incomplete').hide();
+        $('#PlacementHospitalNameOther_Incomplete').hide();
+
+
+        $('#PlacementHospitalStartMonth_Incomplete').hide();
+        $('#PlacementHospitalStartYear_Incomplete').hide();
+
+
+
+
+    }
+
+    function AddCustomValidation() {
+        var allFilled = true;
+        var val = $('input[name=PlacementIsInHospital]:checked', '#frmPlacement').val()
+        
+        if (val == 'No') {
+            
+            var drpPlacementStartMonthText = $('#drpPlacementStartMonth').val();
+            if (drpPlacementStartMonthText == "") {
+                $('[name="PlacementStartMonth"]').parent().addClass("has-error");
+                $('#PlacementStartMonth_Incomplete').show();
+                allFilled = false;
+            }
+            else {
+                $('[name="PlacementStartMonth"]').parent().removeClass("has-error");
+                $('#PlacementStartMonth_Incomplete').hide();
+            }
+
+
+            var drpPlacementStartYearText = $('#drpPlacementStartYear').val();
+            if (drpPlacementStartYearText == "") {
+                $('[name="PlacementStartYear"]').parent().addClass("has-error");
+                $('#PlacementStartYear_Incomplete').show();
+                allFilled = false;
+            }
+            else {
+                $('[name="PlacementStartYear"]').parent().removeClass("has-error");
+                $('#PlacementStartYear_Incomplete').hide();
+            }                        
+        }
+        if ($("input[name^='PlacementIsInHospital']:checked").length < 1) {
+            $('#PlacementIsInHospital_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#PlacementIsInHospital_Incomplete').hide();
+        }
+        //Check if PlacementIsInHospital == true
+        var val = $('input[name=PlacementIsInHospital]:checked', '#frmPlacement').val()
+        if (val == 'Yes') {
+            
+            var drpPlacementHospitalNameText = $('#drpPlacementHospitalName').val();
+            if (drpPlacementHospitalNameText == "") {
+                $('[name="PlacementHospitalName"]').parent().addClass("has-error");
+                $('#PlacementHospitalName_Incomplete').show();
+                allFilled = false;
+            }
+            else {
+                $('[name="PlacementHospitalName"]').parent().removeClass("has-error");
+                $('#PlacementHospitalName_Incomplete').hide();
+            }
+
+            var drpPlacementHospitalStartMonthText = $('#drpPlacementHospitalStartMonth').val();
+            if (drpPlacementHospitalStartMonthText == "") {
+                $('[name="PlacementHospitalStartMonth"]').parent().addClass("has-error");
+                $('#PlacementHospitalStartMonth_Incomplete').show();
+                allFilled = false;
+            }
+            else {
+                $('[name="PlacementHospitalStartMonth"]').parent().removeClass("has-error");
+                $('#PlacementHospitalStartMonth_Incomplete').hide();
+            }
+
+            var drpPlacementHospitalStartYearText = $('#drpPlacementHospitalStartYear').val();
+            if (drpPlacementHospitalStartYearText == "") {
+                $('[name="PlacementHospitalStartYear"]').parent().addClass("has-error");
+                $('#PlacementHospitalStartYear_Incomplete').show();
+                allFilled = false;
+            }
+            else {
+                $('[name="PlacementHospitalStartYear"]').parent().removeClass("has-error");
+                $('#PlacementHospitalStartYear_Incomplete').hide();
+            }
+
+
+        }        
+        return allFilled;
+    }
+
+    $("input[id='PlacementIsInHospital']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+
+</script>
+

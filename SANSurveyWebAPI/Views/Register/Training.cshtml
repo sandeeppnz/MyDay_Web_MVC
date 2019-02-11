@@ -1,0 +1,481 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterTrainingViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Training";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("Training", "Register", FormMethod.Post, new { name = "frmTraining", id = "frmTraining" }))
+{ <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 7, MaxStep = Model.MaxStep, SurveyType = 0 })
+
+            @*@Html.ValidationSummary(true, "Please correct the information", new { @class = "text-danger" })*@
+
+
+            <div class="panel panel-default" id="Placement">
+
+                <div class="panel-heading">
+                    <h3>
+                        We would like to gather information about your training...
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+
+                    @{
+                        List<SelectListItem> TrainingYearList = new List<SelectListItem>();
+
+
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2001",
+                            Value = "2001"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2002",
+                            Value = "2002"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2003",
+                            Value = "2003"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2004",
+                            Value = "2004"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2005",
+                            Value = "2005"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2006",
+                            Value = "2006"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2007",
+                            Value = "2007"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2008",
+                            Value = "2008"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2009",
+                            Value = "2009"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2010",
+                            Value = "2010"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2011",
+                            Value = "2011"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2012",
+                            Value = "2012"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2013",
+                            Value = "2013"
+                        });
+
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2014",
+                            Value = "2014"
+                        });
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2015",
+                            Value = "2015"
+                        });
+
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2016",
+                            Value = "2016"
+                        });
+
+                        TrainingYearList.Add(new SelectListItem
+                        {
+                            Text = "2017",
+                            Value = "2017"
+                        });
+
+                    }
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            In what year did you start your post-gradudate medical training (i.e. your foundation year 1 or house officer position)?
+                        </label>
+
+                        <div class="col-sm-8">
+                            @(Html.Kendo().DropDownListFor(model => model.TrainingStartYear)
+  .Name("TrainingStartYear")
+  .Filter("contains")
+  .DataTextField("Text")
+  .DataValueField("Value")
+  .BindTo(TrainingYearList)
+  .OptionLabel("----- Select Year -----")
+    .Events(e =>
+    {
+        e.Change("OnChangeTrainingStartYear");
+    })
+  .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpTrainingStartYear" })
+                            )
+                            <small id="TrainingStartYear_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+                    </div>
+
+
+
+                    @*@{
+                            List<SelectListItem> IsTrainingBreakList = new List<SelectListItem>();
+                            IsTrainingBreakList.Add(new SelectListItem
+                            {
+                                Text = "Yes",
+                                Value = "Yes"
+                            });
+
+                            IsTrainingBreakList.Add(new SelectListItem
+                            {
+                                Text = "No",
+                                Value = "No"
+                            });
+                        }*@
+
+                    @*<div class="form-group row">
+                            <label id="TLabel1" class="col-sm-4 col-form-label">
+                                Have you ever taken more than six months leave since started training (e.g. for a gap year or maternity leave)?
+                            </label>
+
+
+                            <div class="col-sm-8">
+                                @(Html.Kendo()
+                                    .DropDownListFor(model => model.IsTrainingBreak)
+                                      .Name("IsTrainingBreak")
+                                      .Filter("contains")
+                                      .DataTextField("Text")
+                                      .DataValueField("Value")
+                                      .BindTo(IsTrainingBreakList)
+                                      .OptionLabel("----- Select year -----")
+                                      .HtmlAttributes(new { @style = "width:100%", @class = "", @id = "drpIsTrainingBreak" })
+                                )
+                                <small id="IsTrainingBreak_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>*@
+
+                    <div class="form-group row">
+                        <label id="TLabel1" class="col-sm-4 col-form-label">
+                            Have you ever taken more than six months leave since started training (e.g. for a gap year or maternity leave)?
+                        </label>
+                        <div class="col-sm-8">
+                            <div id="IsTrainingBreakPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.IsTrainingBreak, "Yes", new { @id = "IsTrainingBreak", @name = "IsTrainingBreak1", @style = "padding-bottom: 5px" })
+                                <label for="IsTrainingBreak1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.IsTrainingBreak, "No", new { @id = "IsTrainingBreak", @name = "IsTrainingBreak2", @style = "padding-bottom: 5px" })
+                                <label for="IsTrainingBreak2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="IsTrainingBreak_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="TrainingBreakPanel">
+                        <div class="form-group row">
+                            @*<label class="col-sm-4 col-form-label">
+                                </label>*@
+
+                            <label id="TLabel2" class="col-sm-4 col-form-label">
+                                Roughly how many months leave in total have you had since?
+                            </label>
+
+
+                            <div class="col-sm-8">
+
+
+                                @*<div class="input-group spinner">
+                                        <input type="text" class="form-control" id="TrainingBreakLength" name="TrainingBreakLength" value=@Model.TrainingBreakLengthMonths>
+                                        <div class="input-group-btn-vertical">
+                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                        </div>
+                                    </div>*@
+                                @(Html.Kendo().NumericTextBoxFor(model => model.TrainingBreakLengthMonths)
+            .Name("TrainingBreakLengthMonths")
+            .Format("# month(s)")
+            .Min(0)
+            .Max(48)
+            .Step(1)
+            .Placeholder("Enter number of months")
+            .HtmlAttributes(new { style = "width: 100%", @id = "txtTrainingBreakLengthMonths" })
+                                )
+
+
+                                <small id="TrainingBreakLengthMonths_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
+                @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                <button class="btn btn-success btn-block btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>*@
+
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+
+
+            </div>
+            @*<div class="panel-footer">
+                </div>*@
+            @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Submit</button>*@
+
+
+
+
+        </div>
+        @Html.Partial("_Footer")
+
+
+
+
+    </div>
+
+    @Html.Partial("_DialogTraining")
+
+                        }
+
+<script type="text/javascript">
+
+
+    $('#frmTraining input').on('change', function () {
+
+        var x = this.id;
+        //debugger;
+
+
+        if (x == "drpTrainingStartYear") {
+            $('#TrainingStartYear_Incomplete').hide();
+        }
+        if (x == "IsTrainingBreak") {
+            $('#IsTrainingBreak_Incomplete').hide();
+        }
+
+        if (x == "txtTrainingBreakLengthMonths") {
+            $('#TrainingBreakLengthMonths_Incomplete').hide();
+        }
+        
+
+
+        //if (x == "WorkingStatusRadio") {
+        //    $('#WorkingStatus_Incomplete').hide();
+        //}
+        //if (x == "ContractTypeRadio") {
+        //    $('#ContractType_Incomplete').hide();
+        //}
+
+
+        //$('[name="SpecialityId"]').parent().removeClass("has-error");
+        //$('#Speciality_Incomplete').hide();
+    });
+
+
+    //$('#frmTraining input').on('change', function () {
+
+    //});
+
+    var inst = $("#_DialogTraining").remodal();
+    $(document).on('confirmation', '#_DialogTraining', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmTraining').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTraining', function () {
+        AddCustomValidation();
+    });
+
+
+
+
+    $('#frmTraining input').on('change', function () {
+        ToggleTrainingBreakPanel();
+    });
+
+
+    function ToggleTrainingBreakPanel() {
+
+        var val = $('input[name=IsTrainingBreak]:checked', '#frmTraining').val()
+        if (val == 'Yes') {
+            $('#TrainingBreakPanel').show();
+        }
+        else {
+            $('#TrainingBreakPanel').hide();
+        }
+    }
+
+
+    function ChangeYear() {
+        var year = $("#drpTrainingStartYear").data("kendoDropDownList").value();
+        var s1 = "Have you ever taken more than six months leave since started training in " + year + " (e.g. for a gap year or maternity leave)?";
+        var s2 = "Roughly how many months leave in total have you had since " + year + "?";
+
+        $('#TLabel1').text(s1);
+        $('#TLabel2').text(s2);
+    }
+
+
+    function OnChangeTrainingStartYear() {
+        ChangeYear();
+    }
+
+    $(document).ready(function () {
+
+        RemoveCustomValidation();
+        ChangeYear();
+        ToggleTrainingBreakPanel();
+
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            if (AddCustomValidation()) {
+                LoaderLocal();
+
+                $('#frmTraining').submit();
+            }
+            else {
+                inst.open();
+            }
+
+
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("Specialty", "Register")";
+            //if ($("input[name^='selectedProfileDefaultTasksList']:checked").length < 5) {
+            //    inst.open();
+            //}
+            //else {
+            //    LoaderLocal();
+            //    $('#frmTasks1').submit();
+            //}
+        });
+
+
+
+    })
+
+
+
+
+    function RemoveCustomValidation() {
+        $('#TrainingStartYear_Incomplete').hide();
+        $('#IsTrainingBreak_Incomplete').hide();
+        $('#TrainingBreakLengthMonths_Incomplete').hide();
+    }
+
+    function AddCustomValidation() {
+        var allFilled = true;
+
+        var drpTrainingStartYearText = $('#drpTrainingStartYear').val();
+
+        if (drpTrainingStartYearText == "") {
+            $('[name="TrainingStartYear"]').parent().addClass("has-error");
+            $('#TrainingStartYear_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="TrainingStartYear"]').parent().removeClass("has-error");
+            $('#TrainingStartYear_Incomplete').hide();
+        }
+
+        if ($("input[name^='IsTrainingBreak']:checked").length < 1) {
+            $('#IsTrainingBreak_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsTrainingBreak_Incomplete').hide();
+        }
+
+
+
+
+        var val = $('input[name=IsTrainingBreak]:checked', '#frmTraining').val()
+        if (val == 'Yes') {
+
+            //alert("Yes");
+            //var drpIsTrainingBreakText = $('#drpIsTrainingBreak').val();
+            //if (drpIsTrainingBreakText == "") {
+            //    $('[name="IsTrainingBreak"]').parent().addClass("has-error");
+            //    $('#IsTrainingBreak_Incomplete').show();
+            //    allFilled = false;
+            //}
+            //else {
+            //    $('[name="IsTrainingBreak"]').parent().removeClass("has-error");
+            //    $('#IsTrainingBreak_Incomplete').hide();
+            //}
+
+
+            var txtTrainingBreakLengthMonths = $('#txtTrainingBreakLengthMonths').val();
+            if (txtTrainingBreakLengthMonths == "") {
+                $('[name="TrainingBreakLengthMonths"]').parent().addClass("has-error");
+                $('#TrainingBreakLengthMonths_Incomplete').show();
+                allFilled = false;
+            }
+            else {
+                $('[name="TrainingBreakLengthMonths"]').parent().removeClass("has-error");
+                $('#TrainingBreakLengthMonths_Incomplete').hide();
+            }
+        }
+        else {
+            //alert("No");
+        }
+
+        return allFilled;
+    }
+
+    $("input[id='IsTrainingBreak']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+
+</script>

@@ -1,0 +1,324 @@
+﻿@{
+    if (!Request.IsAjaxRequest())
+    { Layout = null;}
+    ViewBag.Title = "Survey: Select Tasks";   
+}
+
+@using (Html.BeginForm("Timeline", "Kids", FormMethod.Post,
+                                                                new { name = "frmTimeline", id = "frmTimeline", @class = "nav-right" }))
+{
+    <div>
+        
+    </div>
+    <!-- inspired by:
+      https://codepen.io/darcyvoutt/pen/ogPrpK
+    -->
+    <div id="content">
+        <ul class="timeline">
+            <li class="event" data-date="12:30 - 3:00pm">
+                <div class="member-infos">
+                    <h1 class='member-title'>Went to School</h1>
+                    <h2 class="member-location "><span class='entypo-location'></span>Was inisde school or outside</h2>
+
+                    <ul class="member-contact">
+                        <li class="member-website"><a class="entypo-globe" target="_blank" href="http://www.barneyparker.com"></a></li>
+                        <li class="member-twitter"><a class="entypo-twitter" target="_blank" href="https://twitter.com/barney_parker"></a></li>
+                        <li class="member-hire"><a class="entypo-mail" target="_blank" href="mailto://barney@barneyparker.com"></a></li>
+                    </ul>
+
+                    <div class="member-parameters">
+                        <span class="follow entypo-plus"></span>
+                        <span class="options entypo-cog"></span>
+                        <ul class="member-socials">
+                            <li class="member-shots-number"><a href="http://dribbble.com/One_div">Emotional<span class="shots-number">Affect</span></a></li>
+                            @*<li class="member-follower"><a href="http://dribbble.com/One_div/followers">! <span class="followers">Summary</span></a></li>*@
+                        </ul>
+                    </div>
+
+                </div>
+
+            </li>
+            <li id='fader' class="event" data-date="3:10 - 3:40pm">
+                <div class="member-infos">
+                    <h1 class='member-title'>Going Home</h1>
+                    <h2 class="member-location "><span class='entypo-location'></span>Was in car</h2>
+
+                    <ul class="member-contact">
+                        <li class="member-website"><a class="entypo-globe" target="_blank" href="http://www.barneyparker.com"></a></li>
+                        <li class="member-twitter"><a class="entypo-twitter" target="_blank" href="https://twitter.com/barney_parker"></a></li>
+                        <li class="member-hire"><a class="entypo-mail" target="_blank" href="mailto://barney@barneyparker.com"></a></li>
+                    </ul>
+
+                    <div class="member-parameters">
+                        <a href="" class="follow entypo-plus"></a>
+                        <a href="" class="options entypo-cog"></a>
+                        <ul class="member-socials">
+                            @*<li class="member-shots-number"><a href="http://dribbble.com/One_div">3 <span class="shots-number">shots</span></a></li>
+                            <li class="member-follower"><a href="http://dribbble.com/One_div/followers">12 <span class="followers">followers</span></a></li>*@
+                        </ul>
+                    </div>
+
+                </div>
+
+            </li>
+            <li class="event" data-date="5:00 - 8:00pm">
+                <div class="member-infos">
+                    <h1 class='member-title'>Playing in the backyard</h1>
+                    <h2 class="member-location "><span class='entypo-location'></span>Neighbourhood</h2>
+
+                    <ul class="member-contact">
+                        <li class="member-website"><a class="entypo-globe" target="_blank" href="http://www.barneyparker.com"></a></li>
+                        <li class="member-twitter"><a class="entypo-twitter" target="_blank" href="https://twitter.com/barney_parker"></a></li>
+                        <li class="member-hire"><a class="entypo-mail" target="_blank" href="mailto://barney@barneyparker.com"></a></li>
+                    </ul>
+
+                    <div class="member-parameters">
+                        <a href="" class="follow entypo-plus"></a>
+                        <a href="" class="options entypo-cog"></a>
+                        <ul class="member-socials">
+                            @*<li class="member-shots-number"><a href="http://dribbble.com/One_div">3 <span class="shots-number">shots</span></a></li>
+                            <li class="member-follower"><a href="http://dribbble.com/One_div/followers">12 <span class="followers">followers</span></a></li>*@
+                        </ul>
+                    </div>
+
+                </div>
+
+            </li>
+            <li class="event" data-date="8:30 - 9:30pm">
+                <div class="member-infos">
+                    <h1 class='member-title'>Reading book</h1>
+                    <h2 class="member-location "><span class='entypo-location'></span>Inside home</h2>
+
+                    <ul class="member-contact">
+                        <li class="member-website"><a class="entypo-globe" target="_blank" href="http://www.barneyparker.com"></a></li>
+                        <li class="member-twitter"><a class="entypo-twitter" target="_blank" href="https://twitter.com/barney_parker"></a></li>
+                        <li class="member-hire"><a class="entypo-mail" target="_blank" href="mailto://barney@barneyparker.com"></a></li>
+                    </ul>
+
+                    <div class="member-parameters">
+                        <a href="" class="follow entypo-plus"></a>
+                        <a href="" class="options entypo-cog"></a>
+                        <ul class="member-socials">
+                            <li class="member-shots-number"><a href="http://dribbble.com/One_div">Emotional <span class="shots-number">Affect</span></a></li>
+                            @*<li class="member-follower"><a href="http://dribbble.com/One_div/followers">12 <span class="followers">followers</span></a></li>*@
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+</div>
+}
+<style>
+    /*For Timeline*/
+import url(https://fonts.googleapis.com/css?family=Raleway);
+import url(http://weloveiconfonts.com/api/?family=entypo);
+[class*="entypo-"]:before {
+  /*font-family: 'entypo', sans-serif;*/
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+[class*="entypo-"] {
+  width: 1em;
+  height: 1em;
+}
+
+body {
+  /*background: #252827;*/
+  background:#ffffff;
+  /*font-family: 'Raleway', sans-serif;*/
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+a,
+span,
+h1,
+h2,
+h3,
+span {
+  text-decoration: none;
+  color: #999;
+}
+
+a:hover {
+  color: #777;
+}
+
+h1 {
+  /*font-family: 'Raleway', sans-serif;*/
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  letter-spacing: 1.5px;
+  /*color: #999;*/
+  color:teal;
+  font-weight: 100;
+  font-size: 2.4em;
+  margin: 0;
+  /*border-bottom: 1px solid #777;*/
+  border-bottom:1px solid teal;
+  padding-bottom: 0.2em;
+}
+
+h2 {
+  /*font-family: 'Raleway', sans-serif;*/
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  letter-spacing: 1.5px;
+  color: #999;
+  font-weight: 100;
+  font-size: 1.0em;
+}
+
+#content {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.timeline {
+  border-left: 0.25em solid #4298c3;
+  /*background: rgba(255, 255, 255, 0.1);*/
+  background:rgba(255,255,255,0);
+  margin: 2em auto;
+  line-height: 1.4em;
+  padding: 1em;
+  padding-left: 3em;
+  list-style: none;
+  text-align: left;
+  margin-left: 10em;
+  margin-right: 3em;
+  border-radius: 0.5em;
+  min-width: 22em;
+}
+
+.event {
+  min-width: 20em;
+  width: 100%;
+  vertical-align: middle;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.timeline .event:before,
+.timeline .event:after {
+  position: absolute;
+  display: block;
+  top: 1em;
+}
+
+.timeline .event:before {
+  left: -15em;
+  /*color: rgba(255, 255, 255, 0.8);*/
+  content: attr(data-date);
+  text-align: right;
+  font-weight: 100;
+  font-size: 0.9em;
+  min-width: 9em;
+}
+
+.timeline .event:after {
+  box-shadow: 0 0 0 0.2em #4298c3;
+  left: -3.5em;
+  /*background: #313534;*/
+  background:teal;
+  border-radius: 50%;
+  height: 0.75em;
+  width: 0.75em;
+  content: "";
+}
+
+.timeline .event .member-location,
+.timeline .event .member-parameters {
+  display: none;
+}
+
+.timeline .event:last-of-type .member-location,
+.timeline .event:last-of-type .member-parameters {
+  display: block;
+}
+
+.member-infos {
+  padding: 10px;
+  text-align: left;
+  position: relative;
+}
+
+.member-infos > h1 {
+  font-weight: bold;
+  font-size: 1.4em;
+}
+
+.member-location a:before {
+  margin-right: 5px;
+}
+
+.member-location {
+  text-indent: 2px;
+}
+
+.follow,
+.options {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  background: #D3D3D3;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 0 0 #C0C0C0;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.follow:hover,
+.options:hover {
+  box-shadow: 0 1px 0 0 #C0C0C0;
+  box-sizing: border-box;
+  vertical-align: bottom;
+  margin-bottom: -1px;
+}
+
+.member-socials {
+  display: inline-block;
+  font-weight: bold;
+  vertical-align: bottom;
+  line-height: 8px;
+  float: right;
+}
+
+.member-socials li {
+  display: inline-block;
+}
+
+.shots-number,
+.followers {
+  font-weight: normal;
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.member-contact {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.member-contact li {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.member-shots-number {
+  padding-right: 6px;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  margin-right: 6px;
+  margin-left: 6px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    //For timeline
+    $('.member-title').click(function (e) {
+        console.log("Clicked");
+        $(this).next().slideToggle();
+        $(this).next().next().next().slideToggle();
+    })
+</script>
+

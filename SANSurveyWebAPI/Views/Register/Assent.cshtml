@@ -1,0 +1,250 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.ConsentViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Informed Consent";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - @SANSurveyWebAPI.Constants.AppHeader</title>
+
+    @Styles.Render("~/Content/siteRegistration")
+    @Scripts.Render("~/bundles/siteRegistration")
+
+    <link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+    <script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+    <link href="~/Content/formValidation/formValidation.min.css" rel="stylesheet" />
+    <script src="~/Scripts/formValidation/formValidation.min.js"></script>
+    <script src="~/Scripts/formValidation/framework/bootstrap.min.js"></script>
+    @*<script src="http://kendo.cdn.telerik.com/2016.3.1118/js/kendo.all.min.js"></script>*@
+    <script src="https://da7xgjtj801h2.cloudfront.net/2016.3.1118/js/kendo.all.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/remodal/remodal.min.js"></script>
+
+    <link href="~/Content/Login2.css" rel="stylesheet" />
+
+</head>
+
+
+
+
+<body class="loginBody">
+    @using (Html.BeginForm("Assent", "Register", new { uid = @Model.Uid }, FormMethod.Post, new { name = "frmAssent", id = "frmAssent", @class = "form-horizontal", role = "form" }))
+    {
+        <div class="container">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="consentbox">                   
+                    @Html.HiddenFor(m => m.Uid, new { @id = "uid" })
+                    @Html.HiddenFor(m => m.IsAgree)
+                    <div>
+                        <h3>Electronic consent</h3>
+                        <div style="border: 1px solid #e5e5e5; height: 400px; overflow: auto; padding: 10px;">
+                            <div class="modal-body">
+                                @*<div style="font-size:medium">
+            <u><b>Measuring the experienced wellbeing of employees: A study of time and space use</b></u>
+        </div>*@
+
+                                <br /><b>Project title: </b> Measuring the experienced wellbeing of employees: A study of time and space use
+                                <br />
+                                <br /><b>Researcher/supervisor: </b> Prof Rhema Vaithianathan, Auckland University of Technology
+
+                                @*<p style="font-size:12px;">Approved by the Auckland University of Technology Ethics Committee on type the date final ethics approval was granted, AUTEC Reference number type the reference number.</p>*@
+
+                                @*<br /><br /><b> ERGO reference:</b> 30632*@
+
+                                <br /><br /><u><b>Participant declaration</b></u>
+                                <br />
+                                I understand that participation is voluntary and refusal to participate will involve no penalty. I may withdraw from the study at any time without being disadvantaged in any way. I withdraw from the study then I will be offered the choice between having any data that is identifiable as belonging to me removed or allowing it to continue to be used. However, once the findings have been produced, removal of my data may not be possible. I understand that my decision to participate or withdraw from this study will not be known by my employer and therefore will have no adverse effect on my status at or future relations with my employer, Warren and Mahoney. I understand that only aggregate data will be shared with my employer.
+
+                            </div>
+                        </div>
+                        <div class="form-group" style="padding-left:20px;">
+                            <br />
+                            <b>Please check the boxes if you agree with the above statement(s):</b>
+                            <br />
+
+                            <div style="padding-left:30px;" class="icheckbox checkbox checked">
+                                <label>
+
+                                    <input id="CheckBox1"
+                                           class="icheckbox_flat-green"
+                                           name="CheckBox1"
+                                           type="checkbox">
+                                    &nbsp;
+                                    I have read and fully understood the contents of this form and the participant information sheet dated 27 August 2018
+
+                                </label>
+                            </div>
+
+                            <div style="padding-left:30px;" class="icheckbox checkbox checked">
+                                <label class="icheckbox checkbox checked">
+                                    <input id="CheckBox2"
+                                           name="CheckBox2"
+                                           type="checkbox"
+                                           class="icheckbox_flat-green">
+
+                                    &nbsp;
+                                    I agree to take part in this research
+                                    <span class="icon-check"></span>
+                                </label>
+                            </div>
+
+                            @*<div style="padding-left:30px;" class="icheckbox checkbox checked">
+                                <label class="checkbox checked">
+                                    <input id="CheckBox3"
+                                           name="CheckBox3"
+                                           type="checkbox"
+                                           class="icheckbox_flat-green">
+
+                                    &nbsp;
+                                    I agree to have my location data collected while I am at the Warren and Mahoney Auckland office from X September 2018 until X September 2018
+
+                                </label>
+                            </div>*@
+
+                        </div>
+                        <div class="form-group">                           
+                            <div style="padding:20px">
+                                <button type="button" id="btnNext" class="btn btn-success btn-lg" name="submit" value="consent">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("_Footer")
+            </div>
+        </div>
+        @Html.Partial("_DialogConsent")
+    }
+</body>
+</html>
+
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    .glyphicon-remove:before {
+        content: '';
+    }
+
+    .glyphicon-ok:before {
+        content: '';
+    }
+
+    #frmAssent .radio label, #frmAssent .checkbox label {
+        padding-left: 0;
+    }
+
+    #frmAssent .form-control-feedback {
+        /*position: static;
+    display: inline-block;*/
+    }
+</style>
+
+<script type="text/javascript">
+
+    var inst = $("#_DialogConsent").remodal();
+
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+
+    $(document).ready(function () {
+
+        $('#btnNext').on("click", function (e) {
+                      
+            var Choice1 = $('input[name=CheckBox1]:checked').val();
+            var Choice2 = $('input[name=CheckBox2]:checked').val();
+            //var Choice3 = $('input[name=CheckBox3]:checked').val();
+
+            var allChecked = false;
+
+            //if (Choice1 == 'on' && Choice2 == 'on' && Choice3 == 'on') {
+            if (Choice1 == 'on' && Choice2 == 'on') {
+                allChecked = true;
+            }
+
+            var data = null;
+
+            if (allChecked) {
+                var dataInt = {
+                    "IsAgree": allChecked,
+                    "Uid": $("#uid").val(),
+                };
+
+                data = dataInt;
+            }
+
+            //var isAgree = $('input[name=IsAgree]:checked').val();
+
+            var isAgree = allChecked;
+
+            var uid = $("#uid").val();
+
+
+            if (allChecked) {
+
+                $.ajax({
+                    url: '@Url.Action("Assent", "Register")',
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (response) {
+
+                        if (response.Success) {
+
+                            if (response.State == "Go") {                                
+                                var url = '@Url.Action("Signup", "Account")?uid=' + uid;
+                                window.location = url;
+                            }
+                            else if (response.State == "Stop") {
+                                window.location = "/Register/End/";
+                            }                            
+                            else if (response.State == "Expired") {
+                                window.location = "/Register/Expired/";
+                            }
+                            else {
+
+                            }
+                        }
+                        else {
+                            inst.open();
+
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+
+            }
+            else {
+                inst.open();
+            }        
+        });       
+    });
+
+</script>

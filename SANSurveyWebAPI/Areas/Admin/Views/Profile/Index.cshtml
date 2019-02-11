@@ -1,0 +1,156 @@
+﻿@model IEnumerable<SANSurveyWebAPI.DTOs.ProfileDto>
+
+
+
+@{
+    ViewBag.Title = "Profiles";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<h2>Profiles </h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    |
+    @Html.ActionLink("Import File", "Upload") @*|
+
+    @Html.ActionLink("Mass Email", "MassEmail")*@
+
+
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+           Client
+        </th>
+        <th>
+            Registration Progress
+        </th>
+        <th>
+            Login Email
+        </th>
+        <th>
+          
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        @*<th>
+            Mobile Number
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDateTimeUtc)
+        </th>
+   
+
+
+        <th style="display:none;">
+            @Html.DisplayNameFor(model => model.OffSetFromUTC)
+        </th>
+
+       
+        <th>
+            @Html.DisplayNameFor(model => model.Uid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Incentive)
+        </th>
+        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientInitials)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationProgressNext)
+            </td>
+
+            <td>                
+                @{
+                    string sLoginEmail = (String)item.LoginEmail;
+                    string email;
+                    if (item.RegistrationProgressNext != "Invited" && item.RegistrationProgressNext != "New")
+                    {
+                        email = sLoginEmail;
+                    }
+                    else
+                    {
+                        //string s1 = (String)item.LoginEmail;
+                        email = Constants.GetEmailMaskedText(sLoginEmail);
+                    }
+                }
+
+                @email
+
+            </td>
+
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Name)*@
+
+                @{
+                    string s2 = (String) item.Name;
+                    //string name = Constants.GetFullyMaskedText(s2);
+                    string name = s2.ToString();
+
+        }
+                @name
+
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.MobileNumber)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDateTimeUtc)
+
+                @*@{
+                    DateTime d2 = (DateTime) item.CreatedDateTimeUtc;
+                    @Html.Label(d2.ToString("MMM dd, yyyy H:mm:ss tt zzz"))
+                 
+                }*@
+
+
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.CreatedDateTime)
+
+
+            </td>*@
+
+
+            <td style="display:none;">
+                @Html.DisplayFor(modelItem => item.OffSetFromUTC)
+            </td>
+
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.LastUpdatedDate)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Uid)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Incentive)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |*@
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                @Html.ActionLink("Email", "InviteEmail", new { id = item.Id }) |
+                @*@Html.ActionLink("SMS", "InviteSMS", new { id = item.Id })*@
+                @Html.ActionLink("Reminder", "ReminderEmail", new { id = item.Id })
+            </td>
+        </tr>
+                    }
+
+</table>

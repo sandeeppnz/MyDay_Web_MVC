@@ -1,0 +1,410 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.WizardViewModel
+
+
+<div class="stepwizard">
+    <div class="stepwizard-row setup-panel">
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 1)
+            {
+                if (Model.CurrStep == 1)
+                {
+                    <a type="button" id="Page1_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">1</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page1","ExitSurvey")" id="Page1_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 1)
+            {
+                <a type="button" href="@Url.Action("Page1","ExitSurvey")" id="Page1_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+
+            }
+            else
+            {
+
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">1</a>
+            }
+            @*<h3><span class="fa fa-heart-o" /></h3>*@
+        </div>
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 2)
+            {
+                if (Model.CurrStep == 2)
+                {
+                    <a type="button" id="Page2_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">2</a>
+                }
+                else
+                {
+
+                    <a type="button" href="@Url.Action("Page2","ExitSurvey")" id="Page2_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+
+                }
+            }
+            else if (Model.CurrStep > 2)
+            {
+                <a type="button" href="@Url.Action("Page2","ExitSurvey")" id="Page2_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+            }
+            @*<h3><span class="fa fa-list" /></h3>*@
+        </div>
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 3)
+            {
+                if (Model.CurrStep == 3)
+                {
+                    <a type="button" id="Page3_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">3</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page3","ExitSurvey")" id="Page3_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 3)
+            {
+                <a type="button" href="@Url.Action("Page3","ExitSurvey")" id="Page3_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+            }
+            @*<h3><span class="fa fa-clock-o" /></h3>*@
+        </div>
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 4)
+            {
+                if (Model.CurrStep == 4)
+                {
+                    <a type="button" id="Page4_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">4</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page4","ExitSurvey")" id="Page4_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 4)
+            {
+                <a type="button" href="@Url.Action("Page4","ExitSurvey")" id="Page4_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+            }
+            @*<h3><span class="fa fa-hospital-o" /></h3>*@
+        </div>
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 5)
+            {
+                if (Model.CurrStep == 5)
+                {
+                    <a type="button" id="Page5_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">5</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page5","ExitSurvey")" id="Page5_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 5)
+            {
+                <a type="button" href="@Url.Action("Page5","ExitSurvey")" id="Page5_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+            }
+            @*<h3><span class="fa fa-briefcase" /></h3>*@
+        </div>
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 6)
+            {
+                if (Model.CurrStep == 6)
+                {
+                    <a type="button" id="PageContinued5_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">6</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("PageContinued5","ExitSurvey")" id="PageContinued5_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 6)
+            {
+                <a type="button" href="@Url.Action("PageContinued5","ExitSurvey")" id="PageContinued5_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>
+            }
+            @*<h3><span class="fa fa-briefcase" /></h3>*@
+        </div>
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 7)
+            {
+                if (Model.CurrStep == 7)
+                {
+                    <a type="button" id="Page7_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">7</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page6","ExitSurvey")" id="Page7_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 7)
+            {
+                <a type="button" href="@Url.Action("Page6","ExitSurvey")" id="Page7_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">7</a>
+            }
+            @*<h3><span class="fa fa-address-card" /></h3>*@
+        </div>
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 8)
+            {
+                if (Model.CurrStep == 8)
+                {
+                    <a type="button" id="Page8_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">8</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page7","ExitSurvey")" id="Page8_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 8)
+            {
+                <a type="button" href="@Url.Action("Page7","ExitSurvey")" id="Page8_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">8</a>
+            }
+            @*<h3><span class="fa fa-home" /></h3>*@
+        </div>
+
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 9)
+            {
+                if (Model.CurrStep == 9)
+                {
+                    <a type="button" id="Page9_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">9</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page8","ExitSurvey")" id="Page9_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 9)
+            {
+                <a type="button" href="@Url.Action("Page8","ExitSurvey")" id="Page9_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">9</a>
+            }
+            @*<h3><span class="fa fa-home" /></h3>*@
+        </div>
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 10)
+            {
+                if (Model.CurrStep == 10)
+                {
+                    <a type="button" id="Page10_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">10</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page9","ExitSurvey")" id="Page10_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 10)
+            {
+                <a type="button" href="@Url.Action("Page9","ExitSurvey")" id="Page10_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">10</a>
+            }
+        </div>
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 11)
+            {
+                if (Model.CurrStep == 11)
+                {
+                    <a type="button" id="Page11_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">11</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page10","ExitSurvey")" id="Page11_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 11)
+            {
+                <a type="button" href="@Url.Action("Page10","ExitSurvey")" id="Page11_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">11</a>
+            }
+        </div>
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 12)
+            {
+                if (Model.CurrStep == 12)
+                {
+                    <a type="button" id="Page12_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">12</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page11","ExitSurvey")" id="Page12_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 12)
+            {
+                <a type="button" href="@Url.Action("Page11","ExitSurvey")" id="Page12_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">12</a>
+            }
+        </div>
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 13)
+            {
+                if (Model.CurrStep == 13)
+                {
+                    <a type="button" id="Page13_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">13</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page12","ExitSurvey")" id="Page13_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 13)
+            {
+                <a type="button" href="@Url.Action("Page12","ExitSurvey")" id="Page13_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">13</a>
+            }
+        </div>
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 14)
+            {
+                if (Model.CurrStep == 14)
+                {
+                    <a type="button" id="Page14_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">14</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("PageContinued12","ExitSurvey")" id="Page14_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 14)
+            {
+                <a type="button" href="@Url.Action("PageContinued12","ExitSurvey")" id="Page14_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">14</a>
+            }
+        </div>
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 15)
+            {
+                if (Model.CurrStep == 15)
+                {
+                    <a type="button" id="Page15_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">15</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page13","ExitSurvey")" id="Page15_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 15)
+            {
+                <a type="button" href="@Url.Action("Page13","ExitSurvey")" id="Page15_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">15</a>
+            }
+        </div>
+
+
+
+        <div class="stepwizard-step">
+            @if (Model.MaxStep >= 16)
+            {
+                if (Model.CurrStep == 16)
+                {
+                    <a type="button" id="Page16_Button" class="btn btn-success btn-circle btnCustomProgressCurrent">16</a>
+                }
+                else
+                {
+                    <a type="button" href="@Url.Action("Page14","ExitSurvey")" id="Page16_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+                }
+
+            }
+            else if (Model.CurrStep > 16)
+            {
+                <a type="button" href="@Url.Action("Page14","ExitSurvey")" id="Page16_Button" class="btn btn-success btn-circle btnCustomProgressDone"><i class="glyphicon glyphicon-ok"></i></a>
+            }
+            else
+            {
+                <a type="button" class="btn btn-default btn-circle" disabled="disabled">16</a>
+            }
+        </div>
+
+
+    </div>
+    <br />
+</div>
+
+
+
+
+<script>
+    $('#Page1_Button').on("click", function (e) {
+        LoaderLocal();
+        $(location).attr('href', this.href);
+    });
+</script>

@@ -1,0 +1,105 @@
+﻿@model SANSurveyWebAPI.Models.PageStat
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PageStat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageAction)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageAction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskStartDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskStartDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProfileId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProfileId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WholePageIndicator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WholePageIndicator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PageDateTimeUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PageDateTimeUtc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

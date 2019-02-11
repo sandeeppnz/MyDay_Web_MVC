@@ -1,0 +1,308 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.DemographicsVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Demographics";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("Demographics", "CaseWorkersRegister",
+            FormMethod.Post, new { name = "frmDemographics", id = "frmDemographics" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxStep)
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel() { CurrStep = 7, MaxStep = Model.MaxStep })
+
+            <div class="panel panel-default" id="Personal">
+                <div class="panel-heading"><h3>@*Finally, we would like to ask for some background information about you, for statistical purposes ...*@ </h3></div>
+
+                <div class="panel-body">
+                    <div class="form-group row">
+                        @Html.Label("Gender", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="genderPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.Gender, "Male", new { @id = "GenderRadio", @name = "GenderRadio1", @style = "padding-right: 10px" })
+                                <label for="GenderRadio1" style="padding-right:10px">Male</label>
+
+                                @Html.RadioButtonFor(model => model.Gender, "Female", new { @id = "GenderRadio", @name = "GenderRadio2", @style = "padding-right: 10px" })
+                                <label for="GenderRadio2" style="padding-right:10px">Female</label>
+
+                                @Html.RadioButtonFor(model => model.Gender, "Other", new { @id = "GenderRadio", @name = "GenderRadio3", @style = "padding-right: 10px" })
+                                <label for="GenderRadio3" style="padding-right:10px">Other</label>
+                                <br />
+                                <small id="Gender_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:10px;">
+                            @Html.Label("year of Birth", new { @class = "col-form-label" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-12 col-sm-8" style="padding-top:10px;">
+                            @(Html.Kendo().DropDownListFor(model => model.BirthYear)
+                                                                            .Name("BirthYear")
+                                                                            .Filter("contains")
+                                                                            .DataTextField("Text")
+                                                                            .DataValueField("Value")
+                                                                            .BindTo(Model.BirthYearList)
+                                                                            .OptionLabel("----- Select year -----")
+                                                                            .HtmlAttributes(new { @style = "", @class = "", @id = "drpBirthYear" }) )
+
+                            <small id="BirthYear_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("What describes your maritial status?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="maritialStatusPanel" style="width:350px">
+                                @Html.RadioButtonFor(model => model.MaritalStatus, "Single", new { @id = "MaritialStatusRadio", @name = "MaritialStatus1", @style = "padding-bottom: 10px" })
+                                <label for="MaritialStatus1">Single</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.MaritalStatus, "Married or in a Marriage-like relationship", new { @id = "MaritialStatusRadio", @name = "MaritialStatus2", @style = "padding-bottom: 10px;" })
+                                <label for="MaritialStatus2">Married or Cohabiting</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.MaritalStatus, "Divorced", new { @id = "MaritialStatusRadio", @name = "MaritialStatus3", @style = "padding-bottom: 10px" })
+                                <label for="MaritialStatus3">Divorced</label>
+                                <br />
+
+                                @Html.RadioButtonFor(model => model.MaritalStatus, "Widow", new { @id = "MaritialStatusRadio", @name = "MaritialStatus4", @style = "padding-bottom: 10px" })
+                                <label for="MaritialStatus4">Widow</label>
+
+                                <br />
+                                <small id="MaritialStatus_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.Label("Outside of work, do you have any care-giving responsibilities for a CHILD under 17 years of age?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="caregiverChildPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.IsCaregiverChild, "Yes", new { @id = "IsCaregiverChild", @name = "IsCaregiverChild1", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverChild1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.IsCaregiverChild, "No", new { @id = "IsCaregiverChild", @name = "IsCaregiverChild2", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverChild2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="IsCaregiverChild_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.Label("Outside of work, do you have any care-giving responsibilities for an ADULT with functional limitations such as an elderly parent or family member?", new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div id="caregiverAdultPanel" style="width:300px">
+                                @Html.RadioButtonFor(model => model.IsCaregiverAdult, "Yes", new { @id = "IsCaregiverAdult", @name = "IsCaregiverAdult1", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverAdult1" style="padding-right:10px">Yes</label>
+
+                                @Html.RadioButtonFor(model => model.IsCaregiverAdult, "No", new { @id = "IsCaregiverAdult", @name = "IsCaregiverAdult2", @style = "padding-bottom: 5px" })
+                                <label for="IsCaregiverAdult2" style="padding-right:10px">No</label>
+                                <br />
+
+                                <small id="IsCaregiverAdult_Incomplete" class="invalid pull-left"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.Label("What Race/Ethnicity do you identify as?", new { @class = "col-sm-4 col-form-label" })
+
+                        @{
+                            List<SelectListItem> ethnicityOrRace = new List<SelectListItem>();
+                            ethnicityOrRace.Add(new SelectListItem { Text = "African-American", Value = "African-American" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "American Indian or Alaska Native", Value = "American Indian or Alaska Native" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "Asian", Value = "Asian" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "Hispanic", Value = "Hispanic" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "Multiple Race", Value = "Multiple Race" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "Pacific Islander", Value = "Pacific Islander" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "White", Value = "White" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "Other", Value = "Other" });
+                            ethnicityOrRace.Add(new SelectListItem { Text = "Prefer not to say", Value = "Prefer not to say" });
+                        }
+                        <div>
+                            @(Html.Kendo().DropDownListFor(model => model.EthnicityOrRace)
+                                                                                                  .Name("EthnicityOrRace")
+                                                                                                  .Filter("contains")
+                                                                                                  .DataTextField("Text")
+                                                                                                  .DataValueField("Value")
+                                                                                                  .BindTo(ethnicityOrRace)
+                                                                                                  .OptionLabel("--------- Select you ethnicity/race ---------")
+                                                                                                  .HtmlAttributes(new { @style = "width:300px;", @class = "", @id = "drpEthnicityOrRace" }))
+                            <br />
+                            @*<small id="workStatus_Incomplete" class="invalid pull-left">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please select your work status
+                            </small>*@
+                            <br />
+                        </div>
+                    </div>
+                </div>                
+                <div style="padding:10px">
+                    <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                    <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>}
+@Html.Partial("_Dialog")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Gender_Incomplete').hide();
+        $('#MaritialStatus_Incomplete').hide();
+        $('#BirthYear_Incomplete').hide();  
+        $('#IsCaregiverChild_Incomplete').hide();
+        $('#IsCaregiverAdult_Incomplete').hide(); 
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();           
+
+            if (!AddCustomValidation()) {
+                dialog.open();
+            }
+            else {
+                LoaderLocal();
+                $('#frmDemographics').submit();
+            }
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("TimeAllocation", "CaseWorkersRegister")";
+         
+        });  
+    })
+
+    var dialog = $("#_Dialog").remodal();
+    
+    $(document).on('confirmation', '#_Dialog', function () {
+        LoaderLocal();
+        $('#frmDemographics').submit();
+    });
+
+    $(document).on('cancellation', '#_Dialog', function () {
+    });  
+
+
+    function AddCustomValidation() {
+        var allFilled = true;
+
+        if ($("input[name^='Gender']:checked").length < 1) {
+            $('#Gender_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#Gender_Incomplete').hide();
+        }
+
+        if ($("input[name^='MaritialStatus']:checked").length < 1) {
+            $('#MaritialStatus_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#MaritialStatus_Incomplete').hide();
+        }
+
+
+        var drpBirthYearText = $('#drpBirthYear').val();
+        if (drpBirthYearText == "") {
+            $('[name="BirthYear_input"]').parent().parent().addClass("has-error");
+            $('#BirthYear_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('[name="BirthYear_input"]').parent().parent().removeClass("has-error");
+            $('#BirthYear_Incomplete').hide();
+        }       
+
+        if ($("input[name^='IsCaregiverChild']:checked").length < 1) {
+            $('#IsCaregiverChild_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsCaregiverChild_Incomplete').hide();
+        }
+
+        if ($("input[name^='IsCaregiverAdult']:checked").length < 1) {
+            $('#IsCaregiverAdult_Incomplete').show();
+            allFilled = false;
+        }
+        else {
+            $('#IsCaregiverAdult_Incomplete').hide();
+        }        
+        return allFilled;
+    }
+
+
+    function RemoveCustomValidation() {
+        $('[name="BirthYear_input"]').parent().parent().removeClass("has-error");
+        $('#Gender_Incomplete').hide();
+        $('#MaritialStatus_Incomplete').hide();
+        $('#BirthYear_Incomplete').hide();       
+        $('#IsCaregiverChild_Incomplete').hide();
+        $('#IsCaregiverAdult_Incomplete').hide();   
+    }
+
+    $('#frmDemographics input').on('change', function () {
+        var x = this.id;
+
+        if (x == "GenderRadio") {
+            $('#Gender_Incomplete').hide();
+        }
+
+        if (x == "MaritialStatusRadio") {
+            $('#MaritialStatus_Incomplete').hide();
+        }
+
+        if (x == "drpBirthYear") {
+            $('#BirthYear_Incomplete').hide();
+        }
+
+        if (x == "IsCaregiverChild") {
+            $('#IsCaregiverChild_Incomplete').hide();
+        }
+
+        if (x == "IsCaregiverAdult") {
+            $('#IsCaregiverAdult_Incomplete').hide();
+        }
+    });
+    
+    $("input[id='GenderRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id='MaritialStatusRadio']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+
+    $("input[id='IsCaregiverChild']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });
+    $("input[id='IsCaregiverAdult']").icheck({
+        labelHover: true,
+        tap: true,
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'icheckbox_flat-green'
+    });   
+
+    </script>

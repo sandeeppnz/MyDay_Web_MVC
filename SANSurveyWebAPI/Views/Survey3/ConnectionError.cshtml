@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutSurveyBlankError.cshtml";
+
+    ViewBag.Title = "Connection Error";
+}
+
+<br />
+
+@using (Html.BeginForm("ConnectionError", "Survey3", FormMethod.Post, new { name = "frmConnectionError", id = "frmConnectionError", @class = "" }))
+{ <div style="padding:20px;">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <center>
+                    <div>
+                        <h1>
+                            <i class="fa fa-chain-broken fa-2x" aria-hidden="true"></i>
+                        </h1>
+                        <h4>
+                            The connection is temporarily lost due to inactivity and/or logout from another page.
+
+                        </h4>
+
+                        <h3>
+                            Your responses are automatically saved until the last page of activity and
+                            <br />
+                            can be continued by clicking on the survey in your email.
+                        </h3>
+                    </div>
+
+
+                </center>
+            </div>
+        </div>
+      @Html.Partial("_FooterSurvey")
+
+
+    </div>
+}
+

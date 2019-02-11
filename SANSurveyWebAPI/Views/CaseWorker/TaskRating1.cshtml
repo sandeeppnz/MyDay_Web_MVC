@@ -1,0 +1,430 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyWAMTaskRating1VM
+@{
+    if (!Request.IsAjaxRequest())
+    { Layout = "~/Views/Shared/_LayoutSurvey.cshtml";}
+    ViewBag.Title = "Survey: Rating Page 1";
+
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+    DateTime TaskEndDateTime = (DateTime) Session["CurrTaskEndTime"];
+    string TaskEndTime = TaskEndDateTime.ToString("hh:mm tt");
+}
+@using (Html.BeginForm("TaskRating1", "CaseWorker", FormMethod.Post, new { name = "frmTaskRating1", id = "frmTaskRating1", @class = "" }))
+{
+            @Html.ValidationSummary(true, "Please check the form for errors.")
+            @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+            @Html.HiddenFor(model => model.PageStartDateTimeUtc)
+            @Html.HiddenFor(model => model.TaskId)
+            @Html.HiddenFor(model => model.TaskName)
+            @Html.HiddenFor(model => model.IsExist, new { @id = "IsExist" })
+            <div class="panel panel-default" id="Tasks">
+                <div class="panel-heading">
+                    <h3>
+                        @Model.PageQuestion
+                        <span class="SurveyTitle"> @Model.TaskName</span> between @TaskStartTime and @TaskEndTime
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div>
+                        <i>
+                            Please rate each feeling on the scale given. A rating of 0 means that you did not experience that feeling at all. A rating of 6 means that this feeling was a very important part of the experience. Please select the number between 0 and 6 that best describes how you felt.
+                        </i>
+                    </div>
+                    <div class="form-group row CustomeWellWhite">
+                        @Html.Label("                           ", new { @class = "col-xs-3 col-form-label" })
+                        <div id="Q0Panel">
+                            <div class="col-xs-9">
+                                <div style='text-align:center;'>
+                                    <input id="CustomeSliderRound" name="CustomeSliderRound" type="text"
+                                           data-slider-id="CustomeSliderRound"
+                                           data-slider-min="1"
+                                           data-slider-max="8"
+                                           data-slider-step="1"
+                                           data-slider-value="7"
+                                           data-slider-tooltip="hide"
+                                           data-slider-handle="custom"
+                                           data-slider-ticks="[1, 2, 3, 4,5,6,7, 8]"
+                                           data-slider-ticks-labels='["Not at all", "","","", "", "", "Extremely",""]' />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Q1Panel" class="form-group row CustomeWellGray">
+                        <div>
+                            <label class="col-xs-3 col-form-label CustomRatingLabel" >
+                                (1/10)
+                                &nbsp;&nbsp;
+                                Impatient for it to end
+                            </label>
+                            <div class="col-xs-9">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q1Ans" name="Q1Ans" type="text"
+                                           data-slider-min="0"
+                                           data-slider-tooltip="show"
+                                           data-slider-step="1"
+                                           data-slider-max="7"
+                                           data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                           data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                           data-slider-value=@Model.Q1Ans />
+                                </div>
+                                <small id="Q1Ans_Incomplete" class="invalid pull-right hidden"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Q2Panel" class="form-group row CustomeWellWhite">
+                        <div>
+                            <label class="col-xs-3 col-form-label CustomRatingLabel" style="text-align:left">
+                                (2/10) 
+                                &nbsp;&nbsp;
+                                Happy
+                            </label>
+                            <div class="col-xs-9">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q2Ans" name="Q2Ans" type="text"
+                                           data-slider-min="0"
+                                           data-slider-step="1"
+                                           data-slider-max="7"
+                                           data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                           data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                           data-slider-value=@Model.Q2Ans />
+                                </div>
+                                <small id="Q2Ans_Incomplete" class="invalid pull-right  hidden"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Q3Panel" class="form-group row CustomeWellGray">
+                        <div>
+
+                            <label class="col-xs-3 col-form-label CustomRatingLabel">
+                                (3/10) &nbsp;&nbsp;
+                                Frustrated/ annoyed
+                            </label>
+                            <div class="col-xs-9">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q3Ans" name="Q3Ans" type="text"
+                                           data-slider-min="0"
+                                           data-slider-max="7"
+                                           data-slider-step="1"
+                                           data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                           data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                           data-slider-value=@Model.Q3Ans />
+                                </div>
+                                <small id="Q3Ans_Incomplete" class="invalid pull-right hidden"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Q4Panel" class="form-group row CustomeWellWhite">
+                        <div>
+
+                            <label class="col-xs-3 col-form-label CustomRatingLabel">
+                                (4/10) &nbsp;&nbsp;
+                                Competent/ capable
+                            </label>
+                            <div class="col-xs-9">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q4Ans" name="Q4Ans" type="text"
+                                           data-slider-min="0"
+                                           data-slider-max="7"
+                                           data-slider-step="1"
+                                           data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                           data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                           data-slider-value=@Model.Q4Ans />
+                                </div>
+                                <small id="Q4Ans_Incomplete" class="invalid pull-right hidden"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="Q5Panel" class="form-group row CustomeWellGray">
+                        <div>
+                            <label class="col-xs-3 col-form-label CustomRatingLabel">
+                                (5/10) &nbsp;&nbsp;
+                                Hassled/ pushed around
+                            </label>
+                            <div class="col-xs-9">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q5Ans" name="Q5Ans" type="text"
+                                           data-slider-min="0"
+                                           data-slider-max="7"
+                                           data-slider-step="1"
+                                           data-slider-ticks="[0, 1, 2, 3,4,5,6,7]"
+                                           data-slider-ticks-labels='["0", "1", "2", "3", "4","5","6","N/A"]'
+                                           data-slider-value=@Model.Q5Ans />
+                                </div>
+                                <small id="Q5Ans_Incomplete" class="invalid pull-right hidden"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg" id="btnNext" type="submit">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    </div>
+                </center>
+            </div>
+        @Html.Partial("_DialogRating1")
+    @Html.Partial("_FooterSurvey")
+}
+
+<style>
+    #Q0Panel {
+        pointer-events: none;
+    }
+</style>
+
+
+
+
+<script>
+    var inst = $("#_DialogRating1").remodal();
+    function RemoveCustomValidation() {
+        $('#Q1Ans_Incomplete').addClass('hidden');
+        $('#Q2Ans_Incomplete').addClass('hidden');
+        $('#Q3Ans_Incomplete').addClass('hidden');
+        $('#Q4Ans_Incomplete').addClass('hidden');
+        $('#Q5Ans_Incomplete').addClass('hidden');
+        $('#Q6Ans_Incomplete').addClass('hidden');
+    }
+
+    function AddCustomValidation() {
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+        var Q4Ans = $("#Q4Ans").slider('getValue');
+        var Q5Ans = $("#Q5Ans").slider('getValue');
+
+        if (Q1Ans == "7") {
+            $('#Q1Ans_Incomplete').removeClass('hidden');
+        }
+        else {
+            $('#Q1Ans_Incomplete').addClass('hidden');
+        }
+        if (Q2Ans == "7") {
+            $('#Q2Ans_Incomplete').removeClass('hidden');
+
+        }
+        else {
+            $('#Q2Ans_Incomplete').addClass('hidden');
+        }
+        if (Q3Ans == "7") {
+            $('#Q3Ans_Incomplete').removeClass('hidden');
+        }
+        else {
+            $('#Q3Ans_Incomplete').addClass('hidden');
+        }
+
+        if (Q4Ans == "7") {
+            $('#Q4Ans_Incomplete').removeClass('hidden');
+        }
+        else {
+            $('#Q4Ans_Incomplete').addClass('hidden');
+        }
+
+        if (Q5Ans == "7") {
+            $('#Q5Ans_Incomplete').removeClass('hidden');
+
+        }
+        else {
+            $('#Q5Ans_Incomplete').addClass('hidden');
+        }
+
+    }
+
+    function AllUnAnswered() {
+
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+        var Q4Ans = $("#Q4Ans").slider('getValue');
+        var Q5Ans = $("#Q5Ans").slider('getValue');
+
+        if (Q1Ans == "7" && Q2Ans == "7" && Q3Ans == "7"
+            && Q4Ans == "7" && Q5Ans == "7"
+            ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function EitherUnAnswered() {
+
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+        var Q4Ans = $("#Q4Ans").slider('getValue');
+        var Q5Ans = $("#Q5Ans").slider('getValue');
+
+        if (Q1Ans == "7" || Q2Ans == "7" || Q3Ans == "7"
+           && Q4Ans == "7" || Q5Ans == "7"
+           ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $(document).on('confirmation', '#_DialogRating1', function () {
+        RemoveCustomValidation();
+        inst.destroy();
+        $('#frmTaskRating1').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogRating1', function () {
+        AddCustomValidation();
+    });
+
+
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "Survey3")";
+        }
+        else {
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+    var isExist = $("#IsExist").val();
+
+    $(document).ready(function () {
+
+        //window.history.pushState("Survey", "Survey", "/App/Survey3/SID/" + $('#txtuid').val());
+        function GetText5ScaleRatingJS(value) {
+            switch (value) {
+                case 0:
+                    return "Not at all"
+                case 1:
+                    return "Slightly"
+                case 2:
+                    return "Somewhat"
+                case 3:
+                    return "Moderately"
+                case 4:
+                    return "Strongly"
+                case 5:
+                    return "Very Strongly"
+                case 6:
+                    return "Extremely"
+                case 7:
+                    return "N/A"
+                default:
+                    return "N/A"
+            }
+        }
+        var topSlider = $('#CustomeSliderRound').slider({
+            //tooltip: 'hide',
+            //value: 7
+            ////formatter: function (value) {
+            ////    return GetText5ScaleRatingJS(value);
+            ////}
+        });
+
+        //topSlider.disable();
+
+        //topSlider.addClass("CustomSliderTop");
+
+        $('#Q5Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            $("#btnNext").removeAttr("disabled");
+        })
+
+
+
+        $('#Q4Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+
+            $("#Q5Panel").slideDown("slow", function () {
+             
+            });
+        });
+
+        $('#Q3Ans').slider({
+            tooltip: 'always',
+
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+
+            $("#Q4Panel").slideDown("slow", function () {
+              
+            });
+        });
+
+
+
+        $('#Q2Ans').slider({
+            tooltip: 'always',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+
+            $("#Q3Panel").slideDown("slow", function () {
+             
+            });
+        });;
+
+
+        $('#Q1Ans').slider({
+            tooltip: 'always',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        }).on('change', function (event) {
+            $("#Q2Panel").slideDown("slow", function () {
+               
+            });
+        });
+        if (isExist == 'False') {
+
+            $("#Q2Panel").hide();
+            $("#Q3Panel").hide();
+            $("#Q4Panel").hide();
+            $("#Q5Panel").hide();
+
+
+            $("#btnNext").attr("disabled", true);
+        } else
+        {
+            $("#btnNext").removeAttr("disabled");
+        }
+
+        //$.ajaxSetup({ cache: false });
+
+        $('#btnNext').on("click", function (e) {
+
+            e.preventDefault();
+
+            if (AllUnAnswered()) {
+                AddCustomValidation();
+            }
+            else if (EitherUnAnswered()) {
+                inst.open();
+            }
+            else {
+                inst.destroy();
+                $('#frmTaskRating1').submit();
+            }
+        });
+
+    });
+
+</script>

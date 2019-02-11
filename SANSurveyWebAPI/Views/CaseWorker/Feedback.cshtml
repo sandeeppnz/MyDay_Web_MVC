@@ -1,0 +1,59 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyFeedbackViewModel
+
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+        ViewBag.Title = "Survey: Feedback";
+    }
+}
+
+@using (Html.BeginForm("Feedback", "CaseWorker", FormMethod.Post, new
+{ name = "frmFeedback", id = "frmFeedback", @class = "" }))
+{
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+
+    <div class="panel panel-default" id="Tasks">
+        <div class="panel-heading">
+            <h3>
+                Feedback
+            </h3>
+        </div>
+
+        <div class="panel-body">
+            @*<h4>Feedback</h4>*@
+            @*@Html.TextAreaFor(model => model.Comment, htmlAttributes: new { @class = "form-control" })*@
+        
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    @Html.TextAreaFor(model => model.Comment, htmlAttributes: new { @class = "form-control", @rows = 10, @placeholder="Leave your comments..." })
+                </div>
+            </div>
+
+
+        
+        </div>
+        @*<button class="btn btn-success btn-block btn-lg" id="btnNext" type="button">Summary&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>*@
+        <center>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit">Submit Feedback and view Summary&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+
+    </div>
+    @Html.Partial("_FooterSurvey")
+}
+
+<script>
+    $(document).ready(function () {
+        //window.history.pushState("Survey", "Survey", "/Survey3/SID/" + $('#txtuid').val());
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+            $('#frmFeedback').submit();
+        });
+    });
+
+
+
+</script>

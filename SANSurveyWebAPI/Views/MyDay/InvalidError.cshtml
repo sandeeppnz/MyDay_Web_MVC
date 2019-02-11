@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutSurveyBlank.cshtml";
+
+    ViewBag.Title = "Invalid Survey";
+}
+
+
+<br />
+
+
+@using (Html.BeginForm("InvalidError", "MyDay", FormMethod.Post, new { name = "frmInvalidError", id = "frmInvalidError", @class = "" }))
+{
+    <div style="padding:20px;">
+        <div class="panel panel-default">
+         
+            <div class="panel-body">
+
+                <center>
+                    <div>
+                        <h1>
+                            <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                        </h1>
+                        <h3>
+                            @*We are unable to locate the requested survey.*@
+                            The requested survey is expired.
+                            
+                        </h3>                       
+                    </div>
+                </center>
+            </div>
+            <button class="btn btn-success btn-block btn-lg" id="btnNext" type="submit">Return to Home</button>
+        </div>
+        @Html.Partial("_FooterSurvey")
+
+
+        </div>
+        }

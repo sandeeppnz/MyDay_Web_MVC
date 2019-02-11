@@ -1,0 +1,128 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.KidsSurveyTimelineVM
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutKids.cshtml";        
+    }
+    ViewBag.Title = "Survey: Select Tasks";
+}
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+@using (Html.BeginForm("TimeLine", "Kids", FormMethod.Post,
+                                                                new { name = "frmTimeline", id = "frmTimeline", @class = "nav-right" }))
+{@Html.HiddenFor(model => model.AllKidsTasksObj.Count, new { @id = "hiddTotalTaskEntered" })
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background-color:teal;color:white;">
+            <h3>
+                @Model.PageQuestion                               
+                <button class="btn btn-success pull-right" id="btnAdd" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Add New Task</button>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div style="text-align:left"><i>@Model.QuestionHint</i></div> <br /><br />
+            <div class="col-md-12 col-sm-12 col-xs-12 padding-0 ">
+                <div class="col-md-12 col-sm-12 col-xs-12">                    
+                    <div id="content">
+                        <ul class="timeline">
+                            @if (Model.AllKidsTasksObj.Count != 0)
+                            {
+                                foreach (var item in @Model.AllKidsTasksObj)
+                                {
+                                    <li class="event" data-date="@item.StartTime - @item.EndTime">
+                                        <div class="member-infos">
+                                            <h1 class='member-title'>@item.TaskName</h1>                                            
+                                            <div class="member-taskpane">
+                                                <span class="boldcls">@Model.QuestionLocation &nbsp;</span>@item.Venue<br />
+                                                <span class="boldcls">@Model.QuestionInOut &nbsp;</span>@item.InOutLocation<br />
+                                                <span class="boldcls">@Model.QuestionTravel &nbsp;</span>@item.Travel<br />
+                                                <span class="boldcls">@Model.QuestionPeople &nbsp;</span>@item.People<br />
+                                            </div>  
+                                        </div>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="event" data-date="[Start time - End time]">
+                                    <div class="member-infos">
+                                        <h1 class='member-title'>[Task]</h1>
+                                        <h2 class="member-location "><span class='entypo-location'></span>[Location]</h2>
+
+                                        <ul class="member-contact">
+                                            <li class="member-website"><a class="entypo-globe" target="_blank" href="#"></a></li>
+                                            <li class="member-twitter"><a class="entypo-twitter" target="_blank" href="#"></a></li>
+                                            <li class="member-hire"><a class="entypo-mail" target="_blank" href="#"></a></li>
+                                        </ul>
+
+                                        <div class="member-parameters">
+                                            <span class="follow entypo-plus"></span>
+                                            <span class="options entypo-cog"></span>
+                                            <ul class="member-socials">
+                                                @*<li class="member-shots-number"><a href="http://dribbble.com/One_div">Emotional<span class="shots-number">Affect</span></a></li>*@
+                                                @*<li class="member-follower"><a href="http://dribbble.com/One_div/followers">! <span class="followers">Summary</span></a></li>*@
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <center>
+            <div>
+                <small id="SelectedTasks_Incomplete" class="invalid" style="text-align:left">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>  
+                    &nbsp; @Model.ErrorMessage              
+                </small>
+            </div>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnNext" type="submit" style="background-color:teal;color:white;border-color:teal">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+        </center>
+    </div>    
+     @Html.Partial("_DialogNewTask")
+    @Html.Partial("_FooterSurvey")
+}
+<link rel="stylesheet" href="~/Scripts/TimeL/timeL.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="~/Scripts/remodal/remodal.min.js"></script>
+<script src="~/Scripts/TimeL/mdtimepicker.js"></script>
+<link rel="stylesheet"href="~/Scripts/TimeL/mdtimepicker.css" />
+<script> 
+    $(document).on('confirmation', '#_DialogNewTask', function () {
+        location.reload();
+    });
+    $(document).on('cancellation', '#_DialogNewTask', function () {
+        location.reload();
+    });
+    var inst = $("#_DialogNewTask").remodal();
+    //For timeline
+    $('.member-title').click(function (e) {
+        console.log("Clicked");
+        $(this).next().slideToggle();
+        ////$(this).next().next().next().slideToggle();        
+    })
+    //on add new task button click
+    $('#btnAdd').on("click", function (e) {
+        e.preventDefault();
+        inst.open();
+    });
+    $(document).ready(function () {
+        var totalTasks = $("#hiddTotalTaskEntered").val();
+        
+        if (Number(totalTasks) == 0) {
+            $("#btnNext").attr("disabled", "disabled");
+            $("#SelectedTasks_Incomplete").show();
+        }
+        else {
+            $("#btnNext").removeAttr("disabled");
+            $("#SelectedTasks_Incomplete").hide();
+        }
+    });
+    
+
+</script>
+

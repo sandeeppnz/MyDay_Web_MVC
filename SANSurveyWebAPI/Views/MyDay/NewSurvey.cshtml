@@ -1,0 +1,95 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.ResumeSurveyMV
+
+@{
+
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }
+
+    ViewBag.Title = "New Survey";
+}
+
+@using (Html.BeginForm("NewSurvey", "MyDay", new { id = "frmNewSurvey", @class = "nav-right" }))
+{
+    @Html.HiddenFor(model => model.Uid, new { @id = "txtuid" })
+    @Html.HiddenFor(model => model.SurveyProgressNext)
+
+
+
+    <div style="padding:20px;">
+        <div class="panel panel-default">
+            <div class="panel-body" style="background-color:#b2d8d8">
+
+                <center>
+                    <div style="padding-left:5px;padding-right:5px">
+                       
+
+                        <h1>
+                            Welcome to MyDay!
+                        </h1>
+
+                        <h3>
+                            A new survey is available.
+                        </h3>
+                        <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> &nbsp;
+                        <h4>
+                            @Model.SurveySpan
+
+
+                        </h4>
+
+                        <br />
+                        <br />
+
+                        @*<button name="button" value="Begin" class="btn btn-success btn-lg btn-block" type="submit">Get Started</button>*@
+                        <center>
+                            <div style="padding:10px">
+                                <button class="btn btn-success btn-lg" id="btnNext" type="submit">Get Started</button>
+                            </div>
+                        </center>
+
+                    </div>
+
+
+
+
+                </center>
+
+            </div>
+
+
+        </div>
+        @Html.Partial("_FooterSurvey")
+
+
+    </div>
+
+}
+
+<script>
+
+
+    function OnSuccess(response) {
+        if (response == "") {
+            window.location.href = "@Url.Action("ConnectionError", "MyDay")";
+        }
+        else {
+            //$.ajaxSetup({ cache: false });
+            $('#MainSurveyContent').html(response);
+        }
+    }
+    function OnFailure(response) {
+        alert("Oops! submission failed. Please ensure you are connected to the network.");
+    }
+
+
+
+
+    $(document).ready(function () {
+        //window.history.pushState("Survey", "Survey", "/App/MyDay/SID/" + $('#txtuid').val());
+    });
+
+
+
+</script>

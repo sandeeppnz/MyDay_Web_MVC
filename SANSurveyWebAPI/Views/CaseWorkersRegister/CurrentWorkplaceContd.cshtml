@@ -1,0 +1,239 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.CurrentWorkplaceContdVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Current Workplace";
+}
+
+<link href="~/Content/iCheck/skins/flat/green.css" rel="stylesheet" />
+<script src="~/Scripts/iCheck/icheck.min.js"></script>
+
+@using (Html.BeginForm("CurrentWorkplaceContd", "CaseWorkersRegister", FormMethod.Post,
+                            new { name = "frmCurrentWorkplaceContd", id = "frmCurrentWorkplaceContd" }))
+{
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.MaxStep)
+
+    <div class="container OtherPageContainer">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+                { CurrStep = 3,  MaxStep = Model.MaxStep })
+
+            <div class="panel panel-default" id="divCurrentWorkplace">
+                <div class="panel-heading">
+                    <h4>
+                        @*Now, we would like to know what tasks you perform at work...*@
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Which of the following best describes your status?
+                        </label>
+                        <div class="col-sm-8" id="divWorkStatus">
+                            @{
+                                List<SelectListItem> workStatus = new List<SelectListItem>();
+                                workStatus.Add(new SelectListItem { Text = "Caseworker", Value = "Caseworker" });
+                                workStatus.Add(new SelectListItem { Text = "Senior Caseworker", Value = "Senior Caseworker" });
+                                workStatus.Add(new SelectListItem { Text = "Caseworker (LISCW required)", Value = "Caseworker (LISCW required)" });
+                                workStatus.Add(new SelectListItem { Text = "Caseworker (Part-Time)", Value = "Caseworker (Part-Time)" });
+                            }
+                            <div>
+                                @(Html.Kendo().DropDownListFor(model => model.WorkStatus)
+                                                                                      .Name("WorkStatus")
+                                                                                      .Filter("contains")
+                                                                                      .DataTextField("Text")
+                                                                                      .DataValueField("Value")
+                                                                                      .BindTo(workStatus)
+                                                                                      .OptionLabel("--------- Select you work status---------")
+                                                                                      .HtmlAttributes(new { @style = "width:300px;", @class = "", @id = "drpWorkStatus" }))
+                                <br />
+                                <small id="workStatus_Incomplete" class="invalid pull-left">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please select your work status
+                                </small>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Roughly how many years have you been in this position?
+                        </label>
+                        <div class="col-sm-8" id="divWorkPosition">
+                            @{
+                                List<SelectListItem> workPosition = new List<SelectListItem>();
+                                workPosition.Add(new SelectListItem { Text = "<1", Value = "<1" });
+                                workPosition.Add(new SelectListItem { Text = "1-4", Value = "1-4" });
+                                workPosition.Add(new SelectListItem { Text = "5-9", Value = "5-9" });
+                                workPosition.Add(new SelectListItem { Text = "10-19", Value = "10-19" });
+                                workPosition.Add(new SelectListItem { Text = "20-29", Value = "20-29" });
+                                workPosition.Add(new SelectListItem { Text = "30-40", Value = "30-40" });
+                                workPosition.Add(new SelectListItem { Text = ">40", Value = ">40" });
+                            }
+                            <div>
+                                @(Html.Kendo().DropDownListFor(model => model.WorkPosition)
+                                                                                      .Name("WorkPosition")
+                                                                                      .Filter("contains")
+                                                                                      .DataTextField("Text")
+                                                                                      .DataValueField("Value")
+                                                                                      .BindTo(workPosition)
+                                                                                      .OptionLabel("--------- Select you work position---------")
+                                                                                      .HtmlAttributes(new { @style = "width:300px;", @class = "", @id = "drpWorkPosition" }))
+                                <br />
+                                <small id="workStatus_Incomplete" class="invalid pull-left">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please select your work position
+                                </small>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            What county do you work in most often?
+                            <br />
+                        </label>
+                        <div class="col-sm-8" id="divCountry">
+                            @{
+                                List<SelectListItem> workCountry = new List<SelectListItem>();
+                                workCountry.Add(new SelectListItem { Text = "Westmoreland", Value = "Westmoreland" });
+                                workCountry.Add(new SelectListItem { Text = "Centre", Value = "Centre" });
+                                workCountry.Add(new SelectListItem { Text = "York", Value = "York" });
+                                workCountry.Add(new SelectListItem { Text = "Other", Value = "Other" });
+                            }
+                            <div>
+                                @(Html.Kendo().DropDownListFor(model => model.WorkCountry)
+                                                                      .Name("WorkCountry")
+                                                                      .Filter("contains")
+                                                                      .DataTextField("Text")
+                                                                      .DataValueField("Value")
+                                                                      .BindTo(workCountry)
+                                                                      .OptionLabel("--------- Select Country---------")
+                                                                       .Events(e => { e.Change("ToggleWorkCountry"); })
+                                                                      .HtmlAttributes(new { @style = "width:300px;", @class = "", @id = "drpWorkCountry" }))
+                                <br />
+                                <div id="divOtherLocation" style="width:300px;">
+                                    @Html.TextBoxFor(model => model.OtherWorkCountry, new {@id = "txtOtherCountry", @class = "form-control",
+                                                    @placeholder = "Please specify if selected Other", @style = "width:300px"})
+                                </div>
+                                <br />
+                                <small id="OtherCountry_Incomplete" class="invalid pull-left">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Please select Country
+                                </small>
+                                <br />
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                        <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>               
+            
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_Dialog")
+}
+
+
+<script>
+    var inst = $("#_Dialog").remodal();
+    $(document).on('confirmation', '#_DialogTask', function () {
+        LoaderLocal();
+        $('#frmCurrentWorkplaceContd').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTask', function () {      
+        AddCustomValidationAllTasksSelected();
+    });
+
+    $(document).on('confirmation', '#_DialogTaskSelection', function () {
+        LoaderLocal();
+        $('#frmCurrentWorkplaceContd').submit();
+    });
+
+    $(document).on('cancellation', '#_DialogTaskSelection', function () {
+    });
+
+    $('#frmCurrentWorkplaceContd input').on('change', function () {       
+    });   
+    function ToggleWorkCountry() {
+        var val = $("#drpWorkCountry").val();
+
+        if (val == 'Other') {
+            $('#txtOtherCountry').show();
+        }
+        else {
+            $('#txtOtherCountry').hide();
+        }
+    }
+    $(document).ready(function () {
+        //RemoveCustomValidation();
+
+        //$("label[name^='selectedTasksLabel']").kendoTouch({           
+        //    touchstart: function (e) {
+        //    },           
+        //    hold: function (e) {         
+        //        $('#tooltip_' + e.touch.currentTarget.id).tooltipster('open');
+        //    }
+        //});
+
+        $.ajaxSetup({ cache: false });
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();  
+            $('#frmCurrentWorkplaceContd').submit();
+            //if (AddCustomValidationAllTasksSelected())
+            //{
+            //        LoaderLocal();
+            //        $('#frmCurrentWorkplaceContd').submit();
+            //    }
+            //    else {
+            //        inst.open();
+            //    }            
+        });
+
+        $('#btnPrev').on("click", function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.Action("CurrentWorkplace", "CaseWorkersRegister")";            
+        });
+
+        $('.tooltipTask').tooltipster({
+            timer: 3000,
+        });
+    });
+    $(function () {
+        var myString = $('#hiddWorkHoursOpt').val();
+        var arr = myString.split(',');
+        $.each(arr, function (i, val) {
+            $(":checkbox[value=" + val + "]").attr("checked", "true");          
+        });
+    });
+    //Important to add values of checkboxes
+    function updateTextArea() {
+        var allWorkHours = [];
+
+        $('#divWorkHours :checked').each(function () {
+            allWorkHours.push($(this).val());
+        });
+        $('#hiddWorkHoursOpt').val(allWorkHours);
+        //alert($('#hiddWorkHoursOpt').val());
+    }
+    $(function () {
+        $('#divWorkHours input').click(updateTextArea);
+        updateTextArea();
+    });
+
+</script>
+
+
+
+
+

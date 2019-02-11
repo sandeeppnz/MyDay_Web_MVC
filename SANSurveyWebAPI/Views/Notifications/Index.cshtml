@@ -1,0 +1,102 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.NotificationListVM
+
+
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        //Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    ViewBag.Title = "Notifications";
+}
+
+
+
+
+
+
+<style>
+    .chit-chat-heading {
+        font-size: 1.2em;
+        font-weight: 700;
+        color: #5F5D5D;
+        text-transform: uppercase;
+        font-family: 'Carrois Gothic', sans-serif;
+    }
+
+    .icon-background-red {
+        color: #ff0000;
+    }
+
+    .icon-background-orange {
+        color: #ff6a00;
+    }
+
+
+    .work-progres {
+        box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.15);
+        padding: 1.34em 1em;
+        /*background: #fff;*/
+    }
+</style>
+
+
+<div class="col-sm-12">
+    <div class="work-progres">
+        <h2>Notifications</h2>
+
+        <table class="table table-condensed">
+            <tbody>
+
+                @if (Model.notifications.Count > 0)
+            {
+                foreach (var k in Model.notifications)
+                {
+                        <tr>
+                            <td>
+                                @if (@k.FlagColor == "RED")
+                    {
+                                    <i class="fa fa-circle icon-background-red" aria-hidden="true"></i>
+                                }
+                                else if (@k.FlagColor == "ORANGE")
+                                {
+                                    <i class="fa fa-circle icon-background-orange" aria-hidden="true"></i>
+                                }
+                                else
+                                {
+                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                }
+                                <a href="@k.Link">@k.Message</a>
+
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>  No message(s)       </td>
+                    </tr>
+                }
+
+
+
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

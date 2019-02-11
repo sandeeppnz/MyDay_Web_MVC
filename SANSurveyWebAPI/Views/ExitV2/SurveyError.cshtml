@@ -1,0 +1,124 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutSurveyBlank.cshtml";
+    ViewBag.Title = "Survey Error";
+}
+<link rel="stylesheet" type="text/css" href="~/Scripts/SurveyError/ErrorPg.css" />
+<br />
+@using (Html.BeginForm("SurveyError", "ExitV2", FormMethod.Post, new
+{ name = "frmExitSurveyError", id = "frmExitSurveyError", @class = "" }))
+{    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="error-template">
+                    <h1>
+                        :) Oops!
+                    </h1>
+                    <h2>
+                        An error occurred while processing.
+                    </h2>
+                    <h1>
+                        Please close this page and reload the survey from your email.
+                    </h1>
+                    <div>
+                        <p>
+                            <br />
+                            If the problem persists, please contact us.
+                        </p>
+                        <p>
+                            — The Team
+                        </p>
+                    </div>
+                    <div class="error-actions">                        
+                        <button class="btn btn-info btn-lg" id="btnNext" type="submit" style="background-color:teal;">
+                            <span class="glyphicon glyphicon-home"></span>&nbsp;Take Me Home
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @*<svg class="svg-box" width="380px" height="500px" viewbox="0 0 837 1045" version="1.1"
+                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                     xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                        <path d="M353,9 L626.664028,170 L626.664028,487 L353,642 L79.3359724,487 L79.3359724,170 L353,9 Z" id="Polygon-1" stroke="#3bafda" stroke-width="6" sketch:type="MSShapeGroup"></path>
+                        <path d="M78.5,529 L147,569.186414 L147,648.311216 L78.5,687 L10,648.311216 L10,569.186414 L78.5,529 Z" id="Polygon-2" stroke="#7266ba" stroke-width="6" sketch:type="MSShapeGroup"></path>
+                        <path d="M773,186 L827,217.538705 L827,279.636651 L773,310 L719,279.636651 L719,217.538705 L773,186 Z" id="Polygon-3" stroke="#f76397" stroke-width="6" sketch:type="MSShapeGroup"></path>
+                        <path d="M639,529 L773,607.846761 L773,763.091627 L639,839 L505,763.091627 L505,607.846761 L639,529 Z" id="Polygon-4" stroke="#00b19d" stroke-width="6" sketch:type="MSShapeGroup"></path>
+                        <path d="M281,801 L383,861.025276 L383,979.21169 L281,1037 L179,979.21169 L179,861.025276 L281,801 Z" id="Polygon-5" stroke="#ffaa00" stroke-width="6" sketch:type="MSShapeGroup"></path>
+                    </g>
+                </svg>*@
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                     width="500" height="350" viewBox="0 0 184 118" enable-background="new 0 0 184 118" xml:space="preserve">
+                <g id="big-fish">
+                            <path fill="#89BD40" d="M92.909,50.337c0,0,31.716-39.319,61.991,3.669c0,0,13.631-15.072,14.811-14.155
+		            c0,0-0.787,4.194-2.098,5.505l-12.451,10.091l11.403-7.732l-0.524,3.146l-10.354,5.634l9.697-4.063l-0.262,2.752l-9.174,2.359
+		            l8.912-1.441l0.131,2.228l-9.174,0.655l9.043,0.394l0.262,1.704l-9.043-0.918l9.043,1.705l0.655,2.227l-10.222-2.359l10.615,3.803
+		            l1.572,3.014l-10.746-5.243l11.533,6.815l3.67,6.029c0,0-7.602-1.836-15.597-11.534c-0.146,1.183-2.818,20.188-19.266,27.785
+		            c-14.181,6.55-32.404,1.755-43.12-12.319l30.668-15.072L92.909,50.337z" />
+                            <path d="M120.785,50.085c-0.305,0.126-0.454,0.304-0.706,0.519c-0.495,0.424-1.073,0.743-1.69,0.947
+		            c-1.051,0.349-2.213,0.366-3.258-0.016c-2.844-1.037-2.789-3.765-2.736-6.3c0.003-0.178-0.292-0.231-0.32-0.045
+		            c-0.396,2.602-0.057,5.487,2.642,6.657c1.106,0.479,2.366,0.529,3.523,0.209c0.891-0.247,2.405-0.872,2.651-1.863
+		            C120.904,50.135,120.85,50.059,120.785,50.085z" />
+                            <polygon fill="#FFFFFF" points="92.909,50.337 92.843,53.548 95.727,51.844 95.53,55.121 98.414,53.154 98.348,56.3
+		            101.034,54.334 100.642,57.414 103.263,55.415 103.066,58.594 105.72,56.563 105.49,59.643 107.948,57.545 108.111,60.56
+		            110.307,58.691 110.209,61.871 112.634,59.839 112.83,63.115 115.287,61.019 115.255,63.901 118.007,61.871 	" />
+                            <path fill="#FFFFFF" d="M94.285,80.088c0.066-0.263-0.852-4.85-0.852-4.653s3.047,3.244,3.047,3.244l0.164-3.112l2.622,1.802
+		            l0.065-2.916l2.523,1.704l0.033-2.818l2.457,1.639l0.361-3.015l2.392,1.54l0.36-2.851l2.622,1.441l0.262-2.751l2.229,1.474
+		            l0.393-2.654l2.425,1.572l0.262-3.079l2.491,1.9L94.285,80.088z" />
+                            <ellipse fill="#C2DB6E" cx="140.336" cy="66.211" rx="5.586" ry="9.552" />
+                            <ellipse fill="#C2DB6E" cx="128.771" cy="77.057" rx="2.539" ry="2.572" />
+                            <ellipse fill="#C2DB6E" cx="132.423" cy="88.312" rx="1.834" ry="1.933" />
+                            <ellipse fill="#C2DB6E" cx="134.127" cy="49.157" rx="1.9" ry="2.064" />
+                </g>
+                <animateTransform xlink:href="#big-fish"
+                                  attributeName="transform"
+                                  attributeType="XML"
+                                  type="translate"
+                                  from="-20"
+                                  to="00"
+                                  values="-20; 00; -20"
+                                  keyTimes="0; 0.5; 1"
+                                  dur="5s"
+                                  begin="0s"
+                                  repeatCount="indefinite"
+                                  fill="freeze" />
+
+                    <g id="small-fish">
+                                    <ellipse fill="#DC7E28" cx="41.057" cy="66.129" rx="7.274" ry="3.883" />
+                                    <path fill="#DC7E28" d="M48.43,65.639c0.246-0.098,5.504-3.244,5.554-3.097c0.049,0.147,0.197,6.487,0.197,6.487L48.43,65.639z" />
+                                    <ellipse fill="#FFFFFF" cx="37.347" cy="66.056" rx="1.892" ry="1.745" />
+                                    <ellipse id="eye" cx="38.355" cy="65.859" rx="0.983" ry="0.958" />
+                    </g>
+                    <animateTransform xlink:href="#small-fish"
+                                      attributeName="transform"
+                                      attributeType="XML"
+                                      type="translate"
+                                      from="0"
+                                      to="50"
+                                      values="0; 50; 0"
+                                      keyTimes="0; 0.5; 1"
+                                      dur="5s"
+                                      begin="0s"
+                                      repeatCount="indefinite"
+                                      fill="freeze" />
+
+	   
+                    <animateTransform xlink:href="#eye"
+                                      attributeName="transform"
+                                      attributeType="XML"
+                                      type="translate"
+                                      from="-2"
+                                      to="0"
+                                      values="-2; 0; -2"
+                                      keyTimes="0; 0.5; 1"
+                                      dur="2s"
+                                      begin="0s"
+                                      repeatCount="indefinite"
+                                      fill="freeze" />
+                </svg>
+            </div>
+        </div>
+        @Html.Partial("_FooterSurvey")
+    </div>
+}

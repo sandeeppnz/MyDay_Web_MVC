@@ -1,0 +1,264 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.SurveyMyTaskViewVM
+
+@{
+    if (!Request.IsAjaxRequest())
+    {
+        Layout = "~/Views/Shared/_LayoutSurvey.cshtml";
+    }    
+    ViewBag.Title = "Survey: Input time for task selected";
+    DateTime TaskStartDateTime = (DateTime) Session["CurrTaskStartTime"];
+    string TaskStartTime = TaskStartDateTime.ToString("hh:mm tt");
+    DateTime TaskEndDateTime = (DateTime) Session["CurrTaskEndTime"];
+    string TaskEndTime = TaskEndDateTime.ToString("hh:mm tt");
+    string TaskDate = Session["StartDate"].ToString();
+}
+@using (Html.BeginForm("TaskView", "Survey3", FormMethod.Post, new { id = "frmTaskView", @class = "nav-right" })){
+    @Html.HiddenFor(m=>m.totalRowCount, new { @id = "TotalWebGridRowCount"})
+    @Html.HiddenFor(m=>m.TotalTaskHoursAlloted, new {@id = "TTotalTaskHoursAlloted" })
+
+    
+    <div style="padding:30px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">                
+                <h3>
+                    @Model.PageQuestion @TaskStartTime <span>and</span> @TaskEndTime <span>on</span> @TaskDate?
+                    @*<button class="btn btn-success pull-right" id="btnAdd" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Add New Task</button>*@
+                </h3>
+            </div>           
+            <div style="display:@Model.Status" id="divWebGrid" class="divWebGrid">
+                @{
+                    WebGrid objWebGrid = new WebGrid(Model.TaskListsObj,
+                    rowsPerPage: 50, 
+                    canPage: true);//allowing rowsperpage,paging allow or not
+                                   //var rowNum = 0;
+                }
+                @objWebGrid.GetHtml(
+                              tableStyle: "table",
+                              headerStyle: "Grid-Header",
+                              alternatingRowStyle: "Grid-alt",
+                              selectedRowStyle: "Grid-selected",
+                              rowStyle: "Grid-rowstyle",
+                              footerStyle: "Grid-Footer",
+                              mode: WebGridPagerModes.All,
+                           columns:
+                              objWebGrid.Columns
+                              (
+                                  //objWebGrid.Column("RowNumber", format: item => rowNum = rowNum + 1),
+                                  objWebGrid.Column(format: @<text> <label id="TID" class="labelIt">@item.ID</label> </text>, style: "disp"),
+                                  objWebGrid.Column(columnName: "TaskName", header: "Selected Task", style: "colTextAlign"),
+                                  objWebGrid.Column("TaskDuration", "Time spent (in mins)", format: @<text><input type="number" class="inSize inpFA" id="TaskDuration" maxlength="3" size="3" value="@item.TaskDuration" min="1" max="240" /> </text>),
+                                  @*objWebGrid.Column("TaskDuration", "Time spent (in mins)", format: @<text>@Html.TextBoxFor(m => m.TaskListsObj[rowNum - 1].TaskDuration, new { @id = "TaskDuration", @min = "1", @max = "240", type = "number" })</text>),*@
+                                  @*objWebGrid.Column("TaskDuration", "Time spent (in mins)", format: @<text><input type="text" class="findIt" id="TaskDuration" value="@item.TaskDuration" class="inSize inpFA" /> </text>),*@
+                                  objWebGrid.Column(format:@<text><a href="" onclick="DeleteME('@item.Id')">Delete</a></text>)
+                              )
+                           )                
+            </div>
+            @*To add footer to .GetHtml of Webgrid below script is added*@
+            @*<script>
+        $(function () {
+            var tfoot = '<tfoot><tr><td></td><td class="gridFoot">Total</td>';
+            tfoot += '<td class=""><div class="countdown">240</div></td><td></td></tr></tfoot>';
+            $('table').append(tfoot);
+        })
+    </script>*@ 
+            <div style="margin-left:60%;">Remaining time (mins):&nbsp;&nbsp;<label style="color:teal;"class="countdown">240</label><span>&nbsp;/ @Model.TotalTaskHoursAlloted</span>
+            </div>
+            <br /><br />
+            <center>                       
+                <div style="padding:10px"> 
+                    <small id="Actual_SumError" class="invalid">
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        &nbsp;Total Time should add upto @Model.TotalTaskHoursAlloted mins
+                    </small> <br />  
+                    <small id="ZError" class="invalid">
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        &nbsp;In the event of no time spent on the highlighted tasks please delete the same to continue.
+                    </small>                   
+                    <br />
+                    <br />                                       
+                @*<button data-remodal-action="cancel" class="btn btn-success btn-lg" type="button" id="btnSubmit">Next</button>*@
+                </div></center>
+            <div style="padding:10px">
+                <button class="btn btn-success btn-lg" id="btnPrev" type="button"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+                <button class="btn btn-success btn-lg pull-right" id="btnSubmit" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+            </div>
+                </div>
+                @Html.Partial("_DialogNewTask")
+                @Html.Partial("_FooterSurvey")
+        </div>
+}
+<link rel="stylesheet" type="text/css" href="~/Scripts/AnimateCSS/animate.css" />
+
+<style>
+    .inSize {
+        width: 27%;
+    }
+
+    .colTextAlign {
+        text-align: left;
+    }
+
+    .inpFA {
+        float: left;
+    }
+    .disp {
+        visibility:hidden;
+    }
+    .TextColRed {
+       color:red;
+    }
+</style>
+<script>
+    var inst = $("#_DialogNewTask").remodal();
+    var totalDura = 0;
+    var Rrow = 0;
+    var totalTaskhrs = $("#TTotalTaskHoursAlloted").val();
+    var webGridStr = "";
+
+    $(document).ready(function () {
+        
+        // Function to update counters on all elements with class counter
+        var doUpdate = function () {
+            $('.countdown').each(function () {
+                var count = parseInt($(this).html());
+                if (count !== 0) {
+                    $(this).html(Number(totalTaskhrs) - Number(CalculateAll()));
+                }
+            });
+        };
+
+        // Schedule the update to happen once every second
+        setInterval(doUpdate, 1000);        
+    });  
+    
+    $(document).ready(function () {
+        $("#Actual_SumError").hide();
+        $("#ZError").hide();
+    });
+    $(document).on('confirmation', '#_DialogNewTask', function () {
+        location.reload();
+    });
+    $(document).on('cancellation', '#_DialogNewTask', function () {
+        location.reload();
+    });
+    
+    function DeleteME(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("deleteMeTask", "Survey3")",
+            data:{
+                taskId: id
+            }
+        }); //e
+    }
+    $('#btnAdd').on("click", function (e) {
+        e.preventDefault();
+        inst.open();
+    });
+    $('#btnPrev').on("click", function (e) {
+        e.preventDefault();
+        window.location.href = "@Url.Action("MultiTask", "Survey3")";
+    });
+    $('#btnSubmit').on("click", function (e) {
+        e.preventDefault();
+       
+        if (Number(CalculateAll()) > Number(totalTaskhrs) || Number(CalculateAll()) < Number(totalTaskhrs)) {
+            $("#Actual_SumError").show();            
+        }
+        else {
+            $("#Actual_SumError").hide();
+            if (checkForZeros())
+            { SaveTaskDuration(); }
+            else { }
+        }        
+    });
+    function storeTblValues() {
+        var webGridStrA = "";
+        $('#divWebGrid tr').each(function (row, tr) {
+            if (row != 0) {
+                webGridStrA += "Id[" + row + "]: " + $(tr).find('td:eq(0)').text() + "TaskDuration[" + row + "]: " + $(this).find('input').val() + ", ";
+            }
+        });
+        return webGridStrA;
+    }
+
+    function CalculateAll() {
+        var total = 0;
+        var subtotal = 0;
+        $('#divWebGrid tr').each(function (row, tr) {
+            if (row != 0) {               
+                    subtotal = $(this).find('input').val();
+                    total = Number(subtotal) + Number(total);                    
+                }
+        });        
+        return total;
+    }
+
+    function checkForZeros()
+    {
+        var inp = 0;
+        var allFilled = true;
+        var rowNumbers;
+
+        $('#divWebGrid tr').each(function (row, tr) {
+            if (row != 0) {
+                inp = $(this).find('input').val(); 
+                if (Number(inp) == 0 || Number(inp) < 0) {
+                    $("#ZError").show();
+                    //$(this).addClass("animated infinite bounce");
+                    $(this).addClass("animated shake TextColRed");
+                    allFilled = false;
+                }
+                else { $("#ZError").hide();}
+            }
+        });        
+        return allFilled;
+    }
+    function SaveTaskDuration()
+    {
+        //storageDuration();
+            $('#divWebGrid tr').each(function (row, tr) {
+                var rowCount = $('#divWebGrid tr').length; 
+                if (row != 0) {
+                    webGridStr += "T " + $(tr).find('td:eq(0)').text() + "I" + ";" + "D " + $(this).find('input').val() + " M";
+                    if (row != (rowCount - 1)) {
+                        webGridStr = webGridStr + ",";
+                    }
+                }
+            });
+            $.trim(webGridStr);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("addDuration", "Survey3")",
+                data: { TableData: webGridStr },
+            success: function (result) {
+                $("#frmTaskView").submit();
+            }
+        });
+    }
+    //function storageDuration() {        
+    //    var tempClientStore = [];
+    //    //if (typeof (Storage) !== "undefined")
+    //    {
+    //        $('#divWebGrid tr').each(function (row, tr) {
+    //            var rowCount = $('#divWebGrid tr').length;
+    //            while (row <= rowCount) {
+    //                if (row != 0) {
+    //                    //sessionStorage.setItem($(tr).find('td:eq(0)').text(), $(this).find('input').val());
+    //                    //tempClientStore.push(sessionStorage.setItem($(tr).find('td:eq(0)').text(), $(this).find('input').val()));
+    //                    //(sessionStorage.getItem($(tr).find('td:eq(0)').text()));
+    //                    //alert(tempClientStore[$(tr).find('td:eq(0)').text()].val());
+    //                    tempClientStore[$(tr).find('td:eq(0)').text()] = $(this).find('input').val();
+    //                }
+    //            }
+    //            sessionStorage.setItem("TempDuraStore", tempClientStore);
+    //            alert(sessionStorage.getItem("TempDuraStore"));
+    //        });
+    //    }
+    //}
+    function GetStoredClientDuration()
+    {
+
+    }
+</script>

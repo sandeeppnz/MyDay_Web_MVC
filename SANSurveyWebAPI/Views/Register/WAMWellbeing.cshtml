@@ -1,0 +1,355 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.RegisterWAMWellbeingVM
+
+@*http://www.c-sharpcorner.com/UploadFile/4d9083/binding-radiobutton-and-radiobuttonlist-in-various-way-in-mv201/*@
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Subjective Wellbeing";
+}
+
+
+@using (Html.BeginForm("WAMWellBeing", "Register", FormMethod.Post, new { name = "frmWAMWellBeing", id = "frmWAMWellBeing" }))
+{
+    <div class="container">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>
+
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxStep)
+
+
+            @Html.Partial("_Wizard", new SANSurveyWebAPI.ViewModels.Web.WizardViewModel()
+       {
+           CurrStep = 18,
+           MaxStep = Model.MaxStep,
+           SurveyType = 1
+       })
+
+            @*@Html.ValidationSummary(true, "Please check the form for errors.")*@
+            <div class="panel panel-default" id="WellBeing">
+
+                <div class="panel-heading">
+                    <h4>Firstly, we have some general questions about your life</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div>
+                        <i>
+                            For the following questions, please select the number that best describes your opinion. A rating of -2 means that you are very dissatisfied. 
+                            A rating of 2 means that you are very satisfied.
+                        </i>
+                    </div>
+                    <div class="form-group row CustomeWellEmpty">
+                        @Html.Label("                ", new { @class = "col-sm-4 col-form-label" })
+                        <div id="Q0Panel">
+                            <div class="col-sm-8">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input disabled style="width:0" id="CustomeSliderRound" name="CustomeSliderRound" type="text"
+                                           data-slider-id="CustomeSliderRound"
+                                           data-slider-min="1"
+                                           data-slider-max="6"
+                                           data-slider-step="1"
+                                           data-slider-handle="custom"
+                                           data-slider-ticks="[1, 2, 3, 4,5,6]"
+                                           data-slider-ticks-labels='["Very <br /> Dissatisfied", "","","", "Very <br /> Satisfied",""]' />
+
+                                </div>
+                                @*<small id="Q0Ans_Incomplete" class="invalid pull-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</small>*@
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row CustomeWellGray">
+                        @*<span style="font-weight:normal;font-size:medium">*@
+                        @*@Html.Label("", new { @class = "col-sm-4 col-form-label" })*@
+
+
+                        <label class="col-sm-4 col-form-label">
+                            Taking all things together, how satisfied are you with your life as a whole?                                <br />
+                        </label>
+
+
+
+
+                        @*</span>*@
+                        <div id="Q1Panel">
+                            <div class="col-sm-8">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q1Ans" name="Q1Ans" type="text"
+                                           data-slider-min="1"
+                                           data-slider-max="6"
+                                           data-slider-step="1"
+                                           data-slider-ticks="[1, 2, 3, 4,5, 6]"
+                                           data-slider-ticks-labels='["-2", "-1", "0", "1", "2", "N/A"]'
+                                           data-slider-value=@Model.Q1Ans />
+
+                                </div>
+                                <small id="Q1Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row CustomeWellWhite">
+                        @*<span style="font-weight:normal;font-size:medium">*@
+                        @*@Html.Label("Next, let’s turn to your life at home. Overall, how satisfied are you with your life at home?", new { @class = "col-sm-4 col-form-label" })*@
+                        <label class="col-sm-4 col-form-label">
+                            Overall, how satisfied are you with your life at home?
+                        </label>
+
+
+                        @*</span>*@
+                        <div id="Q2Panel">
+                            <div class="col-sm-8">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q2Ans" name="Q2Ans" type="text"
+                                           data-slider-min="1"
+                                           data-slider-max="6"
+                                           data-slider-step="1"
+                                           data-slider-ticks="[1, 2, 3, 4,5, 6]"
+                                           data-slider-ticks-labels='["-2", "-1", "0", "1", "2", "N/A"]'
+                                           data-slider-value=@Model.Q2Ans />
+                                </div>
+                                <small id="Q2Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row CustomeWellGray">
+                        @*<span style="font-weight:normal;font-size:medium">*@
+                        @*@Html.Label("And how about your job? Overall, how satisfied are you with your present job?", new { @class = "col-sm-4 col-form-label" })*@
+
+                        <label class="col-sm-4 col-form-label">
+                            Overall, how satisfied are you with your present job?
+                        </label>
+
+
+                        @*</span>*@
+                        <div id="Q3Panel">
+                            <div class="col-sm-8">
+                                <div style='text-align:center;'>
+                                    <br />
+                                    <input id="Q3Ans" name="Q3Ans" type="text"
+                                           data-slider-min="1"
+                                           data-slider-max="6"
+                                           data-slider-step="1"
+                                           data-slider-ticks="[1, 2, 3, 4,5, 6]"
+                                           data-slider-ticks-labels='["-2", "-1", "0", "1", "2", "N/A"]'
+                                           data-slider-value=@Model.Q3Ans />
+                                </div>
+                                <small id="Q3Ans_Incomplete" class="invalid pull-right"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;Incomplete</small>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg pull-right" id="btnNext" type="button">Next&nbsp;&nbsp;<i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        @Html.Partial("_Footer")
+    </div>
+    @Html.Partial("_Dialog")
+}
+
+<style>
+    #Q0Panel {
+        pointer-events: none;
+    }
+</style>
+
+<script>
+
+    var validatationCounter = 0;
+
+    $('#frmWAMWellBeing input').on('change', function () {
+        var x = this.id;
+        if (x == "Q3Ans") {
+            $('#Q3Ans_Incomplete').hide();
+        }
+        if (x == "Q2Ans") {
+            $('#Q2Ans_Incomplete').hide();
+        }
+
+        if (x == "Q1Ans") {
+            $('#Q1Ans_Incomplete').hide();
+        }
+    });
+
+
+    var inst = $("#_Dialog").remodal();
+    $(document).on('confirmation', '.remodal', function () {
+        RemoveCustomValidation();
+        LoaderLocal();
+        $('#frmWAMWellBeing').submit();
+    });
+
+    $(document).on('cancellation', '.remodal', function () {
+        AddCustomValidation();
+    });
+
+
+    function RemoveCustomValidation() {
+        $('#Q1Ans_Incomplete').hide();
+        $('#Q2Ans_Incomplete').hide();
+        $('#Q3Ans_Incomplete').hide();
+    }
+
+
+    function AddCustomValidation() {
+
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+
+        if (Q1Ans == "6") {
+            $('#Q1Ans_Incomplete').show();
+        }
+        else {
+            $('#Q1Ans_Incomplete').hide();
+        }
+        if (Q2Ans == "6") {
+            $('#Q2Ans_Incomplete').show();
+        }
+        else {
+            $('#Q2Ans_Incomplete').hide();
+        }
+        if (Q3Ans == "6") {
+            $('#Q3Ans_Incomplete').show();
+        }
+        else {
+            $('#Q3Ans_Incomplete').hide();
+        }
+    }
+
+    function AllUnAnswered() {
+
+
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+
+        if (Q1Ans == "6" && Q2Ans == "6" && Q3Ans == "6") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function EitherUnAnswered() {
+
+        var Q1Ans = $("#Q1Ans").slider('getValue');
+        var Q2Ans = $("#Q2Ans").slider('getValue');
+        var Q3Ans = $("#Q3Ans").slider('getValue');
+
+        if (Q1Ans == "6" || Q2Ans == "6" || Q3Ans == "6") {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+
+    $(document).ready(function () {
+
+        $('#Q1Ans_Incomplete').hide();
+        $('#Q2Ans_Incomplete').hide();
+        $('#Q3Ans_Incomplete').hide();
+
+
+        function GetText5ScaleRatingJS(value) {
+            switch (value) {
+                case 1:
+                    return "Very Dissatisfied"
+                case 2:
+                    return "Dissatisfied"
+                case 3:
+                    return "Neutral"
+                case 4:
+                    return "Satisfied"
+                case 5:
+                    return "Very Satisfied"
+
+                case 6:
+                    return "N/A"
+
+                default:
+                    return "N/A"
+            }
+        }
+
+        var topSlider = $('#CustomeSliderRound').slider({
+            tooltip: 'hide',
+        });
+
+        //$("#CustomeSliderRound").slider("disable");
+
+
+        var q3 = $('#Q3Ans').slider({
+            tooltip: 'always',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+
+
+        var q2 = $('#Q2Ans').slider({
+            tooltip: 'always',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+        var q1 = $('#Q1Ans').slider({
+            tooltip: 'always',
+            formatter: function (value) {
+                return GetText5ScaleRatingJS(value);
+            }
+        });
+
+        $.ajaxSetup({ cache: false });
+
+        $('#btnNext').on("click", function (e) {
+            e.preventDefault();
+
+            if (AllUnAnswered() && validatationCounter == 0) {
+                validatationCounter++;
+                AddCustomValidation();
+            }
+            else if (EitherUnAnswered() && validatationCounter != 0) {
+                AddCustomValidation();
+                inst.open();
+            }
+            else {
+                LoaderLocal();
+                $('#frmWAMWellBeing').submit();
+            }
+        });
+
+
+
+
+    });
+
+</script>
+
+
+
+

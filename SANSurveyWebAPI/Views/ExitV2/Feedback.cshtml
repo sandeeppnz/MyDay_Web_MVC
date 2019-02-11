@@ -1,0 +1,53 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.FeedbackFor_ExitSurveyVM
+
+@{
+    Layout = "~/Views/Shared/_LayoutRegistration.cshtml";
+    ViewBag.Title = "Feedback";
+}
+
+@using (Html.BeginForm("Feedback", "ExitV2", FormMethod.Post, new { name = "frmFeedback", id = "frmFeedback" }))
+{
+    <div class="container OtherPageContainer remodal-bg">
+        <div class="formBox">
+            <div id="">
+                <h3>@ViewBag.Title</h3>
+            </div>          
+            @Html.HiddenFor(model => model.ProfileId)
+            @Html.HiddenFor(model => model.MaxExitV2Step)
+            <div class="panel panel-default" id="PanelComplete">
+                <div class="panel-heading">
+                    <h4>
+                        Thank you for taking part on the Exit Survey.
+                    </h4>
+                </div>
+                
+                <div class="panel-body">
+                    <h4>Is there anything else you would like to tell us?</h4>
+                                      
+                    @Html.TextAreaFor(model => model.feedbackComments, htmlAttributes: new { @class = "form-control", @rows = 8, @placeholder="Leave a message..." })
+
+                </div>
+                <center>
+                    <div style="padding:10px">
+                        <button class="btn btn-success btn-lg" id="btnNext" type="button"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Submit</button>
+                    </div>
+                </center>
+            </div>
+
+
+        </div>
+        @Html.Partial("_Footer")        
+    </div>
+    
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#btnNext').on("click", function (e) {
+            $('#frmFeedback').submit()
+        });
+
+
+    })
+</script>

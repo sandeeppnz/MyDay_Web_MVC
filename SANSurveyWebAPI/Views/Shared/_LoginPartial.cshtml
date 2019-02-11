@@ -1,0 +1,520 @@
+﻿@model SANSurveyWebAPI.ViewModels.Web.UserHeaderMV
+
+@{
+    var isMobile = false; //initiate as false
+    if (Request.Browser.IsMobileDevice)
+    {
+        isMobile = true;
+    }
+}
+
+
+
+<style>
+    .icon-background-red {
+        color: #ff0000;
+    }
+
+    .icon-background-orange {
+        color: #ff6a00;
+    }
+
+    .dropdown-toggle:active, .open .dropdown-toggle {
+        background: transparent !important;
+        color: #ccc !important;
+    }
+
+    .dropdown-menu > li > a {
+        color: #428bca;
+    }
+
+        .dropdown-menu > li > a:hover {
+            background-color: transparent;
+        }
+
+    .dropdown ul.dropdown-menu {
+        /*background-color:#ccc;*/
+        border-radius: 0px;
+        box-shadow: none;
+        margin-top: 5px;
+        /*width: 300px;*/
+    }
+
+        .dropdown ul.dropdown-menu:before {
+            content: "";
+            border-bottom: 10px solid #fff;
+            border-right: 10px solid transparent;
+            border-left: 10px solid transparent;
+            position: absolute;
+            top: -10px;
+            right: 16px;
+            z-index: 10;
+        }
+
+        .dropdown ul.dropdown-menu:after {
+            content: "";
+            border-bottom: 12px solid #ccc;
+            border-right: 12px solid transparent;
+            border-left: 12px solid transparent;
+            position: absolute;
+            top: -12px;
+            right: 14px;
+            z-index: 9;
+        }
+</style>
+
+
+@using Microsoft.AspNet.Identity
+@using SANSurveyWebAPI.Helpers;
+@{
+    if (Request.IsAuthenticated && User.IsInRole("Registered User"))
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav-right" }))
+        {
+            @Html.AntiForgeryToken()
+            <span class="visible-xs">
+                <div class="nav mobile-bar" style="align-content:center">
+                    @*<a href="@Url.Action("Index", "Home" )" style="color:#fff">*@
+                    @*<img class="MenuLogo" src="~/Images/logo-toolbar.png" />*@
+                    <center>
+                        <h5 style="color:#fff">
+                            @SANSurveyWebAPI.Constants.AppBrandName
+                        </h5>
+
+                    </center>
+                    @*</a>*@
+                </div>
+            </span>
+            <ul class="nav navbar-nav navbar-right mobile-bar">
+                @*<li>@Html.ActionLink("Register", "Index", "Register")</li>*@
+                @*<li>@Html.ActionLink("Roster", "Index", "Roster")</li>*@
+                @*<li><a href="@Url.Action("Index","Roster")"><h4 style="text-align:center"><span class="fa fa-calendar"></span></h4>&nbsp;Roster</a></li>
+                  <li><a href="@Url.Action("Index","Survey")"><h4 style="text-align:center"><span class="fa fa-commenting"></span></h4>&nbsp;Survey</a></li>*@
+
+                <li id="HomeMenuLi" class="@Html.IsActive("Home", "Index")">
+                    <a id="HomeMenuUser" href="@Url.Action("Index", "Home")">
+                        <span class="menu-icon fa fa-home"></span>
+                        <span class="">&nbsp;</span>
+
+                    </a>
+                </li>
+                @*<li id="NotificationMenuLi" class="dropdown">
+                    <a id="NotificationMenuUser" href="@Url.Action("Index", "Notifications")">
+                        <span class="menu-icon fa fa-bell"></span>
+                        <span class="">&nbsp;</span>
+
+                    </a>      
+                </li>*@
+
+                <li id="RosterMenuLi" class="@Html.IsActive("Calendar", "List")">
+                    <a id="RosterMenuUser" href="@Url.Action("List", "Calendar")">
+                        <span class="menu-icon fa fa-calendar"></span>
+                        <span class="">&nbsp;</span>
+                        @*<span class="hidden-xs"><span class="menu-icon fa fa-calendar"></span>&nbsp;&nbsp;Roster</span>*@
+                        @*<span class="visible-xs">Roster</span>*@
+                    </a>
+                </li>
+
+
+
+                <li>
+                    <a href="#menu" class="menu-link">
+                        <span id="CloseButton" class="menu-icon fa fa fa-bars"></span>
+                        More
+                    </a>
+
+
+                    <div style="text-align:left">
+
+
+                        <nav id="menu" class="panel MenuPanel" role="navigation">
+                            @*<h2 class="menu-close" style="padding-left:10px;padding-top:5px;">
+
+                                </h2>*@
+
+                            <div style="float:right;padding:10px">
+                                <a style="color:#fff;" class="menu-close">
+
+                                    <span class="menu-icon fa fa-times"></span>
+                                    Close
+                                </a>
+                            </div>
+                            @*<img src="~/Images/logo-toolbar.png" />*@
+                            @*<h4 style="color:#fff;padding-left:10px;padding-top:10px;vertical-align:bottom;text-align:left">
+                                @Session["FullName"]
+                            </h4>*@
+                            <h5 style="color:#fff;padding-left:10px;vertical-align:bottom;text-align:left">
+                                @{
+                                    string userName = User.Identity.GetUserName();
+                                }
+                                @userName
+                                @*@Session["UserName"]*@
+                            </h5>
+
+
+
+                            @*<ul>
+                                    <li><a href="#">Home</a></li>
+                                    <li><a href="#">Edit Profile</a></li>
+                                    <li><a href="#">Change Password</a></li>
+                                    <li><a href="#">Notifications</a></li>
+                                    <li><a href="#">Help</a></li>
+                                    <li><a href="#">Privacy</a></li>
+                                    <li>
+                                    </li>
+                                </ul>*@
+
+                            <hr />
+
+
+                            <div style="padding-left:10px">
+
+                                <button class="btn btn-success btn-block" id="btnEditProfile"
+                                        type="button">
+                                    <h4 style="text-align:left">
+                                        <span class="menu-icon fa fa-user"></span>
+                                        &nbsp;
+                                        Edit Profile
+                                    </h4>
+                                </button>
+
+                                <button class="btn btn-success btn-block" id="btnChangePassword"
+                                        type="button">
+                                    <h4 style="text-align:left">
+                                        <span class="menu-icon fa fa-lock"></span>
+                                        &nbsp;Change Password
+                                    </h4>
+                                </button>
+
+                                @*<button class="btn btn-success btn-block" id="btnChangePassword"
+                                            type="button">
+                                        <span class="menu-icon fa fa-lock"></span>&nbsp;
+                                        Help
+                                    </button>
+                                    <button class="btn btn-success btn-block" id="btnChangePassword"
+                                            type="button">
+                                        <span class="menu-icon fa fa-lock"></span>&nbsp;
+                                        Privcy
+                                    </button>*@
+                                <hr />
+
+                                <button class="btn btn-success btn-block" id="btnLogout"
+                                        type="button">
+                                    <h4 style="text-align:left">
+                                        <span class="menu-icon fa fa-power-off"></span>
+                                        &nbsp;Logout
+                                    </h4>
+                                </button>
+
+                                <div style="padding-top:2px;vertical-align:bottom;height:100%;text-align:left">
+                                    <img src="~/Images/Header.png" />
+                                    @*<h4 style="text-align:left;color:#fff;">
+                                        @SANSurveyWebAPI.Constants.AppBrandName
+                                    </h4>*@
+                                    <p style="color:#fff;font-size:10px;">&copy; @DateTime.Now.Year. @SANSurveyWebAPI.Constants.AppFooter</p>
+                                </div>
+
+
+                            </div>
+
+                        </nav>
+                    </div>
+
+                    @*<a href="@Url.Action("Index","Manage")">
+                            <span class="menu-icon fa fa fa-bars"></span>Account
+                        </a>*@
+                </li>
+
+
+                @*<li>
+                        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>*@
+
+                @*<li>
+                        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>*@
+
+                @*<li><a href="javascript:document.getElementById('logoutForm').submit()"> Log off</a></li>*@
+
+            </ul>
+
+
+
+        }
+    }
+
+}
+
+
+
+
+
+
+
+<script>
+    $(document).ajaxStart(function () {
+        $.blockUI({
+            css: {
+                border: 'none',
+                //padding: '10px',
+                //backgroundColor: '#000',
+                backgroundColor: 'transparent',
+                //color: '#fff',
+                opacity: .9
+            },
+            message: '<img src="/Images/comment.svg" />'
+        });
+    });
+
+    $(document).ajaxComplete(function () {
+        $.unblockUI()
+    });
+
+
+    @*function OnSuccess(response) {
+        //alert(response);
+        //window.location.href = "@Url.Action("Index", "Account")";
+    }
+    function OnFailure(response) {
+        //alert("Logout failed");
+    }*@
+
+    function SetMenuAjax(menuNumber) {
+        $('#HomeMenuLi').removeClass('active');
+        $('#NotificationMenuLi').removeClass('active');
+        $('#RosterMenuLi').removeClass('active');
+
+        switch (menuNumber) {
+            case 1:
+                $('#HomeMenuLi').addClass('active');
+                break;
+            case 2:
+                $('#NotificationMenuLi').addClass('active');
+                break;
+            case 3:
+                $('#RosterMenuLi').addClass('active');
+                break;
+            default:
+        }
+    }
+
+
+
+
+    $(document).ready(function () {
+        var slideMenu = $('.menu-link').bigSlide({
+            menu: '#menu',
+            side: 'right',
+            speed: '300',
+            //menuWidth: '100px',
+            easyClose: true
+        }).bigSlideAPI;
+
+        $('.menu-close').click(function () {
+            slideMenu.view.toggleClose();
+        });
+
+
+
+
+        $('#HomeMenuUser').on("click", function (e) {
+            var href = $(this).attr('href');
+            $('#MainContent').load(href, function () {
+                window.history.pushState(
+                    null,
+                    'Home', // new page title
+                    '/Home/' // new url
+                )
+            });
+
+            SetMenuAjax(1);
+            slideMenu.view.toggleClose();
+
+
+            return false;
+        });
+
+        $('#NotificationMenuUser').on("click", function (e) {
+
+            var href = $(this).attr('href');
+
+            $('#MainContent').load(href, function () {
+                window.history.pushState(
+                    null,
+                    'Notifications', // new page title
+                    '/Notifications/' // new url
+                )
+            });
+            SetMenuAjax(2);
+            slideMenu.view.toggleClose();
+            return false;
+        });
+
+        //$('#RosterMenuUser').on("click", function (e) {
+        //    var href = $(this).attr('href');
+        //    $('#MainContent').load(href, function () {
+        //        window.history.pushState(
+        //            null,
+        //            'Calendar', // new page title
+        //            href // new url
+        //        );
+        //    });
+
+
+        //    SetMenuAjax(3);
+        //    slideMenu.view.toggleClose();
+
+        //    return false;
+
+        //});
+
+
+
+        //$('#btnHome').on("click", function (e) {
+
+        //    var href = $(this).attr('href');
+
+        //    $('#MainContent').load(href, function () {
+        //        window.history.pushState(
+        //            null,
+        //            '', // new page title
+        //            '//' // new url
+        //        )
+        //    });
+        //    SetMenuAjax(1);
+        //    slideMenu.view.toggleClose();
+        //    return false;
+        //});
+
+
+
+        $('#btnHome').on("click", function (e) {
+
+            $.ajax({
+                datatype: "text/plain",
+                type: "GET",
+                url: "@(Url.Action("Home", "Home"))",
+                cache: false,
+                success: function (data) {
+                    $('#MainContent').html(data);
+
+                    slideMenu.view.toggleClose();
+
+                    SetMenuAjax(-1);
+                }
+            });
+
+        });
+
+
+
+        $('#btnEditProfile').on("click", function (e) {
+
+            $.ajax({
+                datatype: "text/plain",
+                type: "GET",
+                url: "@(Url.Action("EditProfile", "Manage"))",
+                cache: false,
+                success: function (data) {
+                    $('#MainContent').html(data);
+
+                    slideMenu.view.toggleClose();
+
+                    SetMenuAjax(-1);
+
+
+                }
+            });
+
+        });
+
+
+        $('.NotificationLink').on("click", function (e) {
+
+            var href = $(this).attr('href');
+
+            window.location.href = href;
+
+
+            //("Hi");
+
+            @*$.ajax({
+                datatype: "text/plain",
+                type: "GET",
+                url: "@(Url.Action("ChangePassword", "Manage"))",
+                cache: false,
+                success: function (data) {
+                    $('#MainContent').html(data);
+
+                    slideMenu.view.toggleClose();
+
+                    SetMenuAjax(-1);
+
+                }
+            });*@
+
+        });
+
+
+
+
+
+        $('#btnChangePassword').on("click", function (e) {
+
+            $.ajax({
+                datatype: "text/plain",
+                type: "GET",
+                url: "@(Url.Action("ChangePassword", "Manage"))",
+                cache: false,
+                success: function (data) {
+                    $('#MainContent').html(data);
+
+                    slideMenu.view.toggleClose();
+
+                    SetMenuAjax(-1);
+
+                }
+            });
+
+        });
+
+
+        $('#btnLogout').on("click", function (e) {
+            //href="javascript:document.getElementById('logoutForm').submit()
+            //LoaderLocal();
+
+            //var methodLogout = $('#logoutForm');
+            //methodLogout.submit();
+
+            var form = $('#logoutForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+
+            $.ajax({
+                datatype: "text/plain",
+                type: "POST",
+                data: {
+                    __RequestVerificationToken: token,
+                    //someValue: 'some value'
+                },
+                url: "@(Url.Action("LogOffAjax", "Account"))",
+                cache: false,
+                success: function (data) {
+                    slideMenu.view.toggleClose();
+                    SetMenuAjax(-1);
+                    window.location.href = "@Url.Action("Login", "Account")";
+                }
+            });
+
+
+
+            //var methodLogout = $('#logoutForm');
+            //methodLogout.submit();
+
+        });
+
+
+    });
+
+
+</script>
