@@ -1,10 +1,9 @@
 # MyDay Web (MVC)
 
-<div>
 ## Client Website
+<div>
 <img width="100%" src="pic_01.PNG" alt="Intro" title="Intro"</img>
- 
- </div>
+</div>
 
 <br>
 <br>
@@ -26,6 +25,8 @@
 <img width="100%" src="pic_05.PNG" alt="Login" title="Login"></img>
 </div>
 
+<br>
+<br>
 
 ## Hangfire Scheduler
 <div>  
