@@ -7,10 +7,10 @@
  </div>
 <div>
   Sample Survey Screens
-  <img width="40%" src="pic_04.PNG" alt="Map" title="Map"></img>
+  <img width="100%" src="pic_04.PNG" alt="Map" title="Map"></img>
   <br>
   <br>
-  <img width="40%" src="pic_06.PNG" alt="Login" title="Login"></img>
+  <img width="100%" src="pic_06.PNG" alt="Login" title="Login"></img>
 </div>
 <div>  
 <img width="40%" src="pic_02.PNG" alt="Login" title="Login"></img>
