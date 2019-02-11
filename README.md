@@ -1,7 +1,11 @@
 # MyDay Web (MVC)
 
 <div>
-<img width="40%" src="pic_01.PNG" alt="Intro" title="Intro"</img>
+  Client Website
+<img width="100%" src="pic_01.PNG" alt="Intro" title="Intro"</img>
+ 
+ </div>
+<div>
 <img height="0" width="8px">
 <img width="40%" src="pic_02.PNG" alt="Login" title="Login"></img>
 <img height="0" width="8px">
